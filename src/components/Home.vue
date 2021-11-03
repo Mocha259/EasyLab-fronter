@@ -229,4 +229,7 @@ export default {
         cursor: pointer;
     }
 
+    .el-menu-item {
+        padding-top: 0px;
+    }
 </style>
