@@ -31,6 +31,7 @@ const router = new VueRouter({
 router.beforeEach((to, from, next) => {
 
   if(to.path === '/Login') return next()
+  if(to.path === '/Activate') return next()
   //获取token
   const tokenStr = window.sessionStorage.getItem('token')
   if(!tokenStr) return next('/Login')
