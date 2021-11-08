@@ -12,25 +12,25 @@
             <div class="avatar_box">
                 <img src="../assets/logo.png" alt="">
             </div>
-                <!-- 登录表单区 -->
-                <el-form label-width="0px" class="login_form" 
-                :model="loginForm" :rules="loginFormRules"
-                ref="loginFormRef">
-                    <!-- 用户名 -->
-                    <el-form-item prop="username">
-                        <el-input prefix-icon="iconfont icon-user" v-model="loginForm.username"></el-input>
-                    </el-form-item>
-                    <!-- 密码 -->
-                    <el-form-item prop="password">
-                        <el-input prefix-icon="iconfont icon-3702mima" v-model="loginForm.password" type="password"></el-input>
-                    </el-form-item>
-                    <!-- 按钮 -->
-                    <el-form-item class="btns">
-                        <el-button type="primary" @click="login">登录</el-button>
-                        <el-button type="info" @click="Signup">注册</el-button>
-                    </el-form-item>
-                </el-form>
-            </div>
+            <!-- 登录表单区 -->
+            <el-form label-width="0px" class="login_form" 
+            :model="loginForm" :rules="loginFormRules"
+            ref="loginFormRef">
+                <!-- 用户名 -->
+                <el-form-item prop="username">
+                    <el-input prefix-icon="iconfont icon-user" v-model="loginForm.username"></el-input>
+                </el-form-item>
+                <!-- 密码 -->
+                <el-form-item prop="password">
+                    <el-input prefix-icon="iconfont icon-3702mima" v-model="loginForm.password" type="password"></el-input>
+                </el-form-item>
+                <!-- 按钮 -->
+                <el-form-item class="btns">
+                    <el-button type="primary" @click="login">登录</el-button>
+                    <!-- <el-button type="info" @click="Signup">注册</el-button> -->
+                </el-form-item>
+            </el-form>
+        </div>
     </div>
 </template>
 
@@ -71,20 +71,29 @@ export default {
                 if(!valid)return;
                 const {data: res} = await this.$http.post('login',this.loginForm);
                 console.log(res);
-                if(res.status != 400) return this.$message.error('登录失败！')
-                this.$message.success('登录成功！')
-                window.sessionStorage.setItem("token",res.token)
-                this.$router.push('/Home')
+                // 400: 登录失败，不跳转
+                // 401: 未激活，路由跳转激活页面
+                // 402: 登录成功，路由跳转主页面
+                if(res.status == 400) return this.$message.error('登录失败！')
+                if(res.status == 401) {
+                    this.$message.warning('请先激活账号')
+                    this.$router.push('/Activate')
+                }
+                else{
+                    this.$message.success('登录成功！')
+                    window.sessionStorage.setItem("token",res.token)
+                    this.$router.push('/Home')
+                }
             })
         },
-        Signup() {
+        Activate() {
                 this.$refs.loginFormRef.validate(async valid => {
                 if(!valid)return;
                 const {data: res} = await this.$http.post('login',this.loginForm);
                 console.log(res);
                 if(res.status != 400) return this.$message.error('登录失败！')
                 window.sessionStorage.setItem("token",res.token)
-                this.$router.push('/Signup')
+                this.$router.push('/Activate')
             })
         },
         setSize: function() {

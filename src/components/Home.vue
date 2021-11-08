@@ -5,11 +5,6 @@
         <el-header>
             <!-- easyLab图标区 -->
             <img src="../assets/icon.png" style="height: 100px; width: 350px; margin-top: -20px">
-            <!-- 头像  -->
-            <!-- <el-avatar :size="50" src="https://cube.elemecdn.com/e/fd/0fc7d20532fdaf769a25683617711png.png" @error="errorHandler" class="el-avatar">
-                <img src="https://cube.elemecdn.com/e/fd/0fc7d20532fdaf769a25683617711png.png">
-            </el-avatar> --> 
-
 
             <el-dropdown @command="handleCommand" :hide-on-click="false">
                 <span class="el-dropdown-link">
@@ -177,7 +172,7 @@ export default {
         width: 150px;
         height: 20px;
         // padding-left: 1100px;
-        
+
     }
 
     .el-icon-arrow-down {
@@ -189,7 +184,7 @@ export default {
         // top: 0px;
         margin-top: -20px;
         width: 130px
-        
+
         // z-index: 999;
     }
 
