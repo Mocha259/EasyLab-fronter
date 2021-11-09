@@ -8,11 +8,12 @@
             <!-- 账号激活表单区 -->
             <el-form label-width="0px" class="activate_form" >
                 <!-- 邮箱 -->
-                <el-form-item>
+                <el-form-item prop="email">
                     <el-input prefix-icon="iconfont icon-user" 
                             style="width: 300px; padding-left: 25px"
-                            placeholder="请输入邮箱"></el-input>
-                    <el-button type="primary" style="margin-left: 5px" 
+                            placeholder="请输入邮箱"
+                            v-model="email"></el-input>
+                    <el-button type="primary" style="margin-left: 5px;" 
                                 :disabled="disable"
                                 @click="getVerifyCode">{{verifyMessage}}</el-button>
                 </el-form-item>
@@ -38,13 +39,16 @@
 export default {
     data(){
         return{
+            email: '',
             disable: false,
             verifyMessage: '获取验证码',
             count: 6,
             activateForm:{
                 verifyCode: '1234',
             },
-            
+            emailFrom: {
+                email: ''
+            }
         }
     },
     methods: {
@@ -91,18 +95,6 @@ export default {
                         console.log(res)
                     }
                 )
-                // console.log('1')
-                // console.log(res)
-                // console.log(res.status);
-                // 400: 登录失败，不跳转
-                // 401: 未激活，路由跳转激活页面
-                // 402: 登录成功，路由跳转主页面
-                // if(res.status != 1) return this.$message.error('激活失败！')
-                // else{
-                //     this.$message.success('登录成功！')
-                    
-                //     this.$router.push('/Home')
-                // }
             }
         },
 
@@ -124,7 +116,7 @@ export default {
     background-color:white;
     border-radius: 3px;
     position: absolute;
-    left: 50%;
+    left: 38%;
     top: 30%;
     z-index: 999;
     .avatar_box {

@@ -175,5 +175,6 @@ img{
 .btns {
     display: flex;
     justify-content: flex-end;
+    margin-left: 100px;
 }
 </style>
