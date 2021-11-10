@@ -30,27 +30,27 @@
                     :unique-opened="true" :collapse="isCollapse"
                     :collapse-transition="false" :router="true">
 
-                    <el-submenu index="1">
+                    <el-submenu index="Users">
                         <template slot="title" >
                             <i class="el-icon-location"></i>
                             <span style="color:#778899;">个人信息</span>
                         </template>
                         <el-menu-item-group>
                             <!-- <template slot="title">分组一</template> -->
-                            <el-menu-item index="1-1" style="color:#778899;">我的信息</el-menu-item>
-                            <el-menu-item index="1-2" style="color:#778899;">账户管理</el-menu-item>
+                            <el-menu-item index="Users-Info" style="color:#778899;">我的信息</el-menu-item>
+                            <el-menu-item index="Users-Manage" style="color:#778899;">账户管理</el-menu-item>
                         </el-menu-item-group>
                     </el-submenu>
 
-                    <el-submenu index="2">
+                    <el-submenu index="Courses">
                         <template slot="title" >
                             <i class="el-icon-location"></i>
                             <span style="color:#778899;">课程管理</span>
                         </template>
                         <el-menu-item-group>
                             <!-- <template slot="title">分组一</template> -->
-                            <el-menu-item index="1-1" style="color:#778899;">我开设的课程</el-menu-item>
-                            <el-menu-item index="1-2" style="color:#778899;">我管理的课程</el-menu-item>
+                            <el-menu-item index="Courses-Teach" style="color:#778899;">我开设的课程</el-menu-item>
+                            <el-menu-item index="Courses-Manage" style="color:#778899;">我管理的课程</el-menu-item>
                         </el-menu-item-group>
                     </el-submenu>
 

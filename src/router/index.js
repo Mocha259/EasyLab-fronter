@@ -6,7 +6,7 @@ import Home from '../components/Home.vue'
 import Activate from '../components/Activate.vue'
 import Welcome from '../components/Welcome.vue'
 import Users from '../components/Users/Users.vue'
-
+import Courses from '../components/Courses/Courses.vue'
 Vue.use(VueRouter)
 
 const router = new VueRouter({
@@ -19,7 +19,8 @@ const router = new VueRouter({
         redirect: '/Welcome',
         children:[
           { path: '/Welcome', component: Welcome },
-          { path: '/1-1', component: Users}
+          { path: '/Users-Info', component: Users},
+          { path: '/Courses-Manage', component: Courses}
         ] 
     },
     { path: '/Activate', component: Activate }

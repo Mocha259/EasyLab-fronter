@@ -5,6 +5,7 @@ import './plugins/element.js'
 import './assets/css/global.css'
 //导入字体图标
 import './assets/fonts/iconfont.css'
+// import VScroll from './components/vscroll'
 
 import axios from 'axios'
 import qs from 'qs'
@@ -14,7 +15,7 @@ Vue.prototype.$http = axios
 Vue.prototype.$qs = qs
 
 Vue.config.productionTip = false
-
+// Vue.use(VScroll)
 new Vue({
   router,
   render: h => h(App)
