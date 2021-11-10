@@ -8,8 +8,22 @@
                     <span>{{item.name}}</span>
                     <el-button style="float: right; padding: 3px 0" type="text">进入课程</el-button>
                 </div>
-                <div v-for="o in 4" :key="o" class="text item">
-                    {{'列表内容 ' + o }}
+                <!-- 课程信息描述 -->
+                <div class="description">
+                    <!-- 图片展示 -->
+                    <div class="leftCard" style="float: left; width: 40%; border-right-color: blue; top: 0px">
+                        <el-image
+                        style="width: 250px; height: 140px"
+                        :src="url"
+                        fit="fit">
+                        </el-image>
+                    </div>
+                    <!-- 课程信息 -->
+                    <div class="rightCard" style="float: right; width: 60%;">
+                        <div v-for="o in 4" :key="o" class="text item">
+                            {{'列表内容 ' + o }}
+                        </div>
+                    </div>
                 </div>
             </el-card>
         </div>
@@ -34,7 +48,8 @@
           courseList: [],
           curCoursePage: [],
           curPage: 1,
-          pageNum: 1
+          pageNum: 1,
+          url: '../../assets/carousel03.jpg'
       }
     },
     methods: {
@@ -80,13 +95,19 @@
 
     .CoursesInfoContainer {
         height: 80%;
+        
+    }
 
+    .leftCard {
+        margin-bottom: 10px;
+    }
+
+    .rightCard {
+        margin-top: 7px;
     }
 
     .container {
-
         height: 270px;
-        
     }
 
     .el-card {

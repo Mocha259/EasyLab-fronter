@@ -53,6 +53,16 @@
         </el-descriptions-item>
       </el-descriptions>
       
+      <el-card class="box-card" style="position: absolute; left: 30%; width: 800px; height: 300px; margin-top: 20px">
+                <div slot="header" class="clearfix">
+                    <span>个人介绍</span>
+                    <!-- <el-button style="float: right; padding: 3px 0" type="text">进入课程</el-button> -->
+                </div>
+                <!-- 课程信息描述 -->
+                <div class="description">
+
+                </div>
+      </el-card>
       
 
     </div>
