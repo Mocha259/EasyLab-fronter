@@ -6,10 +6,14 @@ import Home from '../components/Home.vue'
 import Activate from '../components/Activate.vue'
 import Welcome from '../components/Welcome.vue'
 import Users from '../components/Users/Users.vue'
-import Courses from '../components/Courses/Courses.vue'
+import AllCourses from '../components/Courses/AllCourses.vue'
+import CertainCourse from '../components/Courses/CertainCourse.vue'
+import FileManage from '../components/Courses/CourseInfo/FileManage.vue'
+import StuManage from '../components/Courses/CourseInfo/StuManage.vue'
 Vue.use(VueRouter)
 
 const router = new VueRouter({
+  mode:'history',
   routes:[
     { path:'/', redirect: '/Login' },
     { path: '/Login', component: Login },
@@ -20,7 +24,18 @@ const router = new VueRouter({
         children:[
           { path: '/Welcome', component: Welcome },
           { path: '/Users-Info', component: Users},
-          { path: '/Courses-Manage', component: Courses}
+          { path: '/Courses-Manage',
+            component: AllCourses,
+            children: []
+          },
+          { path: '/Courses-Info', 
+            component: CertainCourse,
+            children: [
+              { path: '/Course-Documents', component: FileManage },
+              { path: '/Course-Students',  component: StuManage }
+            ] 
+          },
+
         ] 
     },
     { path: '/Activate', component: Activate }

@@ -1,12 +1,19 @@
 <template>
+
+
     <div class="CoursesInfoContainer">
+
+        <div v-if="IntoCertainCourse">
+            <router-view></router-view>
+        </div>
+
         <el-empty v-if="count == 0" description="没有您管理的课程"></el-empty>
         
         <div v-else-if="count>0" v-for="(item, idx) in curCoursePage" :key="idx" class="container">
             <el-card class="box-card">
                 <div slot="header" class="clearfix">
                     <span>{{item.name}}</span>
-                    <el-button style="float: right; padding: 3px 0" type="text">进入课程</el-button>
+                    <el-button style="float: right; padding: 3px 0" type="text" index="Course-Info" @click="getIntoCourse">进入课程</el-button>
                 </div>
                 <!-- 课程信息描述 -->
                 <div class="description">
@@ -49,10 +56,17 @@
           curCoursePage: [],
           curPage: 1,
           pageNum: 1,
-          url: '../../assets/carousel03.jpg'
+          url: '../../assets/carousel03.jpg',
+          IntoCertainCourse: false,
       }
     },
     methods: {
+        getIntoCourse() {
+            // this.$router.pop('/Course-Manage')
+            this.IntoCertainCourse = true
+            this.$router.push('/Courses-Info')
+        },
+
         //处理页面切换
         handleCurrentChange(newPage) {
             this.curPage = newPage

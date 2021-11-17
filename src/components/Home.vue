@@ -18,7 +18,7 @@
         </el-header>
 
         <!-- 页面主体区域 -->
-        <el-container>
+        <el-container class="main-container">
             <!-- 侧边栏 -->
             <el-aside :width="isCollapse ? '64px' : '200px'">
 
@@ -198,7 +198,8 @@ export default {
 
 
     .home-container {
-        width: 1707px;
+        // width: 1707px;
+        width: 100%;
         height: 100%
     }
 
@@ -210,9 +211,7 @@ export default {
         border-bottom-width:2px;
     }
 
-    .el-main {
-        background-color: #EAEDF1
-    }
+
 
     .toggle-button {
         background: #00BBFF;
@@ -226,5 +225,12 @@ export default {
 
     .el-menu-item {
         padding-top: 0px;
+    }
+    .main-container {
+        // height: 100%;
+    }
+    .el-main {
+        height: 100%;
+        background-color: #EAEDF1
     }
 </style>
