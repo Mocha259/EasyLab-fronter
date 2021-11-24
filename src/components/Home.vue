@@ -226,9 +226,7 @@ export default {
     .el-menu-item {
         padding-top: 0px;
     }
-    .main-container {
-        // height: 100%;
-    }
+
     .el-main {
         height: 100%;
         background-color: #EAEDF1

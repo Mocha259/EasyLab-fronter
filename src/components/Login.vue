@@ -24,11 +24,14 @@
                 <el-form-item prop="password">
                     <el-input prefix-icon="iconfont icon-3702mima" v-model="loginForm.password" type="password"></el-input>
                 </el-form-item>
-                <!-- 按钮 -->
+                <!-- 登录按钮 -->
                 <el-form-item class="btns">
                     <el-button type="primary" @click="login">登录</el-button>
+                    <el-button type="text" @click="activate">首次登录？</el-button>
                     <!-- <el-button type="info" @click="Signup">注册</el-button> -->
                 </el-form-item>
+                <!-- 激活按钮 -->
+
             </el-form>
         </div>
     </div>
@@ -47,8 +50,8 @@ export default {
             ],
             //登录表单的数据绑定对象
             loginForm:{
-                username: '1950081',
-                password: '123456'
+                username: '1234',
+                password: '1234',
             },
             loginFormRules: {
                 username:[
@@ -58,6 +61,7 @@ export default {
                      { required: true, message: "请输入密码", trigger: "blur" } 
                 ]
             },
+            // demoForm: {}
             //图片父容器高度
             bannerHeight: 1000,
             //浏览器宽度
@@ -66,35 +70,42 @@ export default {
     },
     methods: {
         login() {
+
             //先拿到表单的引用
             this.$refs.loginFormRef.validate(async valid => {
-                if(!valid)return;
-                const {data: res} = await this.$http.post('login',this.loginForm);
-                console.log(res);
-                // 400: 登录失败，不跳转
-                // 401: 未激活，路由跳转激活页面
-                // 402: 登录成功，路由跳转主页面
-                if(res.status == 400) return this.$message.error('登录失败！')
-                if(res.status == 401) {
-                    this.$message.warning('请先激活账号')
-                    this.$router.push('/Activate')
+                let self = this
+                // this.$router.push('/Home')
+                if(!valid)return
+
+                var data=new FormData()
+                data.append('username', this.loginForm.username)
+                data.append('password', this.loginForm.password)
+                // data = this.loginForm
+                var config = {
+                  method: 'post',
+                  url: 'student/login',
+                  data : data,
                 }
-                else{
-                    this.$message.success('登录成功！')
-                    window.sessionStorage.setItem("token",res.token)
-                    this.$router.push('/Home')
-                }
+
+                this.$http(config)
+                .then(function (response) {
+                    console.log(response.data)
+                    console.log(response.data.data.token)
+                    if(response.data.success){
+                        self.$message.success('登录成功！')
+                        window.sessionStorage.setItem("token",response.data.data.token)
+                        self.$router.push('/Home')
+                    }
+                })
+                .catch(function (error) {
+                    console.log(error.response);
+                });               
             })
         },
-        Activate() {
-                this.$refs.loginFormRef.validate(async valid => {
-                if(!valid)return;
-                const {data: res} = await this.$http.post('login',this.loginForm);
-                console.log(res);
-                if(res.status != 400) return this.$message.error('登录失败！')
-                window.sessionStorage.setItem("token",res.token)
-                this.$router.push('/Activate')
-            })
+        activate() {
+                
+            this.$router.push('/Activate')
+        
         },
         setSize: function() {
             this.bannerHeight = this.screenHeight;
@@ -174,7 +185,9 @@ img{
 
 .btns {
     display: flex;
-    justify-content: flex-end;
+    justify-content: flex-start;
     margin-left: 100px;
+    // position: absolute;
+    // left: 20px;
 }
 </style>
