@@ -8,13 +8,17 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
+    "@wangeditor/editor": "^0.12.7",
+    "@wangeditor/editor-for-vue": "^0.6.12-2",
     "axios": "^0.22.0",
     "core-js": "^3.6.5",
     "element-ui": "^2.4.5",
+    "view-design": "^4.7.0",
     "vue": "^2.6.11",
     "vue-easy-notice-bar": "^1.1.2",
     "vue-quill-editor": "^3.0.6",
-    "vue-router": "^3.2.0"
+    "vue-router": "^3.2.0",
+    "wangeditor": "^4.7.9"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.5.0",

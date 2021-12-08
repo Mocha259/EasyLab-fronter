@@ -6,8 +6,9 @@
       <!-- <h3>个人信息</h3> -->
       <el-upload
         class="avatar-uploader"
-        action="https://jsonplaceholder.typicode.com/posts/"
+        action="student/uploadAvatar"
         :show-file-list="false"
+        :headers="headers"
         :on-success="handleAvatarSuccess"
         :before-upload="beforeAvatarUpload">
         <img v-if="imageUrl" :src="imageUrl" class="avatar">
@@ -15,10 +16,11 @@
         <i>点击上传头像</i>
       </el-upload>
       
-      <el-descriptions class="margin-top" title="个人信息" :column="1" size="large" border>
+      <el-descriptions class="margin-top" style="margin-left: 3%" title="个人信息" :column="1" size="large" border>
         <template slot="extra">
           <el-button type="primary" size="small">编辑</el-button>
         </template>
+        
         <!-- 用户名 -->
         <el-descriptions-item>
           <template slot="label">
@@ -53,7 +55,7 @@
         </el-descriptions-item>
       </el-descriptions>
       
-      <el-card class="box-card" style="position: absolute; left: 30%; width: 800px; height: 300px; margin-top: 20px">
+      <el-card class="box-card" style="position: relative; left: 3%; width: 800px; height: 300px; margin-top: 20px">
                 <div slot="header" class="clearfix">
                     <span>个人介绍</span>
                     <!-- <el-button style="float: right; padding: 3px 0" type="text">进入课程</el-button> -->
@@ -83,11 +85,22 @@
           ],        
           Pos :''     //职称
         },
+        headers: {
+          token: window.sessionStorage.getItem("token")
+        }
       };
     },
     methods: {
       handleAvatarSuccess(res, file) {
         this.imageUrl = URL.createObjectURL(file.raw);
+        console.log(res)
+        // this.imageUrl = ''
+        if(res.success){
+          this.imageUrl = res.data.data.route
+        }else{
+          this.imageUrl = ''
+          this.$message.error('头像上传失败，请重试')
+        }
       },
       beforeAvatarUpload(file) {
         const isJPG = file.type === 'image/jpeg';
@@ -103,6 +116,7 @@
       }
     },
     mounted() {
+      // console.log( window.sessionStorage.getItem("token"))
       let self = this
       this.$http.post('/getInfo', window.sessionStorage.getItem('token')).then(function(res){
           // console.log(res.data)
@@ -157,8 +171,8 @@
 
 
   .el-upload {
-    margin-top: 10px;
-    margin-left: 40%;
+    margin-top: 20px;
+    margin-left: 15%;
     z-index: 999;
   }
 

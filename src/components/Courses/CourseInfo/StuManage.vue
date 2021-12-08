@@ -105,9 +105,7 @@ export default {
 .teachers {
     background-color: rgb(248, 248, 246);
 }
-.students {
-    // background-color: red;
-}
+
 /deep/ .el-collapse{
     width:50%;
     background-color: rgb(248, 248, 246) !important;

@@ -6,16 +6,16 @@
                 <img :src="item.url" >
             </el-carousel-item>
         </el-carousel>
-        <!-- 登录盒子 -->
-        <div class="login_box">
+        <!-- 非首次登录盒子 -->
+        <div v-if="!loginFirstTime"  class="login_box">
             <!-- 头像区 -->
             <div class="avatar_box">
                 <img src="../assets/logo.png" alt="">
             </div>
             <!-- 登录表单区 -->
             <el-form label-width="0px" class="login_form" 
-            :model="loginForm" :rules="loginFormRules"
-            ref="loginFormRef">
+                :model="loginForm" :rules="loginFormRules"
+                ref="loginFormRef">
                 <!-- 用户名 -->
                 <el-form-item prop="username">
                     <el-input prefix-icon="iconfont icon-user" v-model="loginForm.username"></el-input>
@@ -24,17 +24,45 @@
                 <el-form-item prop="password">
                     <el-input prefix-icon="iconfont icon-3702mima" v-model="loginForm.password" type="password"></el-input>
                 </el-form-item>
-                <!-- 登录按钮 -->
+                
                 <el-form-item class="btns">
+                    <!-- 登录按钮 -->
                     <el-button type="primary" @click="login">登录</el-button>
-                    <el-button type="text" @click="activate">首次登录？</el-button>
-                    <!-- <el-button type="info" @click="Signup">注册</el-button> -->
+                    <!-- 激活按钮 -->
+                    <el-button type="text" @click="toLoginFirst">首次登录？</el-button>
                 </el-form-item>
-                <!-- 激活按钮 -->
+            </el-form>
+        </div>
 
+        <!-- 首次登录 -->
+        <div v-else class="login_box">
+            <!-- 头像区 -->
+            <div class="avatar_box">
+                <img src="../assets/logo.png" alt="">
+            </div>
+            <!-- 登录表单区 -->
+            <el-form label-width="0px" class="login_form" 
+                :model="firstForm" :rules="firstFormRules"
+                ref="firstFormRef">
+                <!-- 学号 -->
+                <el-form-item prop="id">
+                    <el-input prefix-icon="iconfont icon-user" v-model="firstForm.id" placeholder="请输入学号"></el-input>
+                </el-form-item>
+                <!-- 姓名 -->
+                <el-form-item prop="name">
+                    <el-input prefix-icon="iconfont icon-3702mima" v-model="firstForm.name" placeholder="请输入姓名"></el-input>
+                </el-form-item>
+                
+                <el-form-item class="btns">
+                    <!-- 登录按钮 -->
+                    <el-button type="primary" @click="loginFirst" style="margin-left: 30px">登录</el-button>
+                </el-form-item>
             </el-form>
         </div>
     </div>
+
+
+    
 </template>
 
 
@@ -42,6 +70,7 @@
 export default {
     data(){
         return{
+            loginFirstTime: false,
             pics: [
                 { url: require("../assets/carousel01.jpg") },
                 { url: require("../assets/carousel02.jpg") },
@@ -50,8 +79,21 @@ export default {
             ],
             //登录表单的数据绑定对象
             loginForm:{
-                username: '1234',
-                password: '1234',
+                username: '7654321',
+                password: '123456',
+            },
+            firstForm: {
+                id: '1234567',
+                name: '田同轩'
+            },
+            firstFormRules:{
+                id:[
+                    { required: true, message: "请输入学号", trigger: "blur" },
+                    { min: 7, max: 7, message: '请输入正确的学号', trigger: 'blur' }
+                ],
+                name:[
+                     { required: true, message: "请姓名", trigger: "blur" } 
+                ]
             },
             loginFormRules: {
                 username:[
@@ -80,17 +122,20 @@ export default {
                 var data=new FormData()
                 data.append('username', this.loginForm.username)
                 data.append('password', this.loginForm.password)
-                // data = this.loginForm
+
                 var config = {
-                  method: 'post',
-                  url: 'student/login',
-                  data : data,
+
+                    method: 'post',
+                    //   url: 'advisor/login',
+                    //   url: 'student/login',
+                    url: 'common/login',
+                    data : data,
                 }
 
                 this.$http(config)
                 .then(function (response) {
                     console.log(response.data)
-                    console.log(response.data.data.token)
+                    // console.log(response.data.data.token)
                     if(response.data.success){
                         self.$message.success('登录成功！')
                         window.sessionStorage.setItem("token",response.data.data.token)
@@ -103,12 +148,54 @@ export default {
             })
         },
         activate() {
-                
             this.$router.push('/Activate')
-        
         },
         setSize: function() {
             this.bannerHeight = this.screenHeight;
+        },
+        toLoginFirst(){
+            this.loginFirstTime = true
+            this.$message.success('首次登录请使用学号和姓名')
+        },
+        loginFirst(){
+            // 先拿到表单的引用
+            this.$refs.firstFormRef.validate(async valid => {
+                let self = this
+                if(!valid)return
+
+                var data=new FormData()
+                // data.append('student_id', this.firstForm.id)
+                data.append('advisor_id', this.firstForm.id)
+                data.append('name', this.firstForm.name)
+
+                var config = {
+                  method: 'post',
+                  url: 'advisor/firstLogin',
+                  data : data,
+                }
+
+                self.$http(config)
+                .then(function (response) {
+                    console.log(response.data.success)
+                    console.log(response.data.code)
+                    if(response.data.code == 200){
+                        self.$message.warning('请首先激活账号！')
+                        self.$router.push({
+                            path:'/Activate',
+                            query: {
+                                id: self.firstForm.id
+                            }
+                        });
+                    }
+                    else{
+                        self.$message.error('用户不存在，请练习系统管理员。')
+                    }
+                })
+                .catch(function (error) {
+                    console.log(error)
+                });               
+            })          
+
         }
      },
     mounted() {
@@ -187,7 +274,5 @@ img{
     display: flex;
     justify-content: flex-start;
     margin-left: 100px;
-    // position: absolute;
-    // left: 20px;
 }
 </style>

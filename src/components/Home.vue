@@ -4,80 +4,79 @@
         <!-- 头部区域 -->
         <el-header>
             <!-- easyLab图标区 -->
-            <img src="../assets/icon.png" style="height: 100px; width: 350px; margin-top: -20px">
-
-            <el-dropdown @command="handleCommand" :hide-on-click="false">
-                <span class="el-dropdown-link">
-                    田同轩(1950081)<i class="el-icon-arrow-down el-icon--right"></i>
-                </span>
-                <el-dropdown-menu slot="dropdown" class="el-dropdown-menu">
-                    <el-dropdown-item class="el-icon-s-custom">  个人信息</el-dropdown-item>
-                    <el-dropdown-item command="logout" class="el-icon-unlock" >  退出</el-dropdown-item>
-                </el-dropdown-menu>
-            </el-dropdown>
+            <div style="float: left; width: 40%">
+                <img src="../assets/icon.png" style="height: 120px; width: 380px; margin-top: -20px; z-index: 999">
+            </div>
+            
+            <div style="float: right; width: 60%">
+                <div style="float: left; ">
+                    <!-- 消息通知 -->
+                    <el-badge :value="12" class="item" style="margin-top: 20px; margin-left: 780px; ;">
+                        <!-- <el-button size="small" type="info" icon="el-icon-message" circle>通知</el-button> -->
+                        <el-button circle type="info" style="radius: 10px" icon="el-icon-message"></el-button>
+                    </el-badge>
+                </div>
+               
+               <div style="float: right; ; z-index: 999">
+                   <el-dropdown @command="handleCommand" :hide-on-click="false" style="margin-top: 25px;">
+                        <span class="el-dropdown-link">
+                            田同轩(1950081)<i class="el-icon-arrow-down el-icon--right"></i>
+                        </span>
+                        <el-dropdown-menu slot="dropdown" class="el-dropdown-menu">
+                            <el-dropdown-item class="el-icon-s-custom" to="/Users-Info">  个人信息</el-dropdown-item>
+                            <el-dropdown-item command="logout" class="el-icon-unlock" >  退出</el-dropdown-item>
+                        </el-dropdown-menu>
+                    </el-dropdown>
+               </div>
+                
+            </div>
+           
         </el-header>
 
         <!-- 页面主体区域 -->
         <el-container class="main-container">
             <!-- 侧边栏 -->
-            <el-aside :width="isCollapse ? '64px' : '200px'">
+            <el-aside :width="isCollapse ? '60px' : '200px'" style="border-radius: 3px;">
 
-                <div class="toggle-button" @click="toggleCollapse">
+                <div class="toggle-button" @click="toggleCollapse" :width="'200px'">
                     |||
                 </div>
 
                  <el-menu text-color="#fff" active-text-color="#ffd04b"
                     :unique-opened="true" :collapse="isCollapse"
-                    :collapse-transition="false" :router="true">
+                    :collapse-transition="false" :router="true" style="border-radius: 5px;">
 
-                    <el-submenu index="Users">
-                        <template slot="title" >
-                            <i class="el-icon-location"></i>
-                            <span style="color:#778899;">个人信息</span>
-                        </template>
-                        <el-menu-item-group>
-                            <!-- <template slot="title">分组一</template> -->
-                            <el-menu-item index="Users-Info" style="color:#778899;">我的信息</el-menu-item>
-                            <el-menu-item index="Users-Manage" style="color:#778899;">账户管理</el-menu-item>
-                        </el-menu-item-group>
-                    </el-submenu>
+                    <el-menu-item index="Welcome" style="color: #778899; font-size: 18px; width: 100%">
+                        <i class="el-icon-bell"></i>
+                        <span slot="title">主页公告</span>
+                    </el-menu-item>
 
-                    <el-submenu index="Courses">
+                    <el-menu-item index="Users-Info" style="color: #778899; font-size: 18px; width: 100%"> 
+                        <i class="el-icon-user"></i>
+                        <span slot="title">个人信息</span>
+                    </el-menu-item>
+
+                    <el-menu-item index="Courses-Manage" style="color: #778899; font-size: 18px; width: 100%">
+                        <i class="el-icon-document-copy"></i>
+                        <span slot="title">课程管理</span>
+                    </el-menu-item>
+
+                    <!-- <el-submenu index="Courses">
                         <template slot="title" >
                             <i class="el-icon-location"></i>
                             <span style="color:#778899;">课程管理</span>
                         </template>
                         <el-menu-item-group>
-                            <!-- <template slot="title">分组一</template> -->
-                            <el-menu-item index="Courses-Teach" style="color:#778899;">我开设的课程</el-menu-item>
                             <el-menu-item index="Courses-Manage" style="color:#778899;">我管理的课程</el-menu-item>
                         </el-menu-item-group>
-                    </el-submenu>
+                    </el-submenu> -->
 
-                    <el-submenu index="3">
-                        <template slot="title" >
-                            <i class="el-icon-location"></i>
-                            <span style="color:#778899;">实验管理</span>
-                        </template>
-                        <el-menu-item-group>
-                            <!-- <template slot="title">分组一</template> -->
-                            <el-menu-item index="1-1" style="color:#778899;">我的信息</el-menu-item>
-                            <el-menu-item index="1-2" style="color:#778899;">账户管理</el-menu-item>
-                        </el-menu-item-group>
-                    </el-submenu>
-
-
-                    <el-submenu index="4">
-                        <template slot="title" >
-                            <i class="el-icon-location"></i>
-                            <span style="color:#778899;">个人信息</span>
-                        </template>
-                        <el-menu-item-group>
-                            <!-- <template slot="title">分组一</template> -->
-                            <el-menu-item index="1-1" style="color:#778899;">我的信息</el-menu-item>
-                            <el-menu-item index="1-2" style="color:#778899;">账户管理</el-menu-item>
-                        </el-menu-item-group>
-                    </el-submenu>
+                    <el-menu-item index="Lab-Manage" style="color: #778899; font-size: 18px; width: 100%">
+                        <i class="el-icon-postcard"></i>
+                        <span slot="title">实验管理</span>
+                    </el-menu-item>
+                    
+                    
 
 
                 </el-menu>
@@ -93,11 +92,13 @@
 </template>
 
 <script>
+
 export default {
     data() {
         return {
             nowDate: "", // 当前日期
-            isCollapse: false
+            isCollapse: false,
+            space: '      '
         };
     },
     methods: {
@@ -118,8 +119,8 @@ export default {
                 }
         },
         // 处理头像加载错误
-         errorHandler() {
-        return true
+        errorHandler() {
+            return true
         },
 
         //获取当前系统时间
@@ -127,21 +128,6 @@ export default {
             setInterval(this.formatDate, 500);
         },
 
-        formatDate() {
-            let date = new Date();
-            let year = date.getFullYear(); // 年
-            let month = date.getMonth() + 1; // 月
-            let day = date.getDate(); // 日
-            let week = date.getDay(); // 星期
-            let weekArr = [ "星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六" ];
-            let hour = date.getHours(); // 时
-            hour = hour < 10 ? "0" + hour : hour; // 如果只有一位，则前面补零
-            let minute = date.getMinutes(); // 分
-            minute = minute < 10 ? "0" + minute : minute; // 如果只有一位，则前面补零
-            let second = date.getSeconds(); // 秒
-            second = second < 10 ? "0" + second : second; // 如果只有一位，则前面补零
-            this.nowDate = `${year}-${month}-${day} ${hour}:${minute}:${second}`;
-        },
         // 折叠左侧菜单
         toggleCollapse() {
             this.isCollapse = !this.isCollapse
@@ -159,76 +145,87 @@ export default {
 
 <style lang="less" scoped>
 
+.home-container {
+    width: 1707px;
+    height: 100%
+}
 
+.el-header {
+    background: linear-gradient(rgb(0, 0, 0), rgb(20, 20, 20), rgb(88, 88, 88));
+    border-bottom-color: rgb(241, 229, 229);
+    border-bottom-width: 2px;
+    height: 80px !important;
     .el-dropdown-link {
-    cursor: pointer;
-    color: #409EFF;
-  }
-
-    .el-dropdown {
-        margin-left: 1100px;
-        vertical-align: top;
-        margin-top: 20px;
-        width: 150px;
-        height: 20px;
-        // padding-left: 1100px;
-
-    }
-
-    .el-icon-arrow-down {
-        font-size: 12px;
-    }
-
-    .el-dropdown-menu {
-        // vertical-align: top;
-        // top: 0px;
-        margin-top: -20px;
-        width: 130px
-
-        // z-index: 999;
-    }
-
-    .div-icon img {
-        padding-left: -100px;
-        margin-top: -25px;
-        height: 60px;
-        width: 100px;
-        z-index: -999;
-    }
-
-
-    .home-container {
-        // width: 1707px;
-        width: 100%;
-        height: 100%
-    }
-
-    .el-header {
-        // background-color: #77DDFF;
-        border-bottom:double;
-        border-bottom-color: #00BBFF;
-        border-bottom-style: groove;
-        border-bottom-width:2px;
-    }
-
-
-
-    .toggle-button {
-        background: #00BBFF;
-        font-size: 10px;
-        line-height: 24px;
-        color: #EAEDF1;
-        text-align: center;
-        letter-spacing: 0.2ems;
         cursor: pointer;
+        color: rgb(247, 242, 242);
+        font-size: 16px;
     }
+}
 
-    .el-menu-item {
-        padding-top: 0px;
-    }
+.el-aside {
+    width: 100px;
+    border-width: 50px;
+    border-top-color: #EAEDF1;
+    height: 100%;
+    background: linear-gradient(rgb(0, 0, 0), rgb(39, 37, 37), rgb(61, 61, 61));
+    overflow-x: hidden;
+    overflow-y: hidden;
+}
 
-    .el-main {
-        height: 100%;
-        background-color: #EAEDF1
+
+.el-main {
+    height: 100%;
+    background-color: transparent;
+}
+
+.el-menu-item {
+    background-color: rgb(56, 56, 59);
+    span {
+        color: rgb(255, 255, 255)
+    };
+}
+
+.el-menu-item:hover {
+    span {
+        color: #050708;
     }
+}
+
+.el-dropdown {
+    margin-top: 20px;
+    width: 150px;
+    height: 20px;
+}
+
+.el-icon-arrow-down {
+    font-size: 12px;
+}
+
+.el-dropdown-menu {
+    margin-top: -20px;
+    width: 130px
+}
+
+.div-icon img {
+    padding-left: -100px;
+    margin-top: -25px;
+    height: 60px;
+    width: 100px;
+    z-index: -999;
+}
+
+.toggle-button {
+    background: #161718;
+    font-size: 10px;
+    line-height: 24px;
+    color: #EAEDF1;
+    text-align: center;
+    letter-spacing: 0.2ems;
+    cursor: pointer;
+}
+
+.el-menu-item {
+    padding-top: 0px;
+}
+
 </style>

@@ -7,7 +7,7 @@
         </el-breadcrumb>
 
         <el-container>
-        <el-menu
+        <!-- <el-menu
         default-active="2"
         class="el-menu-vertical-demo"
         :router="true"
@@ -23,11 +23,22 @@
                 <el-menu-item index="Course-Assignment" >课程作业</el-menu-item>
                 <el-menu-item index="Course-Labs"       >课程实验</el-menu-item>
             </el-submenu>
-        </el-menu>
+        </el-menu> -->
+        <div class="course-header">
+            <el-menu class="el-menu-demo" mode="horizontal"  :router="true">
+                <el-menu-item index="Course-Info"           >课程信息</el-menu-item>
+                <el-menu-item index="Course-Documents"      >课程文件</el-menu-item>
+                <el-menu-item index="Course-Labs"           >课程实验</el-menu-item>
+                <el-menu-item index="Course-Students"       >课程人员</el-menu-item>
+                <el-menu-item index="Course-Assignments"    >课程作业</el-menu-item>
+            </el-menu>
+        </div>
 
-        <el-main >
-            <router-view></router-view>
-        </el-main>
+        <div>
+            <el-main>
+                <router-view></router-view>
+            </el-main>
+        </div>
         </el-container>
     </div>
 </template>
@@ -37,14 +48,17 @@
 export default({
     data() {
         return{
-            courseName: '软件工程2'
+            courseName: '',
         }
     },
     methods: {
         toFile() {
             this.$router.push('/FileManagement')
         }
-    }
+    },
+    mounted() {
+        
+    },
 })
 </script>
 
@@ -61,13 +75,13 @@ export default({
 }
 
 
-// .el-menu-item{
-//     // width: 8%;
-//         // width: 1%;
-//         width: 20px !important;
-//     background-color: antiquewhite;
-//     // border-radius: 15%;
-// }
+.course-header {
+    margin-bottom: 20px;
+    position: absolute;
+    top: 90px;
+    left: 600px;
+    width: 600px
+}
 
 .el-dropdown-menu {
     width: 500px;
@@ -76,10 +90,10 @@ export default({
 
 .el-main {
     position: absolute;
-    top: 12.5%;
-    left: 22%;
-    height: 85%;
-    width: 75%;
+    top: 165px;
+    left: 235px;
+    height: 740px;
+    width: 1440px;
     background-color: rgb(248, 248, 246);
     border-radius: 2%;
 }
