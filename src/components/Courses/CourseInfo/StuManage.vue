@@ -4,14 +4,29 @@
         <div class="teachers">
             <h2>责任教师：{{resTeacher}}</h2>
             <el-divider></el-divider>
+            <div style="height: 50px">
+                <div style="float: left"><h2>授课教师：</h2></div>
+                <div style="float: right;"><el-button type="primary"  @click="dialog_invite = true">邀请</el-button></div>
+            </div>
             <div>
-                <h2>授课教师：</h2><el-button type="primary" style="float:right;" @click="dialogVisible = true">邀请</el-button>
-                <h3 v-for="teacher in allTeachers" :key="teacher" style="position: relative; left: 9%; ">        {{teacher}}</h3>
+                <span v-for="item in 7" :key="item">
+                <el-card style="width: 150px; height: 60px;">
+                        <div style="float: left: width: 50%"></div>
+                        <el-image
+                        style="width: 55px; height: 55px; margin-top: -20px; margin-left: -15px; border-radius: 50%;"
+                        src="https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png"
+                        fit="fit">
+                        </el-image>
+                        <div style="float: right; width: 50%; margin-top: 0px">
+                            <h4>田同轩</h4>
+                        </div>
+                </el-card>
+                </span>
             </div>
             
             <el-dialog
             title="提示"
-            :visible.sync="dialogVisible"
+            :visible.sync="dialog_invite"
             width="50%"
             >
             <h3 class="tips">您可以邀请以下老师</h3>
@@ -43,9 +58,53 @@
         </div>
         <el-divider></el-divider>
         <div class="students">
-            <h2>学生名单：</h2>
+            <div style="margin-bottom: 50px;">
+                <el-button type="primary" @click="stuDialogVisible = true">导入学生名单</el-button>
+                <el-dialog
+                title="上传学生名单"
+                :visible.sync="stuDialogVisible"
+                width="30%"
+                center>
+
+                <el-upload
+                class="upload-stu"
+                drag
+                accept=".xlsx,.xls"
+                action="https://jsonplaceholder.typicode.com/posts/">
+                    <i class="el-icon-upload"></i>
+                    <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
+                    <div class="el-upload__tip" slot="tip">只能上传xlsx文件</div>
+                    </el-upload>
+
+                    <span slot="footer" class="dialog-footer">
+                        <el-button @click="stuDialogVisible = false">取 消</el-button>
+                        <el-button type="primary" @click="stuDialogVisible = false">确 定</el-button>
+                    </span>
+                </el-dialog>
+            </div>
+            
+            <div>
+                <el-table
+                    :data="stuData"
+                    height="500"
+                    border
+                    style="width: 80%; position: relative; left: 10%">
+                    <el-table-column
+                    prop="id"
+                    label="学号"
+                    width="300">
+                    </el-table-column>
+                    <el-table-column
+                    prop="name"
+                    label="姓名"
+                    width="300">
+                    </el-table-column>
+                    <el-table-column
+                    label="编辑名单">
+                    </el-table-column>
+                </el-table>
+            </div>
         </div>
-        <!-- 下面是学生 -->
     </div>
 </template>
 
@@ -56,44 +115,91 @@ export default {
             value: '',
             resTeacher: '田同轩',
             allTeachers: ['田同轩1','田同轩2','田同轩3'],
-            dialogVisible: false,
-             tableData: [{
-          date: '2016-05-03',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1518 弄'
-        }, {
-          date: '2016-05-02',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1518 弄'
-        }, {
-          date: '2016-05-04',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1518 弄'
-        }, {
-          date: '2016-05-01',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1518 弄'
-        }, {
-          date: '2016-05-08',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1518 弄'
-        }, {
-          date: '2016-05-06',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1518 弄'
-        }, {
-          date: '2016-05-07',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1518 弄'
-        }]
-      
+            dialog_invite: false,
+            stuDialogVisible: false,
+            tableData: [{
+                date: '2016-05-02',
+                name: '王小虎',
+                address: '上海市普陀区金沙江路 1518 弄'
+                }, {
+                date: '2016-05-04',
+                name: '王小虎',
+                address: '上海市普陀区金沙江路 1517 弄'
+                }, {
+                date: '2016-05-01',
+                name: '王小虎',
+                address: '上海市普陀区金沙江路 1519 弄'
+                }, {
+                date: '2016-05-03',
+                name: '王小虎',
+                address: '上海市普陀区金沙江路 1516 弄'
+            }],
+            stuData: [{
+                id: '1950081',
+                name: '田同轩0',
+                },{
+                id: '1950082',
+                name: '田同轩1',
+                },{
+                id: '1950083',
+                name: '田同轩2',
+                },{
+                id: '1950083',
+                name: '田同轩2',
+                },{
+                id: '1950083',
+                name: '田同轩2',
+                },{
+                id: '1950083',
+                name: '田同轩2',
+                },{
+                id: '1950083',
+                name: '田同轩2',
+                },{
+                id: '1950083',
+                name: '田同轩2',
+                },{
+                id: '1950083',
+                name: '田同轩2',
+                },{
+                id: '1950083',
+                name: '田同轩2',
+                }
+            ]
         }
     },
     methods: {
         invite(){
-
+        },
+        handleEdit(index, row) {
+            console.log(index, row);
+        },
+        handleDelete(index, row) {
+            console.log(index, row);
+        },
+        /// 获取这门课的所有教师
+        getAllTeachers() {     
+            console.log("function: getAllTeachers()")             
+            var course_id = this.$route.query.course_id
+            console.log("course_id: "+ course_id)
+            var data = new FormData()
+            this.$http({
+                method: 'get',
+                url: '/course/findAllAdvisorByCourseId/' + course_id,
+                data : data,
+                headers: { 'token': window.sessionStorage.getItem("token"), }
+            }).then(function (response) {
+                console.log('response: ')
+                console.log(response.data)
+            })
+            .catch(function (error) {
+                console.log(error);
+            });    
         }
+    },
+    mounted(){
 
+        this.getAllTeachers()
     }
 }
 </script>

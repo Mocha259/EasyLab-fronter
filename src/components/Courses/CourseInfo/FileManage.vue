@@ -15,36 +15,39 @@
             </div>
         </el-dialog>
 
-        <!-- <el-upload
-        ref="upload"
-        class="upload-demo"
-        :headers="headers"
-        action="#"
-        :show-file-list="false"
-        multiple 
-        :auto-upload="false"
-        :on-change="handleChange">
-            <el-button size="big" type="primary" class="upload-button">上传文件</el-button>
-            <div slot="tip" class="el-upload__tip">文件大小不能超过50M</div>
-        </el-upload>
-        <br>-->
         <div class="left" style="float: left; width: 20%">
-            <!-- <el-tree
+            
+            <div class="file-tree" style="margin-left: -50px; margin-top: -50px">
+                <h2 style="margin-bottom: 10px">文件目录</h2>
+                <el-tree
                 :data="data"
                 node-key="id"
-                default-expand-all
-                @node-drag-start="handleDragStart"
-                @node-drag-enter="handleDragEnter"
-                @node-drag-leave="handleDragLeave"
-                @node-drag-over="handleDragOver"
-                @node-drag-end="handleDragEnd"
-                @node-drop="handleDrop"
-                draggable
-                :allow-drop="allowDrop"
-                :allow-drag="allowDrag">
-            </el-tree> -->
-            <Tree :data="data5" :render="renderContent" class="demo-tree-render"></Tree>
-
+                @node-click="showFiles"
+                :expand-on-click-node="false"
+                style="width: 300px">
+                <span class="custom-tree-node" slot-scope="{ node, data }">
+                    <span style="text-align: center; font-size: 20px; height; 50px"><i class="el-icon-folder-opened"></i>{{ node.label }}</span>
+                    <span style="position: absolute; right: 5px; height: 25px; border-color: black; border-type: solid !important">
+                        <el-button
+                            class="add-folder"
+                            size="mini"
+                            type="text"
+                            @click="() => append(data)"
+                            style="border-color: transparent !important;">
+                            <i style="color: black; font-family: Microsoft Yahei; font-size: 14px">添加</i>
+                        </el-button>
+                        <el-button
+                            class="add-folder"
+                            size="mini"
+                            type="text"
+                            @click="() => remove(node, data)"
+                             style="border-color: transparent !important">
+                            <i style="color: black; font-family: Microsoft Yahei;  font-size: 14px">删除</i>
+                        </el-button>
+                    </span>
+                </span>
+                </el-tree>
+            </div>
         </div>
         <div class="right" style="float: right; width: 70%"> 
             <el-table :data="existedFileList">
@@ -61,13 +64,7 @@
                 label="文件大小"
                 >
                 </el-table-column>
-                <!-- <template slot-scope="scope">
-                    <span v-if="scope.row.attachSize / 1024 / 1024 < 1">{{(scope.row.attachSize / 1024).toFixed(2) + 'KB'}}</span>
-                    <span v-else>{{(scope.row.attachSize / 1024 / 1024).toFixed(2) + 'MB'}}</span>
-                </template> -->
-
-
-
+            
                 <el-table-column
                 prop="date"
                 label="修改日期"
@@ -85,12 +82,25 @@
                 </el-table-column>
             </el-table>
         </div>
-       
+
+        <el-dialog
+        title="创建新文件夹"
+        :visible.sync="create_dir"
+        width="30%"
+        >
+        <span>文件夹名称</span>
+        <el-input v-model="tmp_new_dir.dir_name" placeholder="请输入新建文件夹的名称"></el-input>
+        <span slot="footer" class="dialog-footer">
+            <el-button @click="create_dir = false">取 消</el-button>
+            <el-button type="primary" @click="create_dir = false">确 定</el-button>
+        </span>
+        </el-dialog>
         
     </div>
 </template>
 
 <script>
+ let id = 1000;
 export default {
     data() {
         return {
@@ -119,158 +129,46 @@ export default {
                 id: 1,
                 label: '一级 1',
                 children: [{
-                    id: 4,
-                    label: '二级 1-1',
-                    children: [{
+                id: 4,
+                label: '二级 1-1',
+                children: [{
                     id: 9,
                     label: '三级 1-1-1'
-                    }, {
+                }, {
                     id: 10,
                     label: '三级 1-1-2'
-                    }]
                 }]
-                }, {
+                }]
+            }, {
                 id: 2,
                 label: '一级 2',
                 children: [{
-                    id: 5,
-                    label: '二级 2-1'
+                id: 5,
+                label: '二级 2-1'
                 }, {
-                    id: 6,
-                    label: '二级 2-2'
+                id: 6,
+                label: '二级 2-2'
                 }]
-                }, {
+            }, {
                 id: 3,
                 label: '一级 3',
                 children: [{
-                    id: 7,
-                    label: '二级 3-1'
+                id: 7,
+                label: '二级 3-1'
                 }, {
-                    id: 8,
-                    label: '二级 3-2',
-                    children: [{
-                    id: 11,
-                    label: '三级 3-2-1'
-                    }, {
-                    id: 12,
-                    label: '三级 3-2-2'
-                    }, {
-                    id: 13,
-                    label: '三级 3-2-3'
-                    }]
+                id: 8,
+                label: '二级 3-2'
                 }]
             }],
-            data5: [
-                {
-                    title: 'parent 1',
-                    expand: true,
-                    render: (h, { root, node, data }) => {
-                        return h('span', {
-                            style: {
-                                display: 'inline-block',
-                                width: '100%'
-                            }
-                        }, [
-                            h('span', [
-                                h('Icon', {
-                                    props: {
-                                        type: 'ios-folder-outline'
-                                    },
-                                    style: {
-                                        marginRight: '8px'
-                                    }
-                                }),
-                                h('span', data.title)
-                            ]),
-                            h('span', {
-                                style: {
-                                    display: 'inline-block',
-                                    float: 'right',
-                                    marginRight: '32px'
-                                }
-                            }, [
-                                h('Button', {
-                                    props: Object.assign({}, this.buttonProps, {
-                                        icon: 'ios-add',
-                                        type: 'primary'
-                                    }),
-                                    style: {
-                                        width: '64px'
-                                    },
-                                    on: {
-                                        click: () => { this.append(data) }
-                                    }
-                                })
-                            ])
-                        ]);
-                    },
-                    children: [
-                        {
-                            title: 'child 1-1',
-                            expand: true,
-                            children: [
-                                {
-                                    title: 'leaf 1-1-1',
-                                    expand: true
-                                },
-                                {
-                                    title: 'leaf 1-1-2',
-                                    expand: true
-                                }
-                            ]
-                        },
-                        {
-                            title: 'child 1-2',
-                            expand: true,
-                            children: [
-                                {
-                                    title: 'leaf 1-2-1',
-                                    expand: true
-                                },
-                                {
-                                    title: 'leaf 1-2-1',
-                                    expand: true
-                                }
-                            ]
-                        }
-                    ]
-                }
-            ],
-            buttonProps: {
-                type: 'default',
-                size: 'small',
-            }
+            totalFiles: [],
+            
+            create_dir: false,
+            tmp_new_dir: {              // 创建的新文件夹时用来存临时变量
+                dir_name: ''
+            },
         }
     },
     methods: {
-         handleDragStart(node, ev) {
-            console.log('drag start', node);
-        },
-        handleDragEnter(draggingNode, dropNode, ev) {
-            console.log('tree drag enter: ', dropNode.label);
-        },
-        handleDragLeave(draggingNode, dropNode, ev) {
-            console.log('tree drag leave: ', dropNode.label);
-        },
-        handleDragOver(draggingNode, dropNode, ev) {
-            console.log('tree drag over: ', dropNode.label);
-        },
-        handleDragEnd(draggingNode, dropNode, dropType, ev) {
-            console.log('tree drag end: ', dropNode && dropNode.label, dropType);
-        },
-        handleDrop(draggingNode, dropNode, dropType, ev) {
-            console.log('tree drop: ', dropNode.label, dropType);
-        },
-        allowDrop(draggingNode, dropNode, type) {
-            if (dropNode.data.label === '二级 3-1') {
-            return type !== 'inner';
-            } else {
-            return true;
-            }
-        },
-        allowDrag(draggingNode) {
-            return draggingNode.data.label.indexOf('三级 3-2-2') === -1;
-        },
         openDialog(){
             this.dialogOfUpload = true
         },
@@ -315,69 +213,67 @@ export default {
         },
         beforeRemove(file, fileList) {
             return this.$confirm(`确定移除 ${ file.name }？`);
-        }
-        ,
-                    renderContent (h, { root, node, data }) {
-                return h('span', {
-                    style: {
-                        display: 'inline-block',
-                        width: '100%'
-                    }
-                }, [
-                    h('span', [
-                        h('Icon', {
-                            props: {
-                                type: 'ios-paper-outline'
-                            },
-                            style: {
-                                marginRight: '8px'
-                            }
-                        }),
-                        h('span', data.title)
-                    ]),
-                    h('span', {
-                        style: {
-                            display: 'inline-block',
-                            float: 'right',
-                            marginRight: '32px'
-                        }
-                    }, [
-                        h('Button', {
-                            props: Object.assign({}, this.buttonProps, {
-                                icon: 'ios-add'
-                            }),
-                            style: {
-                                marginRight: '8px'
-                            },
-                            on: {
-                                click: () => { this.append(data) }
-                            }
-                        }),
-                        h('Button', {
-                            props: Object.assign({}, this.buttonProps, {
-                                icon: 'ios-remove'
-                            }),
-                            on: {
-                                click: () => { this.remove(root, node, data) }
-                            }
-                        })
-                    ])
-                ]);
-            },
-            append (data) {
-                const children = data.children || [];
-                children.push({
-                    title: 'appended node',
-                    expand: true
-                });
-                this.$set(data, 'children', children);
-            },
-            remove (root, node, data) {
-                const parentKey = root.find(el => el === node).parent;
-                const parent = root.find(el => el.nodeKey === parentKey).node;
-                const index = parent.children.indexOf(data);
-                parent.children.splice(index, 1);
+        },
+
+        arrayPath(){
+            return this.filePath.split("/").slice(1)
+        },
+
+        append(data) {
+            var tmp_labe = ''
+            this.create_dir = true
+            console.log(1)
+            console.log(this.tmp_new_dir.dir_name)
+            console.log()
+            tmp_labe = this.tmp_new_dir.dir_name
+            console.log(tmp_labe)
+            const newChild = { id: id++, label: tmp_labe, children: [] };
+            if (!data.children) {
+            this.$set(data, 'children', []);
             }
+            data.children.push(newChild);
+        },
+
+        remove(node, data) {
+            const parent = node.parent;
+            const children = parent.data.children || parent.data;
+            const index = children.findIndex(d => d.id === data.id);
+            children.splice(index, 1);
+        },
+
+
+        showFiles(data, node) {
+            let route = [];
+            while (node.parent !== null){
+                route.push(node.label)
+                node = node.parent
+            }
+            this.filePath = ""
+            for (let i = route.length - 1; i >= 0 ; i--) {
+                this.filePath = this.filePath + "/" + route[i]
+            }
+            console.log(this.filePath)
+            // this.$axios({
+            //     url:'/file/getFileList',
+            //     method:'get',
+            //     params:{
+            //     course_ID:this.$route.params.course_id,
+            //     path:this.filePath,
+            //     }
+            // }).then((response)=>{
+            //     this.fileList = response.data
+            // })
+        },
+
+        childrenFiles(data) {
+            let result = [];
+            for (let i = 0; i < data.length; i++) {
+                result.push({
+                label: data[i],
+                });
+            }
+            return result;
+        },
     }
 }
 </script>
@@ -417,10 +313,7 @@ export default {
 }
 
 .el-upload__tip{
-    // position: absolute;
-    // left: 0%;
-    // width: 200px;
-    // margin-bottom: 10px;
+
     position: absolute;
     left: 5%;
     margin-top: 50px;;
@@ -430,5 +323,25 @@ export default {
 }
 .demo-tree-render .ivu-tree-title{
         width: 100%;
+}
+
+.custom-tree-node {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 14px;
+    padding-right: 8px;
+    height: 50px !important;
+}
+.add-folder:hover {
+    background: transparent;
+    i {
+        color: rgb(19, 150, 190) !important;
+        font-weight: 1000;
     }
+}
+.add-folder:focus {
+    background: transparent;
+}
 </style>

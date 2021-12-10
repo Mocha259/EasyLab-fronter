@@ -135,11 +135,16 @@ export default {
                 this.$http(config)
                 .then(function (response) {
                     console.log(response.data)
+                    
                     // console.log(response.data.data.token)
                     if(response.data.success){
                         self.$message.success('登录成功！')
                         window.sessionStorage.setItem("token",response.data.data.token)
                         self.$router.push('/Home')
+                    }else{
+                        console.log('1')
+                        var msg = response.data.message
+                        self.$message.error(msg)
                     }
                 })
                 .catch(function (error) {
@@ -165,17 +170,19 @@ export default {
 
                 var data=new FormData()
                 // data.append('student_id', this.firstForm.id)
-                data.append('advisor_id', this.firstForm.id)
+                // console.log(this.firstForm.name)
+                data.append('student_id', this.firstForm.id)
                 data.append('name', this.firstForm.name)
 
                 var config = {
                   method: 'post',
-                  url: 'advisor/firstLogin',
+                  url: 'student/firstLogin',
                   data : data,
                 }
 
                 self.$http(config)
                 .then(function (response) {
+                    console.log(response)
                     console.log(response.data.success)
                     console.log(response.data.code)
                     if(response.data.code == 200){

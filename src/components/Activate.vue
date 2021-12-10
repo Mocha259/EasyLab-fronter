@@ -141,7 +141,7 @@ export default {
                     var config = {
                       method: 'post',
                     //   url: 'student/verifyCode',
-                      url: 'advisor/verifyCode',
+                      url: 'student/verifyCode',
                       data : data,
                     }
 
@@ -151,6 +151,8 @@ export default {
                         if(response.data.success){
                             self.$message.success('请使用新密码登录')
                             self.$router.push('/Login')
+                        }else{
+                            self.$message.error('验证码错误')
                         }
                     })
                     .catch(function (error) {

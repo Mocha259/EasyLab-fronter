@@ -36,57 +36,55 @@
         <!-- 页面主体区域 -->
         <el-container class="main-container">
             <!-- 侧边栏 -->
-            <el-aside :width="isCollapse ? '60px' : '200px'" style="border-radius: 3px;">
+            <el-aside :width="isCollapse ? '75px' : '220px'" style="border-radius: 3px;">
 
-                <div class="toggle-button" @click="toggleCollapse" :width="'200px'">
+                <div class="toggle-button" @click="toggleCollapse" :width="'200px'" 
+                style="margin-top: 20px;margin-left: 20px ;border-radius: 5px !important; background: linear-gradient(rgb(88, 88, 88),rgb(43, 42, 42), rgb(20, 20, 20)); height: 30px; font-size: 20px">
                     |||
                 </div>
-
+                <div >
                  <el-menu text-color="#fff" active-text-color="#ffd04b"
                     :unique-opened="true" :collapse="isCollapse"
-                    :collapse-transition="false" :router="true" style="border-radius: 5px;">
+                    :collapse-transition="false" :router="true" 
+                    style="margin-top: 10px; margin-left: 20px; border-radius: 5px !important"> 
 
-                    <el-menu-item index="Welcome" style="color: #778899; font-size: 18px; width: 100%">
-                        <i class="el-icon-bell"></i>
+                    <el-menu-item index="Welcome" style="color: #778899; font-size: 18px; width: 100%; border-top-right-radius: 5px; border-top-left-radius: 5px">
+                        <i class="el-icon-bell" style="border-top-right-radius: 5px"></i>
                         <span slot="title">主页公告</span>
                     </el-menu-item>
 
-                    <el-menu-item index="Users-Info" style="color: #778899; font-size: 18px; width: 100%"> 
+                    <el-menu-item index="Users-Info" style="color: #778899; font-size: 18px; width: 100%;"> 
                         <i class="el-icon-user"></i>
                         <span slot="title">个人信息</span>
                     </el-menu-item>
 
-                    <el-menu-item index="Courses-Manage" style="color: #778899; font-size: 18px; width: 100%">
+                    <el-menu-item index="Courses-Manage" style="color: #778899; font-size: 18px; width: 100%;">
                         <i class="el-icon-document-copy"></i>
                         <span slot="title">课程管理</span>
                     </el-menu-item>
 
-                    <!-- <el-submenu index="Courses">
-                        <template slot="title" >
-                            <i class="el-icon-location"></i>
-                            <span style="color:#778899;">课程管理</span>
-                        </template>
-                        <el-menu-item-group>
-                            <el-menu-item index="Courses-Manage" style="color:#778899;">我管理的课程</el-menu-item>
-                        </el-menu-item-group>
-                    </el-submenu> -->
-
-                    <el-menu-item index="Lab-Manage" style="color: #778899; font-size: 18px; width: 100%">
+                    <el-menu-item index="Lab-Manage" style="color: #778899; font-size: 18px; width: 100%; border-bottom-right-radius: 5px;border-bottom-left-radius: 5px">
                         <i class="el-icon-postcard"></i>
                         <span slot="title">实验管理</span>
                     </el-menu-item>
-                    
-                    
-
-
                 </el-menu>
-            </el-aside>
+                </div>
 
+                <el-card style="width: 200px; height: 180px; margin-top: 40px; margin-left: 20px">
+                    
+                </el-card>
+            </el-aside>
 
             <!-- 右侧内容主体区 -->
             <el-main>
                 <router-view></router-view>
             </el-main>
+
+            <el-aside style="background-color: transparent; width: 250px">
+                <div style="background-color: rgb(223, 217, 217); height: 50%; width:95%; margin-top: 100px; border-radius: 5px">
+                    <h1>Todo List</h1>
+                </div>
+            </el-aside>
         </el-container>
     </el-container>
 </template>
@@ -167,7 +165,7 @@ export default {
     border-width: 50px;
     border-top-color: #EAEDF1;
     height: 100%;
-    background: linear-gradient(rgb(0, 0, 0), rgb(39, 37, 37), rgb(61, 61, 61));
+    // background: linear-gradient(rgb(0, 0, 0), rgb(39, 37, 37), rgb(61, 61, 61));
     overflow-x: hidden;
     overflow-y: hidden;
 }
@@ -175,17 +173,26 @@ export default {
 
 .el-main {
     height: 100%;
-    background-color: transparent;
+    background-color: rgb(255, 255, 255);
+    
 }
 
 .el-menu-item {
-    background-color: rgb(56, 56, 59);
+    background: rgb(56, 56, 59);
+    // background: black;
     span {
         color: rgb(255, 255, 255)
     };
 }
 
 .el-menu-item:hover {
+    span {
+        color: #050708;
+    }
+}
+
+.el-menu-item:focus 
+ {
     span {
         color: #050708;
     }

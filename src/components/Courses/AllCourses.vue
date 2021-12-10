@@ -40,7 +40,7 @@
             <el-card class="box-card">
                 <div slot="header" class="clearfix">
                     <span>{{item.course_name}}</span>
-                    <el-button style="float: right; padding: 3px 0" type="text" index="Course-Info" @click="getIntoCourse">进入课程</el-button>
+                    <el-button style="float: right; padding: 3px 0" type="text" index="Course-Info" @click="getIntoCourse(idx)">进入课程</el-button>
                 </div>
                 <!-- 课程信息描述 -->
                 <div class="description">
@@ -85,7 +85,6 @@
         curCoursePage: [],
         curPage: 1,
         pageNum: 1,
-        url: '../../assets/carousel03.jpg',
         IntoCertainCourse: false,
         dialogVisible: false,
         courseName: '',
@@ -98,10 +97,16 @@
       }
     },
     methods: {
-        getIntoCourse() {
-            // this.$router.pop('/Course-Manage')
+        getIntoCourse(idx) {
+            var cur_idx = (this.curPage - 1) * 3 + idx
+            console.log(this.courseList[cur_idx])
             this.IntoCertainCourse = true
-            this.$router.push('/Courses-Info')
+            this.$router.push({
+                path: '/Courses-Info',
+                query: {
+                    course_id: this.courseList[cur_idx].course_id
+                }
+            })
         },
 
         //处理页面切换
