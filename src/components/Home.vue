@@ -63,15 +63,27 @@
                         <span slot="title">课程管理</span>
                     </el-menu-item>
 
-                    <el-menu-item index="Lab-Manage" style="color: #778899; font-size: 18px; width: 100%; border-bottom-right-radius: 5px;border-bottom-left-radius: 5px">
-                        <i class="el-icon-postcard"></i>
+                    <el-menu-item index="Lab-Manage" style="color: #778899; font-size: 18px; width: 100%;">
+                        <i class="el-icon-document-copy"></i>
                         <span slot="title">实验管理</span>
+                    </el-menu-item>
+
+                    <el-menu-item index="Score-Manage" style="color: #778899; font-size: 18px; width: 100%;">
+                        <i class="el-icon-postcard"></i>
+                        <span slot="title">成绩管理</span>
+                    </el-menu-item>
+
+
+                    <el-menu-item index="fight" style="color: #778899; font-size: 18px; width: 100%; border-bottom-right-radius: 5px;border-bottom-left-radius: 5px">
+                        <i class="el-icon-postcard"></i>
+                        <span slot="title">对抗练习</span>
                     </el-menu-item>
                 </el-menu>
                 </div>
 
-                <el-card style="width: 200px; height: 180px; margin-top: 40px; margin-left: 20px">
-                    
+                <el-card style="width: 200px; height: 380px; margin-top: 45px; margin-left: 20px" shadow="always">
+                    <clock></clock>
+                    <el-divider></el-divider>
                 </el-card>
             </el-aside>
 
@@ -80,8 +92,8 @@
                 <router-view></router-view>
             </el-main>
 
-            <el-aside style="background-color: transparent; width: 250px">
-                <div style="background-color: rgb(223, 217, 217); height: 50%; width:95%; margin-top: 100px; border-radius: 5px">
+            <el-aside style="background-color: transparent; width: 260px">
+                <div style="background: linear-gradient(rgb(0, 0, 0), rgb(20, 20, 20), rgb(88, 88, 88)); height: 60%; width:100%; margin-top: 100px; border-radius: 5px; color: white">
                     <h1>Todo List</h1>
                 </div>
             </el-aside>
@@ -90,8 +102,9 @@
 </template>
 
 <script>
-
+import Clock from 'vue-clock2';
 export default {
+    components: { Clock },
     data() {
         return {
             nowDate: "", // 当前日期
@@ -179,6 +192,7 @@ export default {
 
 .el-menu-item {
     background: rgb(56, 56, 59);
+    // background: linear-gradient(90deg, rgb(88, 88, 88), rgb(20, 20, 20),rgb(20, 21, 20),rgb(0, 0, 0),rgb(20, 20, 20), rgb(20, 21, 20),rgb(88, 88, 88));
     // background: black;
     span {
         color: rgb(255, 255, 255)

@@ -8,20 +8,24 @@
                 <div style="float: left"><h2>授课教师：</h2></div>
                 <div style="float: right;"><el-button type="primary"  @click="dialog_invite = true">邀请</el-button></div>
             </div>
-            <div>
-                <span v-for="item in 7" :key="item">
-                <el-card style="width: 150px; height: 60px;">
-                        <div style="float: left: width: 50%"></div>
-                        <el-image
-                        style="width: 55px; height: 55px; margin-top: -20px; margin-left: -15px; border-radius: 50%;"
-                        src="https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png"
-                        fit="fit">
-                        </el-image>
-                        <div style="float: right; width: 50%; margin-top: 0px">
-                            <h4>田同轩</h4>
-                        </div>
-                </el-card>
-                </span>
+
+            <div style="padding-left: 100px">
+                <el-row :gutter="10">
+                    <!-- 此处v-for要改 -->
+                    <el-col :span="3.5" v-for="o in 3" :key="o">
+                        <el-card style="width: 130px; height: 60px;">
+                            <div style="float: left: width: 50%"></div>
+                            <el-image
+                            style="width: 55px; height: 55px; margin-top: -20px; margin-left: -15px; border-radius: 50%;"
+                            src="https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png"
+                            fit="fit">
+                            </el-image>
+                            <div style="float: right; width: 50%; margin-top: 0px">
+                                <h4>田同轩</h4>
+                            </div>
+                        </el-card>
+                    </el-col>
+                </el-row>
             </div>
             
             <el-dialog
@@ -32,7 +36,7 @@
             <h3 class="tips">您可以邀请以下老师</h3>
             <span slot="footer" class="dialog-footer">
                 <el-table
-                    :data="tableData"
+                    :data="teacherData"
                     height="250"
                     border
                     style="width: 100%">
@@ -52,7 +56,7 @@
                     </el-table-column>
                 </el-table>
                 <el-button @click="dialogVisible = false">取 消</el-button>
-                <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
+                <el-button type="primary" @click="dialog_invite = false">确 定</el-button>
             </span>
             </el-dialog>
         </div>
@@ -85,8 +89,8 @@
             
             <div>
                 <el-table
-                    :data="stuData"
-                    height="500"
+                    :data="studentData"
+                    height=""
                     border
                     style="width: 80%; position: relative; left: 10%">
                     <el-table-column
@@ -117,7 +121,7 @@ export default {
             allTeachers: ['田同轩1','田同轩2','田同轩3'],
             dialog_invite: false,
             stuDialogVisible: false,
-            tableData: [{
+            teacherData: [{
                 date: '2016-05-02',
                 name: '王小虎',
                 address: '上海市普陀区金沙江路 1518 弄'
@@ -134,36 +138,9 @@ export default {
                 name: '王小虎',
                 address: '上海市普陀区金沙江路 1516 弄'
             }],
-            stuData: [{
+            studentData: [{
                 id: '1950081',
                 name: '田同轩0',
-                },{
-                id: '1950082',
-                name: '田同轩1',
-                },{
-                id: '1950083',
-                name: '田同轩2',
-                },{
-                id: '1950083',
-                name: '田同轩2',
-                },{
-                id: '1950083',
-                name: '田同轩2',
-                },{
-                id: '1950083',
-                name: '田同轩2',
-                },{
-                id: '1950083',
-                name: '田同轩2',
-                },{
-                id: '1950083',
-                name: '田同轩2',
-                },{
-                id: '1950083',
-                name: '田同轩2',
-                },{
-                id: '1950083',
-                name: '田同轩2',
                 }
             ]
         }
@@ -186,11 +163,32 @@ export default {
             this.$http({
                 method: 'get',
                 url: '/course/findAllAdvisorByCourseId/' + course_id,
-                data : data,
                 headers: { 'token': window.sessionStorage.getItem("token"), }
             }).then(function (response) {
                 console.log('response: ')
                 console.log(response.data)
+            })
+            .catch(function (error) {
+                console.log(error);
+            });    
+        },
+        /// 获取这门课的所有学生
+        getAllStudents() {
+            console.log("----function: getAllTeachers()----")
+            var course_id = parseInt(this.$route.query.course_id)
+            console.log("course_id: "+ course_id)
+            var data = new FormData()
+            data.append('course_id', course_id)
+            this.$http({
+                methods: 'post',
+                url: '/course/findAllStudentByCourseId',
+                data : data,
+                headers: {
+                    'token': window.sessionStorage.getItem("token"),
+                }
+            }).then(function (response) {
+                console.log(response.data)
+
             })
             .catch(function (error) {
                 console.log(error);
@@ -200,6 +198,7 @@ export default {
     mounted(){
 
         this.getAllTeachers()
+        this.getAllStudents()
     }
 }
 </script>

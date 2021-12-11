@@ -15,6 +15,7 @@
     "element-ui": "^2.4.5",
     "view-design": "^4.7.0",
     "vue": "^2.6.11",
+    "vue-clock2": "^1.1.5",
     "vue-easy-notice-bar": "^1.1.2",
     "vue-quill-editor": "^3.0.6",
     "vue-router": "^3.2.0",
