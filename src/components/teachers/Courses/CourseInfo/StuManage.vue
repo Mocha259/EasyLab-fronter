@@ -163,7 +163,10 @@ export default {
             this.$http({
                 method: 'get',
                 url: '/course/findAllAdvisorByCourseId/' + course_id,
-                headers: { 'token': window.sessionStorage.getItem("token"), }
+                headers: { 'token': window.sessionStorage.getItem("token"), },
+                // params: {
+                //     course_id: course_id
+                // }
             }).then(function (response) {
                 console.log('response: ')
                 console.log(response.data)
@@ -188,7 +191,6 @@ export default {
                 }
             }).then(function (response) {
                 console.log(response.data)
-
             })
             .catch(function (error) {
                 console.log(error);

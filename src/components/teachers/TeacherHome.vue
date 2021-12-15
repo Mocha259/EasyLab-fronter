@@ -5,7 +5,7 @@
         <el-header>
             <!-- easyLab图标区 -->
             <div style="float: left; width: 40%">
-                <img src="../assets/icon.png" style="height: 120px; width: 380px; margin-top: -20px; z-index: 999">
+                <img src="../../assets/icon.png" style="height: 120px; width: 380px; margin-top: -20px; z-index: 999">
             </div>
             
             <div style="float: right; width: 60%">
@@ -20,7 +20,7 @@
                <div style="float: right; ; z-index: 999">
                    <el-dropdown @command="handleCommand" :hide-on-click="false" style="margin-top: 25px;">
                         <span class="el-dropdown-link">
-                            田同轩(1950081)<i class="el-icon-arrow-down el-icon--right"></i>
+                            {{userInfo.name}}({{userInfo.advisor_id}})<i class="el-icon-arrow-down el-icon--right"></i>
                         </span>
                         <el-dropdown-menu slot="dropdown" class="el-dropdown-menu">
                             <el-dropdown-item class="el-icon-s-custom" to="/Users-Info">  个人信息</el-dropdown-item>
@@ -82,7 +82,7 @@
                 </div>
 
                 <el-card style="width: 200px; height: 380px; margin-top: 45px; margin-left: 20px" shadow="always">
-                    <clock></clock>
+                    <clock style="margin-left: 5px"></clock>
                     <el-divider></el-divider>
                 </el-card>
             </el-aside>
@@ -109,7 +109,8 @@ export default {
         return {
             nowDate: "", // 当前日期
             isCollapse: false,
-            space: '      '
+            space: '      ',
+            userInfo: {},       /// 当前登录的老师的信息
         };
     },
     methods: {
@@ -142,12 +143,39 @@ export default {
         // 折叠左侧菜单
         toggleCollapse() {
             this.isCollapse = !this.isCollapse
+        },
+        getUserInfo() {
+            console.log('----function: getUserInfo----')
+            this.$http({
+            methods:'get',
+            url: 'advisor/getCurrentAdvisor',
+            headers: { 'token': window.sessionStorage.getItem("token"), },
+            }).then((response) => {
+                // console.log(response.data.data.advisor)
+                this.userInfo = response.data.data.advisor
+                
+                // advisor_id: "1950081"
+                // avatar: "http://192.168.243.1:8080/easyLab/static/advisor/avatar/7654321.jpg"
+                // email: "3378681490@qq.com"
+                // enable: true
+                // gender: 1
+                // introduction: null
+                // name: "田同轩"
+                // password: "123456"
+                // phone: null
+                // professional_title: null
+                // console.log('----end func: getUserInfo----')
+            }).catch((error) => {
+                console.log(error)
+                // console.log('----end func: getUserInfo----')
+            })
+            
         }
-
     },
 
     mounted() {
         this.currentTime()
+        this.getUserInfo()
     }
 }
 </script>

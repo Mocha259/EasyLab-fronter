@@ -7,8 +7,8 @@
       </div>
       <el-divider></el-divider>
       <div>
-      <el-row v-for="exp in expList" :key="exp" style="margin-bottom: 20px">
-        <el-col :span="5" v-for="o in exp" :key="o" :offset="2">
+      <el-row v-for="(exp, index) in expList" :key="index" style="margin-bottom: 20px">
+        <el-col :span="5" v-for="o in exp" :key="o.name" :offset="2">
           <el-card style="height: 250px; width: 230px">
             <h3>{{o.name}}</h3>
             <el-divider></el-divider>
@@ -16,8 +16,8 @@
               <div>发布日期：{{o.startTime}}</div>
               <div>截至日期：{{o.endTime}}</div>
               <div class="bottom clearfix" style="position: absolute; bottom: 10px; margin-left: 10px">
-                <time class="time">{{ currentDate }}</time>
-                <el-button type="primary" round>查看</el-button>
+                
+                <el-button type="primary" round @click="intoCertainLab">查看</el-button>
                 <el-button type="danger" round>删除</el-button>
               </div>
             </div>
@@ -35,6 +35,7 @@
 export default ({
   data() {
     return {
+      course_id: '',
       expList: [
         [{name: '帧中继实验1',
            startTime: '',
@@ -66,6 +67,21 @@ export default ({
         ],
       ]
     }
+  },
+  methods: {
+    intoCertainLab() {
+      this.$router.push({
+        path: '/Experiment', 
+        query: {course_id: this.course_id}
+      })
+    },
+    getCourseInfo() {
+      this.course_id = this.$route.query.course_id
+      console.log('course_id: ' + this.course_id)
+    }
+  },
+  mounted() {
+    this.getCourseInfo()
   }
 })
 </script>

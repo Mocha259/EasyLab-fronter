@@ -10,8 +10,8 @@
             <div class="course-header">
                 <el-menu class="el-menu-demo" mode="horizontal"  :router="true">
                     <el-menu-item index="Course-Info" :route="{ path: 'Course-Info', query: { course_id: course_id } }">课程信息</el-menu-item>
-                    <el-menu-item index="Course-Documents">课程文件</el-menu-item>
-                    <el-menu-item index="Course-Labs">课程实验</el-menu-item>
+                    <el-menu-item index="Course-Documents" :route="{ path: 'Course-Documents', query: { course_id: course_id } }">课程文件</el-menu-item>
+                    <el-menu-item index="Course-Labs" :route="{ path: 'Course-Labs', query: { course_id: course_id } }">课程实验</el-menu-item>
                     <el-menu-item index="Course-Students" :route="{ path: 'Course-Students', query: { course_id: course_id } }">课程人员</el-menu-item>
                     <el-menu-item index="Course-Assignments">课程作业</el-menu-item>
                 </el-menu>

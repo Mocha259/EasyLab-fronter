@@ -79,7 +79,7 @@ export default {
             ],
             //登录表单的数据绑定对象
             loginForm:{
-                username: '7654321',
+                username: '1950081',
                 password: '123456',
             },
             firstForm: {
@@ -140,7 +140,11 @@ export default {
                     if(response.data.success){
                         self.$message.success('登录成功！')
                         window.sessionStorage.setItem("token",response.data.data.token)
-                        self.$router.push('/Home')
+                        console.log("userType: " + response.data.data.userType)
+                        if(response.data.data.userType == "advisor")
+                            self.$router.push('/Home')
+                        else if(response.data.data.userType == "student")
+                            self.$router.push('/StuHome')
                     }else{
                         console.log('1')
                         var msg = response.data.message

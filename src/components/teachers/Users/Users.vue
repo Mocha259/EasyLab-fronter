@@ -159,7 +159,7 @@
     z-index: 1000;
     left: 0px;
     top:0px;
-    background: url('../../assets/carousel01.jpg');
+    /* background: url('../../../assets/carousel01.jpg'); */
     background-repeat: no-repeat;
     background-size: cover;
     -webkit-filter: blur(10px);

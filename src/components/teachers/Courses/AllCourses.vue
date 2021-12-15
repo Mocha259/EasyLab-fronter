@@ -40,7 +40,7 @@
             <el-card class="box-card">
                 <div slot="header" class="clearfix">
                     <span>{{item.course_name}}</span>
-                    <el-button style="float: right; padding: 3px 0" type="text" index="Course-Info" @click="getIntoCourse(idx)">进入课程</el-button>
+                    <el-button style="float: right; padding: 3px 0" type="text" index="Course-Info" @click="getIntoCourse(idx)">进入课程>></el-button>
                 </div>
                 <!-- 课程信息描述 -->
                 <div class="description">
@@ -131,9 +131,7 @@
             this.fileList = fileList;
         },
         setUpCourse() {
-            
             let self = this
-           
             var data=new FormData()
             data.append('course_name', self.courseName)
             data.append('course_introduction', self.courseIntro)
@@ -151,7 +149,8 @@
             .then(function (response) {
                 console.log(response.data)
                 if(response.data.success){
-                    dialogVisible = true
+                    dialogVisible = false
+                    // this.courseList.push({course_name})
                 }else{
                     // alert('课程创建失败，请重试！')
                 }
@@ -179,7 +178,7 @@
             console.log(response.data)
             if(response.data.success && response.data.data.courses.length > 0){
                 self.courseList = response.data.data.courses             //所有课程保存至courseList中
-                // console.log(response.data.data.courses)
+                console.log(response.data.data.courses)
                 self.count = self.courseList.length            //保存课程数量
                 if(self.count % 3 == 0){
                     self.pageNum = Math.floor(self.count / 3)
