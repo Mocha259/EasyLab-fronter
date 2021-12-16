@@ -370,45 +370,27 @@ export default {
             .catch(function (error) {
                 console.log(error);
             });    
-     
         },
 
-        getInfo(row) {
-            console.log(row)
+        getInfo(row){
             this.$http({
                 url: row.file_url,
                 method: 'get',
-                responseType: 'blob',
                 headers: {
-                    "Content-Type": 'application/octet-stream',
-                    // 'token': window.sessionStorage.getItem("token"),
-                    // 'cache-control': ,
-                    // 'Authorization': 'Basic ' + window.sessionStorage.getItem('token')
-                }
+                    'Authorization': 'Auth String',
+                    'content-type':'application/octet-stream',
+                },
+                responseType:'blob'
             }).then((response) => {
-                    console.log(response);
                     let blob = new Blob([response.data]);
-                    console.log(blob);
-                    const disposition = response.headers["content-disposition"];
-                    //获得文件名
-                    let fileName = disposition.substring(
-                    disposition.indexOf("filename=") + 9,
-                    disposition.length
-                    );
-                    //解码
-                    fileName = decodeURI(fileName);
-                    if (window.navigator.msSaveOrOpenBlob) {
-                    navigator.msSaveBlob(blob, fileName);
-                    } else {
                     const link = document.createElement("a");
-                    link.href = window.URL.createObjectURL(blob);
-                    link.download = fileName;
+                    link.href =URL.createObjectURL(blob);
+                    link.download = "new.pdf";//这里需要文件名，应该获取原本的文件名及后缀
                     link.click();
                     //释放内存
                     window.URL.revokeObjectURL(link.href);
-                    }
                 });
-        }
+        },
     },
     mounted() {
         this.getAllFolders()
