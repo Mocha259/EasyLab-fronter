@@ -168,7 +168,7 @@ export default {
                 //     course_id: course_id
                 // }
             }).then(function (response) {
-                console.log('response: ')
+
                 console.log(response.data)
             })
             .catch(function (error) {
@@ -177,7 +177,7 @@ export default {
         },
         /// 获取这门课的所有学生
         getAllStudents() {
-            console.log("----function: getAllTeachers()----")
+
             var course_id = parseInt(this.$route.query.course_id)
             console.log("course_id: "+ course_id)
             var data = new FormData()
