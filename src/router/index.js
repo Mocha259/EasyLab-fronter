@@ -21,6 +21,14 @@ import LabReport from '../components/teachers/Experiment/LabReport.vue'
 /// 以下是学生界面相关的路由
 import StuHome from '../components/students/StudentHome.vue'
 import StuWelcome from '../components/students/StuWelcome.vue'
+import StuAllCourses from '../components/students/StuAllCourses.vue'
+import StuCertainCourse from '../components/students/StuCertainCourse.vue'
+import StuCourseInfo from '../components/students/CourseInfo/StuCourseInfo.vue'
+import StuCourseFile from '../components/students/CourseInfo/StuCourseFile.vue'
+import StuCourseLabs from '../components/students/CourseInfo/StuCourseLabs.vue'
+import StuLabs       from '../components/students/Experiment/StuLabs.vue'
+import StuLabReports from '../components/students/Experiment/StuLabReports.vue'
+import StuLabInfo    from '../components/students/Experiment/StuLabInfo.vue'
 
 Vue.use(VueRouter)
 
@@ -55,7 +63,8 @@ const router = new VueRouter({
           children: [
             { path: '/Lab-Info', name: 'Lab-Info', component:LabInfo },
             { path: '/Lab-Report', name: 'Lab-Report', component:LabReport },
-          ]}
+          ]
+        }
       ] 
     },
     { path: '/Activate', name: 'Activate', component: Activate },
@@ -64,7 +73,23 @@ const router = new VueRouter({
       component: StuHome,
       redirect: '/StuWelcome',
       children: [
-        { path: '/StuWelcome', component: StuWelcome }
+        { path: '/StuWelcome', component: StuWelcome },
+        { path: '/StuCourses', component: StuAllCourses },
+        { path: '/StuCertainCourse',                    /// 学生，进入具体某门课的页面
+          component: StuCertainCourse,
+          children: [
+            { path: '/StuCourseInfo', component: StuCourseInfo },
+            { path: '/StuCourseFile', component: StuCourseFile },
+            { path: '/StuCourseLabs', component: StuCourseLabs }
+          ],
+          redirect: '/StuCourseInfo'
+        },
+        { path: '/StuLabs', name: 'StuLabs', component: StuLabs,
+        children: [
+          { path: '/StuLabReports', name: 'StuLabReports', component: StuLabReports },
+          { path: '/StuLabInfo', name: 'StuLabInfo', component: StuLabInfo },
+        ]
+      }
       ]
     }
   ]

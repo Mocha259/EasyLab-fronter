@@ -20,7 +20,7 @@
                <div style="float: right; ; z-index: 999">
                    <el-dropdown @command="handleCommand" :hide-on-click="false" style="margin-top: 25px;">
                         <span class="el-dropdown-link">
-                            田同轩(1950081)<i class="el-icon-arrow-down el-icon--right"></i>
+                            {{userInfo.name}}({{userInfo.student_id}})<i class="el-icon-arrow-down el-icon--right"></i>
                         </span>
                         <el-dropdown-menu slot="dropdown" class="el-dropdown-menu">
                             <el-dropdown-item class="el-icon-s-custom" to="/Users-Info">  个人信息</el-dropdown-item>
@@ -58,7 +58,7 @@
                         <span slot="title">个人信息</span>
                     </el-menu-item>
 
-                    <el-menu-item index="Stu-Courses-Manage" style="color: #778899; font-size: 18px; width: 100%;">
+                    <el-menu-item index="StuCourses" style="color: #778899; font-size: 18px; width: 100%;">
                         <i class="el-icon-document-copy"></i>
                         <span slot="title">我的课程</span>
                     </el-menu-item>
@@ -109,7 +109,8 @@ export default {
         return {
             nowDate: "", // 当前日期
             isCollapse: false,
-            space: '      '
+            space: '      ',
+            userInfo: {},       /// 当前登录的学生的信息
         };
     },
     methods: {
@@ -142,12 +143,41 @@ export default {
         // 折叠左侧菜单
         toggleCollapse() {
             this.isCollapse = !this.isCollapse
+        },
+
+        getUserInfo() {
+
+            this.$http({
+            methods:'get',
+            url: 'student/getStudentById',
+            headers: { 'token': window.sessionStorage.getItem("token"), },
+            }).then((response) => {
+                console.log(response.data.data.student)
+                this.userInfo = response.data.data.student
+                
+                // advisor_id: "1950081"
+                // avatar: "http://192.168.243.1:8080/easyLab/static/advisor/avatar/7654321.jpg"
+                // email: "3378681490@qq.com"
+                // enable: true
+                // gender: 1
+                // introduction: null
+                // name: "田同轩"
+                // password: "123456"
+                // phone: null
+                // professional_title: null
+                // console.log('----end func: getUserInfo----')
+            }).catch((error) => {
+                console.log(error)
+                // console.log('----end func: getUserInfo----')
+            })
+            
         }
 
     },
 
     mounted() {
         this.currentTime()
+        this.getUserInfo()
     }
 }
 </script>
