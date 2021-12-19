@@ -13,7 +13,7 @@
                     <el-menu-item index="Course-Documents" :route="{ path: 'Course-Documents', query: { course_id: course_id } }">课程文件</el-menu-item>
                     <el-menu-item index="Course-Labs" :route="{ path: 'Course-Labs', query: { course_id: course_id } }">课程实验</el-menu-item>
                     <el-menu-item index="Course-Students" :route="{ path: 'Course-Students', query: { course_id: course_id } }">课程人员</el-menu-item>
-                    <el-menu-item index="Course-Assignments">课程作业</el-menu-item>
+                    <el-menu-item index="Course-Assignments" :route="{ path: 'Attendance', query: { course_id: course_id } }">课程考勤</el-menu-item>
                 </el-menu>
             </div>
 

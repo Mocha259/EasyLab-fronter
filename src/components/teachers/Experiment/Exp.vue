@@ -18,13 +18,13 @@
       </div>
     </div><br>
     <div style="">
-      <el-contaier>
+      <el-container>
           <div>
               <el-main>
                   <router-view></router-view>
               </el-main>
           </div>
-      </el-contaier>
+      </el-container>
     </div>
     
   </div>
