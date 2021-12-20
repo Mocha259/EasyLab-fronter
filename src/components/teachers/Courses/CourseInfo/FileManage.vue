@@ -420,9 +420,6 @@ export default {
     width: 100%;
 }
 .el-table {
-    // position: absolute;
-    // left: 5%;
-    // margin-top: 70px;
     width: 100%;
     float: right;
 }

@@ -3,18 +3,21 @@
         <el-breadcrumb separator-class="el-icon-arrow-right">
             <el-breadcrumb-item :to="{ path: '/Home' }"             >首页</el-breadcrumb-item>
             <el-breadcrumb-item :to="{ path: '/Courses-Manage' }"   >课程管理</el-breadcrumb-item>
-            <el-breadcrumb-item>{{course_name}}</el-breadcrumb-item>
+            <el-breadcrumb-item>{{course_info.course_name}}</el-breadcrumb-item>
         </el-breadcrumb>
 
         <el-container>
             <div class="course-header">
                 <el-menu class="el-menu-demo" mode="horizontal"  :router="true">
-                    <el-menu-item index="Course-Info" :route="{ path: 'Course-Info', query: { course_id: course_id } }">课程信息</el-menu-item>
-                    <el-menu-item index="Course-Documents" :route="{ path: 'Course-Documents', query: { course_id: course_id } }">课程文件</el-menu-item>
-                    <el-menu-item index="Course-Labs" :route="{ path: 'Course-Labs', query: { course_id: course_id } }">课程实验</el-menu-item>
-                    <el-menu-item index="Course-Students" :route="{ path: 'Course-Students', query: { course_id: course_id } }">课程人员</el-menu-item>
-                    <el-menu-item index="Course-Assignments" :route="{ path: 'Attendance', query: { course_id: course_id } }">课程考勤</el-menu-item>
-                    <el-menu-item index="Course-Score" :route="{ path: 'Course-Score', query: { course_id: course_id } }">课程成绩</el-menu-item>
+                    <el-menu-item index="Course-Info" 
+                        :route="{ path: 'Course-Info', query: { course_info: course_info } }">
+                        课程信息
+                    </el-menu-item>
+                    <el-menu-item index="Course-Documents" :route="{ path: 'Course-Documents', query: { course_id: course_info.course_id } }">课程文件</el-menu-item>
+                    <el-menu-item index="Course-Labs" :route="{ path: 'Course-Labs', query: { course_info: course_info } }">课程实验</el-menu-item>
+                    <el-menu-item index="Course-Students" :route="{ path: 'Course-Students', query: { course_id: course_info.course_id } }">课程人员</el-menu-item>
+                    <el-menu-item index="Course-Assignments" :route="{ path: 'Attendance', query: { course_id: course_info.course_id } }">课程考勤</el-menu-item>
+                    <el-menu-item index="Course-Score" :route="{ path: 'Course-Score', query: { course_id: course_info.course_id } }">课程成绩</el-menu-item>
                 </el-menu>
             </div>
 
@@ -32,8 +35,14 @@
 export default({
     data() {
         return{
-            course_name: '',
-            course_id: '',
+            course_info:{
+                course_name: '',
+                course_id: '',
+                course_coverage:'',
+                course_state: '',
+                course_introduction: '',
+            },
+            
         }
     },
     methods: {
@@ -42,8 +51,9 @@ export default({
         }
     },
     mounted() {
-        this.course_id = this.$route.query.course_id
-        console.log(this.course_id)
+        // this.course_info.course_introduction = this.course_info.$route.query.course_introduction
+        this.course_info = this.$route.query.course_info
+        // console.log(this.course_id)
     },
 })
 </script>

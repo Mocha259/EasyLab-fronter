@@ -20,6 +20,7 @@
     "vue-easy-notice-bar": "^1.1.2",
     "vue-quill-editor": "^3.0.6",
     "vue-router": "^3.2.0",
+    "vuex": "^3.6.2",
     "wangeditor": "^4.7.9"
   },
   "devDependencies": {

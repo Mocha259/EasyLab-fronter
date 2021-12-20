@@ -39,8 +39,8 @@
             
             <el-card class="box-card">
                 <div slot="header" class="clearfix">
-                    <span>{{item.course_name}}</span>
-                    <el-button style="float: right; padding: 3px 0" type="text" index="Course-Info" @click="getIntoCourse(idx)">进入课程>></el-button>
+                    <h3>{{item.course_name}}<el-button style="float: right; padding: 3px 0" type="text" index="Course-Info" @click="getIntoCourse(idx)">进入课程>></el-button></h3>
+                    
                 </div>
                 <!-- 课程信息描述 -->
                 <div class="description">
@@ -104,7 +104,14 @@
             this.$router.push({
                 path: '/Courses-Info',
                 query: {
-                    course_id: this.courseList[cur_idx].course_id
+                    course_info: {
+                        course_id: this.courseList[cur_idx].course_id,
+                        course_name: this.courseList[cur_idx].course_name,
+                        course_coverage: this.courseList[cur_idx].coverage,
+                        course_introduction: this.courseList[cur_idx].course_introduction,
+                        course_state: this.courseList[cur_idx].is_open
+                    }
+                    
                 }
             })
         },

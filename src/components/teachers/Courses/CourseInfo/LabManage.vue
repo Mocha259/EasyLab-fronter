@@ -81,6 +81,8 @@ export default ({
   data() {
     return {
       course_id: '',
+      course_name: '',
+      course_info: {},
       expList: [[]],            // 这门课的实验列表
       addLabDialog: false,
       addLabForm: {           // 添加实现的表单信息
@@ -97,12 +99,13 @@ export default ({
     intoCertainLab() {
       this.$router.push({
         path: '/Experiment', 
-        query: {course_id: this.course_id}
+        query: {course_info: this.course_info}
       })
     },
     getCourseInfo() {
-      this.course_id = this.$route.query.course_id
+      this.course_info = this.$route.query.course_info
       // console.log('course_id: ' + this.course_id)
+      console.log(this.course_info)
     },
     
     addLab() {                /// 添加实验
@@ -140,7 +143,7 @@ export default ({
           title: self.addLabForm.title,
           start_time: self.addLabForm.start_time,
           end_time: self.addLabForm.end_time,
-          course_id: parseInt(self.$route.query.course_id),
+          course_id: parseInt(self.course_info.course_id),
           content: self.addLabForm.content,
           enable: self.addLabForm.enable
         }),
@@ -159,6 +162,7 @@ export default ({
         console.log(error)
       })
     },
+
     getAllLabs() {
       // console.log(this.expList)
       this.expList.splice(0)
@@ -166,7 +170,7 @@ export default ({
       // this.expList.splice(0)
       this.$http({
         method: 'get',
-        url: '/experiment/findByCourseId/' + this.$route.query.course_id,
+        url: '/experiment/findByCourseId/' + self.course_info.course_id,
         headers: { 'token': window.sessionStorage.getItem('token') }
       }).then((response) => {
         var tmp = 0

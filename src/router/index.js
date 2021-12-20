@@ -1,5 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+import Vuex from 'vuex'
+
 import Login from '../components/Login.vue'
 
 import Activate from '../components/Activate.vue'
@@ -32,6 +34,18 @@ import StuLabReports from '../components/students/Experiment/StuLabReports.vue'
 import StuLabInfo    from '../components/students/Experiment/StuLabInfo.vue'
 
 Vue.use(VueRouter)
+Vue.use(Vuex)
+
+// const store = new Vuex.Store({
+//   state: {
+//     count: 0
+//   },
+//   mutations: {
+//     increment (state) {
+//       state.count++
+//     }
+//   }
+// })
 
 const router = new VueRouter({
   mode:'history',
