@@ -15,6 +15,7 @@ import FileManage from '../components/teachers/Courses/CourseInfo/FileManage.vue
 import StuManage from '../components/teachers/Courses/CourseInfo/StuManage.vue'     /// 进入课程后，查看课程人员页
 import LabManage from '../components/teachers/Courses/CourseInfo/LabManage.vue'     /// 进入课程后，查看课程实验页
 import Attendance from '../components/teachers/Courses/CourseInfo/Attendance.vue'     /// 进入课程后，查看课程实验页
+import Score from '../components/teachers/Courses/CourseInfo/ScoreManage.vue'
 import Exp from '../components/teachers/Experiment/Exp.vue'
 import LabInfo from '../components/teachers/Experiment/LabInfo.vue'
 import LabReport from '../components/teachers/Experiment/LabReport.vue'
@@ -55,7 +56,8 @@ const router = new VueRouter({
             { path: '/Course-Students',   component: StuManage  },
             { path: '/Course-Labs',       component: LabManage  },
             { path: '/Course-Info',       component: InfoManage },
-            { path: '/Attendance',        component: Attendance }
+            { path: '/Attendance',        component: Attendance },
+            { path: '/Course-Score',      component: Score }
           ],
           redirect: '/Course-Info'
         },

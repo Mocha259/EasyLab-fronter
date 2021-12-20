@@ -81,7 +81,7 @@ export default ({
   data() {
     return {
       course_id: '',
-      expList: [[{title: '11', start_time: '1', end_time: '2', content: '1'}]],            // 这门课的实验列表
+      expList: [[]],            // 这门课的实验列表
       addLabDialog: false,
       addLabForm: {           // 添加实现的表单信息
         title: '',            // 实验名称
@@ -107,6 +107,7 @@ export default ({
     
     addLab() {                /// 添加实验
       // console.log(this.addLabForm)
+      // console.log(this.expList[-1].length)
       let self = this
       Date.prototype.format = function(fmt) { 
         var o = { 
@@ -131,7 +132,7 @@ export default ({
 
       this.addLabForm.start_time = new Date(this.addLabForm.dateRange[0]).format('yyyy-MM-dd')
       this.addLabForm.end_time   = new Date(this.addLabForm.dateRange[1]).format('yyyy-MM-dd')
-
+      console.log(this.addLabForm.start_time)
       this.$http({
         method: 'post',
         url: '/experiment/addExperiment',
@@ -152,23 +153,15 @@ export default ({
         if(response.data.success){
           self.addLabDialog = false
           self.$message.success('实验发布成功')
-          // if(self.expList[-1].length < 3){
-          //   self.expList[-1].push({
-          //     title: '',            // 实验名称
-          //     start_time: '',       // 开始时间
-          //     end_time:'',          // 结束时间
-          //     content:'',           // 实验评论
-          //     enable:true,          // 实验状态，默认为true
-          //     dateRange: []         // 用来接收开始时间和结束时间
-          //   })
-          // }
+          self.getAllLabs()
         }
       }).catch(error => {
         console.log(error)
       })
     },
     getAllLabs() {
-      console.log(this.expList)
+      // console.log(this.expList)
+      this.expList.splice(0)
       let self = this
       // this.expList.splice(0)
       this.$http({
@@ -176,8 +169,6 @@ export default ({
         url: '/experiment/findByCourseId/' + this.$route.query.course_id,
         headers: { 'token': window.sessionStorage.getItem('token') }
       }).then((response) => {
-        // console.log(response.data.data.experimentList)
-        // self.expList = response.data.data.experimentList
         var tmp = 0
         self.expList[tmp] = new Array()
         var last = parseInt(response.data.data.experimentList.length / 3)
@@ -193,7 +184,6 @@ export default ({
           last_list.push(response.data.data.experimentList[i])
         }
         self.expList.push(last_list)
-        // console.log(self.expList)
       })
 
     }

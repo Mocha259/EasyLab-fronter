@@ -12,6 +12,7 @@
     "@wangeditor/editor-for-vue": "^0.6.12-2",
     "axios": "^0.22.0",
     "core-js": "^3.6.5",
+    "echarts": "^4.9.0",
     "element-ui": "^2.4.5",
     "view-design": "^4.7.0",
     "vue": "^2.6.11",

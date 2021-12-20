@@ -14,6 +14,7 @@
                     <el-menu-item index="Course-Labs" :route="{ path: 'Course-Labs', query: { course_id: course_id } }">课程实验</el-menu-item>
                     <el-menu-item index="Course-Students" :route="{ path: 'Course-Students', query: { course_id: course_id } }">课程人员</el-menu-item>
                     <el-menu-item index="Course-Assignments" :route="{ path: 'Attendance', query: { course_id: course_id } }">课程考勤</el-menu-item>
+                    <el-menu-item index="Course-Score" :route="{ path: 'Course-Score', query: { course_id: course_id } }">课程成绩</el-menu-item>
                 </el-menu>
             </div>
 
@@ -51,7 +52,7 @@ export default({
 .el-menu {
     position: absolute;
     top: 13.5%;
-    left: 11%;
+    left: 0%;
     margin-left: 20px;
     background-color: rgb(248, 248, 246);
     border-radius: 5%;
