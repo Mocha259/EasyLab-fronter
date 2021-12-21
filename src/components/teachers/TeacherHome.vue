@@ -11,7 +11,7 @@
             <div style="float: right; width: 60%">
                 <div style="float: left; ">
                     <!-- 消息通知 -->
-                    <el-badge :value="messageList.length" class="item" style="margin-top: 20px; margin-left: 780px; ;">
+                    <el-badge :value="messageNum" class="item" style="margin-top: 20px; margin-left: 780px; ;">
                         <!-- <el-button size="small" type="info" icon="el-icon-message" circle>通知</el-button> -->
                         <el-button circle type="info" style="radius: 10px" icon="el-icon-message" @click="lookMessage"></el-button>
                     </el-badge>
@@ -231,7 +231,7 @@ export default {
         },
         connect(user_id) {
             var that =this;
-            var socket = new SockJS('http://localhost:8080/easyLab/endpointWisely'); //1连接SockJS的endpoint是“endpointWisely”，与后台代码中注册的endpoint要一样。
+            var socket = new SockJS('http://localhost:89/easyLab/endpointWisely'); //1连接SockJS的endpoint是“endpointWisely”，与后台代码中注册的endpoint要一样。
             stompClient = Stomp.over(socket);//2创建STOMP协议的webSocket客户端。
             
                                                                                                                                                                                        
