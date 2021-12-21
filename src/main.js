@@ -8,7 +8,8 @@ import './assets/fonts/iconfont.css'
 import { NoticeBar } from 'vue-easy-notice-bar'
 import ViewUI from 'view-design';
 import 'view-design/dist/styles/iview.css';
-// import VScroll from './components/vscroll'
+import echarts from 'echarts'
+// import store from './router/index.js'
 
 import axios from 'axios'
 import qs from 'qs'
@@ -22,10 +23,11 @@ Vue.use(ViewUI)
 axios.defaults.baseURL  = 'http://localhost:8080/easyLab'
 Vue.prototype.$http     = axios
 Vue.prototype.$qs       = qs
-
+Vue.prototype.$echarts  = echarts
 Vue.config.productionTip = false
 // Vue.use(VScroll)
 new Vue({
   router,
+  // store,
   render: h => h(App)
 }).$mount('#app')

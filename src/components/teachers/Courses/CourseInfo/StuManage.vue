@@ -4,29 +4,54 @@
         <div class="teachers">
             <h2>责任教师：{{resTeacher}}</h2>
             <el-divider></el-divider>
-            <div style="height: 50px">
-                <div style="float: left"><h2>授课教师：</h2></div>
-                <div style="float: right;"><el-button type="primary"  @click="dialog_invite = true">邀请</el-button></div>
-            </div>
+            <el-container direction="horizonal" style="height: 100px">
+                <!-- <div style="float: left"><h2>授课教师：</h2></div>
+                <div style="float: right;"><el-button type="primary"  @click="inviteOtherTeachers">邀请</el-button></div> -->
+                
+                <div style="width: 50%">
+                    <h2>授课教师<el-button type="primary" style="margin-left: 60%" @click="inviteOtherTeachers">邀请新教师</el-button></h2>
+                    <el-container style="margin-top: 5px">
 
-            <div style="padding-left: 100px">
-                <el-row :gutter="10">
-                    <!-- 此处v-for要改 -->
-                    <el-col :span="3.5" v-for="o in 3" :key="o">
-                        <el-card style="width: 130px; height: 60px;">
-                            <div style="float: left: width: 50%"></div>
-                            <el-image
-                            style="width: 55px; height: 55px; margin-top: -20px; margin-left: -15px; border-radius: 50%;"
-                            src="https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png"
-                            fit="fit">
-                            </el-image>
-                            <div style="float: right; width: 50%; margin-top: 0px">
-                                <h4>田同轩</h4>
-                            </div>
+                        <el-card  v-for="o in allTeachers" :key="o.advisor_id" style="width: 130px; height: 60px; margin-left: 5px; border-radius: 30px">
+                                <div style="float: left: width: 50%"></div>
+                                <el-image
+                                style="width: 55px; height: 55px; margin-top: -18px; margin-left: -15px; border-radius: 50%;"
+                                :src="o.avatar"
+                                fit="fit">
+                                </el-image>
+                                <div style="float: right; width: 50%; margin-top: 0px">
+                                    <h4>{{o.name}}</h4>
+                                </div>
                         </el-card>
-                    </el-col>
-                </el-row>
-            </div>
+                        
+                    </el-container>
+
+                </div>
+
+
+                <div style="width: 50%">
+                    <h2>课程助教<el-button type="primary" style="margin-left: 60%" @click="inviteOtherTeachers">邀请新助教</el-button></h2>
+                    <el-container style="margin-top: 5px">
+
+                        <el-card  v-for="o in allTeachers" :key="o.advisor_id" style="width: 130px; height: 60px; margin-left: 5px; border-radius: 30px">
+                                <div style="float: left: width: 50%"></div>
+                                <el-image
+                                style="width: 55px; height: 55px; margin-top: -18px; margin-left: -15px; border-radius: 50%;"
+                                :src="o.avatar"
+                                fit="fit">
+                                </el-image>
+                                <div style="float: right; width: 50%; margin-top: 0px">
+                                    <h4>{{o.name}}</h4>
+                                </div>
+                        </el-card>
+                        
+                    </el-container>
+                </div>
+
+
+            </el-container>
+
+          
             
             <el-dialog
             title="提示"
@@ -36,26 +61,34 @@
             <h3 class="tips">您可以邀请以下老师</h3>
             <span slot="footer" class="dialog-footer">
                 <el-table
-                    :data="teacherData"
+                    :data="otherTeacherData"
                     height="250"
                     border
-                    style="width: 100%">
+                    style="width: 100%; margin-bottom: 10px">
                     <el-table-column
-                    prop="date"
-                    label="日期"
-                    width="180">
+                    prop="advisor_id"
+                    label="教工号"
+                    width="80">
                     </el-table-column>
                     <el-table-column
                     prop="name"
                     label="姓名"
-                    width="180">
+                    width="80">
                     </el-table-column>
                     <el-table-column
-                    prop="address"
-                    label="地址">
+                    prop="email"
+                    width="200"
+                    label="邮箱">
+                    </el-table-column>
+                    <el-table-column
+                    label="邀请">
+                    <template slot-scope="scope">
+                        <el-button @click="inviteCertainTeacher(scope.row, 2)">邀请成为教师</el-button>
+                        <el-button @click="inviteCertainTeacher(scope.row, 3)">邀请成为助教</el-button>
+                    </template>
                     </el-table-column>
                 </el-table>
-                <el-button @click="dialogVisible = false">取 消</el-button>
+                <el-button @click="dialog_invite = false">取 消</el-button>
                 <el-button type="primary" @click="dialog_invite = false">确 定</el-button>
             </span>
             </el-dialog>
@@ -90,11 +123,11 @@
             <div>
                 <el-table
                     :data="studentData"
-                    height=""
+                    
                     border
                     style="width: 80%; position: relative; left: 10%">
                     <el-table-column
-                    prop="id"
+                    prop="student_id"
                     label="学号"
                     width="300">
                     </el-table-column>
@@ -118,26 +151,10 @@ export default {
         return {
             value: '',
             resTeacher: '田同轩',
-            allTeachers: ['田同轩1','田同轩2','田同轩3'],
+            allTeachers: [],
             dialog_invite: false,
             stuDialogVisible: false,
-            teacherData: [{
-                date: '2016-05-02',
-                name: '王小虎',
-                address: '上海市普陀区金沙江路 1518 弄'
-                }, {
-                date: '2016-05-04',
-                name: '王小虎',
-                address: '上海市普陀区金沙江路 1517 弄'
-                }, {
-                date: '2016-05-01',
-                name: '王小虎',
-                address: '上海市普陀区金沙江路 1519 弄'
-                }, {
-                date: '2016-05-03',
-                name: '王小虎',
-                address: '上海市普陀区金沙江路 1516 弄'
-            }],
+            otherTeacherData: [],
             studentData: [{
                 id: '1950081',
                 name: '田同轩0',
@@ -155,7 +172,8 @@ export default {
             console.log(index, row);
         },
         /// 获取这门课的所有教师
-        getAllTeachers() {     
+        getAllTeachers() {
+            let self = this
             console.log("function: getAllTeachers()")             
             var course_id = this.$route.query.course_id
             console.log("course_id: "+ course_id)
@@ -168,8 +186,10 @@ export default {
                 //     course_id: course_id
                 // }
             }).then(function (response) {
-                console.log('response: ')
-                console.log(response.data)
+
+                console.log(response.data.data.advisorList)
+                self.allTeachers.splice(0)
+                self.allTeachers = response.data.data.advisorList
             })
             .catch(function (error) {
                 console.log(error);
@@ -177,13 +197,13 @@ export default {
         },
         /// 获取这门课的所有学生
         getAllStudents() {
-            console.log("----function: getAllTeachers()----")
+            let self = this
             var course_id = parseInt(this.$route.query.course_id)
             console.log("course_id: "+ course_id)
             var data = new FormData()
             data.append('course_id', course_id)
             this.$http({
-                methods: 'post',
+                method: 'post',
                 url: '/course/findAllStudentByCourseId',
                 data : data,
                 headers: {
@@ -191,10 +211,52 @@ export default {
                 }
             }).then(function (response) {
                 console.log(response.data)
+                self.studentData = response.data.data.studentList
+
             })
             .catch(function (error) {
                 console.log(error);
             });    
+        },
+        /// 获取不在这门课的所有老师
+        inviteOtherTeachers() {
+            let self = this
+            this.$http({
+                method: 'get',
+                url: '/course/findAllAdvisorNotInCourse/' + self.$route.query.course_id,
+                headers: { 'token': window.sessionStorage.getItem("token") }
+            }).then(response => {
+                console.log(response.data.data.advisorList)
+                if(response.data.success){
+                    self.otherTeacherData = response.data.data.advisorList
+                    self.dialog_invite = true
+
+                }
+            }).catch(error => {
+                console.log(error)
+            })
+        },
+        /// 邀请具体某位教师
+        inviteCertainTeacher(row, type) {
+            let self = this
+            // 2是 3是教师
+            console.log(type)
+            var data = new FormData()
+            data.append('to_teacher_id', row.advisor_id)
+            data.append('course_id', parseInt(this.$route.query.course_id))
+            data.append('advise_type', type)
+            this.$http({
+                method: 'post',
+                url: '/course/inviteTeacher',
+                data: data,
+                headers: { 'token': window.sessionStorage.getItem('token') }
+            }).then(response => {
+                console.log(response)
+                // if(response.data.success){
+                //     self.allTeachers.push({})
+                // }
+            })
+
         }
     },
     mounted(){
@@ -227,4 +289,4 @@ export default {
 .el-table {
     margin-top: -30px;
 }
-</style>W
+</style>

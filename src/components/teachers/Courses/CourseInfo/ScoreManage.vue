@@ -1,0 +1,126 @@
+<template>
+  <div>
+    成绩管理模块
+    <div id="scoreChart" style="width: 800px; height: 600px"></div>
+    <el-divider></el-divider>
+    <div style="margin-top: 30px; margin-left: 40%">
+      <span>
+        <el-button type="primary" @click="setScore">设置成绩占比</el-button>
+        <el-button type="success" @click="getStudentScore">计算学生成绩</el-button>
+      </span>
+    </div>
+
+    <el-dialog
+      title="成绩设置"
+      :visible.sync="setScoreDialog"
+      width="30%"
+      center>
+      <div v-for="item in scoreList" :key="item.name" style="height: 40px; margin-bottom: 20px">
+        <span style="">
+          <div style="float: left; width: 20%; margin-top: 10px">{{item.name}}占比</div>
+          <div style="float: right; width: 80%">
+            <el-input placeholder="" v-model="item.rate" style="width: 50%;">
+              <template slot="append">%</template>
+            </el-input>
+          </div>
+         
+        </span>
+          
+      </div>
+        
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="setScoreDialog = false">取 消</el-button>
+        <el-button type="primary" @click="checkScoreRate">确 定</el-button>
+      </span>
+    </el-dialog>
+
+
+  </div>
+</template>
+
+<script>
+export default {
+  data() {
+    return {
+      setScoreDialog: false,
+      scoreList: [{name: '考勤', rate: 20},{name: '报告1', rate: 20},{name: '报告2', rate: 20},{name: '报告3', rate: 20},{name: '报告4', rate: 20},]      /// 该数据应从后端请求
+    }
+  },
+  methods: {
+    drawScorePartRate() {
+      let myChart = this.$echarts.init(document.getElementById('scoreChart'))
+      let partRateOption = {
+        title: {
+            text: '成绩各部分占比',
+            left: 'center'
+        },
+        tooltip: {
+            trigger: 'item',
+            formatter: '{b}占比: {d}%'
+        },
+        legend: {
+            left: 'center',
+            top: 'bottom',
+        },
+        toolbox: {
+            show: true,
+            feature: {
+                mark: {show: true},
+                dataView: {show: true, readOnly: false},
+                magicType: {
+                    show: true,
+                    type: ['pie', 'funnel']
+                },
+                restore: {show: true},
+                saveAsImage: {show: true}
+            }
+        },
+        series: [
+          {
+              name: '面积模式',
+              type: 'pie',
+              radius: [30, 110],
+              center: ['75%', '50%'],
+              roseType: 'area',
+              data: this.scoreList.map(item => {
+                return {name: item.name, value: item.rate * 10}
+              })
+          }
+        ]
+      };// end option
+      myChart.setOption(partRateOption)
+    },
+    /// 设置成绩占比
+    setScore() {
+      this.setScoreDialog = true
+      
+      ///获取课程中目前需要评分的各部分：考勤，报告1，报告2，报告3，报告4
+    },
+
+    /// 检查成绩占比是否是100%
+    checkScoreRate() {
+      var num = 0
+      console.log(this.scoreList)
+      for(var i = 0; i < this.scoreList.length; i++){
+        num += parseInt(this.scoreList[i].rate)
+      }
+      console.log(num)
+      if(num == 100){
+        /// 向后端发请求
+        this.$message.success('成绩占比设置成功')
+        this.setScoreDialog = false
+      }else{
+        this.$message.error('请检查成绩占比，总占比应为100%')
+      }
+    },
+
+    /// 生成所有学生的成绩
+    getStudentScore() {
+
+    }
+  },
+  mounted() {
+    this.drawScorePartRate()
+  }
+}
+</script>

@@ -70,7 +70,10 @@
             </div>
 
 
-            <el-table :data="existedFileList" :border="false" :row-style="{height: '20px'}">
+            <el-table :data="existedFileList" 
+                    :border="false" 
+                    @row-click="handleRowClick"
+                    :row-style="{height: '20px'} ">
 
                 <el-table-column
                 fixed
@@ -107,10 +110,10 @@
                     <template slot-scope="scope">
                         <div v-if="scope.row.file_type != 'folder'">
                             <el-button  type="text" size="small" @click="getInfo(scope.row)">下载</el-button>
-                            <el-button type="text" size="small">删除</el-button>
+                            <el-button type="text" size="small" @click="preview(scope.row)">预览</el-button>
                         </div>
                         <div v-else>
-                            <el-button  type="text" size="small">进入文件夹</el-button>
+                            <el-button  type="text" size="small" >进入文件夹</el-button>
                         </div>
 
                     </template>
@@ -391,6 +394,12 @@ export default {
                     window.URL.revokeObjectURL(link.href);
                 });
         },
+        handleRowClick(row) {
+            console.log(row)
+        },
+        preview(row){
+            window.open(row.file_url)
+        }
     },
     mounted() {
         this.getAllFolders()
@@ -411,9 +420,6 @@ export default {
     width: 100%;
 }
 .el-table {
-    // position: absolute;
-    // left: 5%;
-    // margin-top: 70px;
     width: 100%;
     float: right;
 }
