@@ -187,7 +187,7 @@ export default {
             }).then((response) => {
                 // console.log(response.data.data.advisor)
                 this.userInfo = response.data.data.advisor
-                console.log(this.userInfo.advisor_id)
+                console.log('response:'+this.userInfo.advisor_id)
                 // advisor_id: "1950081"
                 // avatar: "http://192.168.243.1:8080/easyLab/static/advisor/avatar/7654321.jpg"
                 // email: "3378681490@qq.com"
@@ -229,15 +229,14 @@ export default {
             this.drawer=true;
             this.getMessage();
         },
-        connect(user_id) {
-            var that =this;
+        connect() {
+            var that=this
             var socket = new SockJS('http://localhost:89/easyLab/endpointWisely'); //1连接SockJS的endpoint是“endpointWisely”，与后台代码中注册的endpoint要一样。
             stompClient = Stomp.over(socket);//2创建STOMP协议的webSocket客户端。
             
                                                                                                                                                                                        
             stompClient.connect({}, function (frame) {//3连接webSocket的服务端。
                 console.log('开始进行连接Connected: ' + frame);
-                console.log(that.userInfo.advisor_id)
 
                 //订阅广播地址
                 stompClient.subscribe('/topic/user', function (response) {
@@ -247,7 +246,7 @@ export default {
                
               
                 //订阅点对点地址'/user/' + userId + '/msg'接收一对一的推送消息
-                stompClient.subscribe('/user/' + 7654321 + '/msg', function (response) {
+                stompClient.subscribe('/user/' + that.userInfo.advisor_id + '/msg', function (response) {
                     alert("邀请你！")
                     //这个点对点通信表示收到了一条邀请消息，这里需要处理（可以在消息通知栏显示多一条未读消息）
                     that.messageNum+=1;
@@ -276,10 +275,18 @@ export default {
     },
     mounted() {
         this.currentTime()
-        this.getUserInfo()
         this.getMessage()
-        this.connect(this.userInfo.advisor_id)
-
+    },
+    created(){
+        this.getUserInfo()
+    },
+    watch:{
+        userInfo(){      
+            this.$nextTick(()=>{ 
+                this.connect()
+                //获取到在created赋值后的userInfo
+            }) 
+        } 
     }
 }
 </script>

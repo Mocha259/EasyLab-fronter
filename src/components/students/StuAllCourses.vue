@@ -108,21 +108,19 @@
     mounted() {
         //自动请求数据，初始化页面相关的数据
         let self = this
-        var data=new FormData()
          var config = {
             method: 'get',
-            url: '/course/findCourse/1',
-            data : data,
+            url: '/course/getAllCourse',
             headers: {
-                'token': window.sessionStorage.getItem("token"),
+                'token': window.sessionStorage.getItem("token")
             }
         }
         this.$http(config)
         .then(function (response) {
             console.log(response.data)
-            if(response.data.success && response.data.data.courses.length > 0){
-                self.courseList = response.data.data.courses             //所有课程保存至courseList中
-                console.log(response.data.data.courses)
+            if(response.data.success && response.data.data.courseList.length > 0){
+                self.courseList = response.data.data.courseList             //所有课程保存至courseList
+                console.log(response.data.data.courseList)
                 self.count = self.courseList.length            //保存课程数量
                 if(self.count % 3 == 0){
                     self.pageNum = Math.floor(self.count / 3)
