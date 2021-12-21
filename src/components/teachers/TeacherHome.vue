@@ -11,11 +11,27 @@
             <div style="float: right; width: 60%">
                 <div style="float: left; ">
                     <!-- 消息通知 -->
-                    <el-badge :value="12" class="item" style="margin-top: 20px; margin-left: 780px; ;">
+                    <el-badge :value="messageNum" class="item" style="margin-top: 20px; margin-left: 780px; ;">
                         <!-- <el-button size="small" type="info" icon="el-icon-message" circle>通知</el-button> -->
-                        <el-button circle type="info" style="radius: 10px" icon="el-icon-message"></el-button>
+                        <el-button circle type="info" style="radius: 10px" icon="el-icon-message" @click="lookMessage"></el-button>
                     </el-badge>
                 </div>
+                <el-drawer :title="messageTitle" :visible.sync="drawer" :direction="direction" :before-close="handleClose">
+                    <div v-for="(message,index) in messageList" :key="index" class="container">
+                        <el-card  class="box-card">
+                            <div slot="header" class="clearfix">
+                                <div style="float:left;" v-if="message.type===1"><el-tag type="success">邀请消息</el-tag></div>
+                                <div  style="float:left;" v-else><el-tag type="info">系统通知</el-tag></div>
+                                 <el-popover placement="top"  title="标题" width="200" trigger="hover" content="设为已读将不再看到本条消息">
+                                    <el-button type="success" icon="el-icon-delete" slot="reference" style="float: right; padding: 7px 0" size="medium">设为已读</el-button>
+                                </el-popover>
+                            </div>
+                            <div class="text item">
+                                {{message.content}}
+                            </div>
+                        </el-card>
+                    </div>
+                </el-drawer>
                
                <div style="float: right; ; z-index: 999">
                    <el-dropdown @command="handleCommand" :hide-on-click="false" style="margin-top: 25px;">
@@ -101,16 +117,34 @@
     </el-container>
 </template>
 
+
+
 <script>
+import SockJS from 'sockjs-client';
+import  Stomp from 'stompjs';
 import Clock from 'vue-clock2';
+var stompClient=null;
 export default {
     components: { Clock },
     data() {
         return {
+            messageNum:0,
+            messageTitle:'',
+            drawer: false,
+            direction: 'rtl',
+            messageList: [
+                {
+                    content:"sdfsdf",
+                    type:2
+                },{
+                    content:"hhhhh",
+                    type:1
+                }
+            ],
             nowDate: "", // 当前日期
             isCollapse: false,
             space: '      ',
-            userInfo: {},       /// 当前登录的老师的信息
+            userInfo: {}      /// 当前登录的老师的信息
         };
     },
     methods: {
@@ -153,7 +187,7 @@ export default {
             }).then((response) => {
                 // console.log(response.data.data.advisor)
                 this.userInfo = response.data.data.advisor
-                
+                console.log(this.userInfo.advisor_id)
                 // advisor_id: "1950081"
                 // avatar: "http://192.168.243.1:8080/easyLab/static/advisor/avatar/7654321.jpg"
                 // email: "3378681490@qq.com"
@@ -170,12 +204,82 @@ export default {
                 // console.log('----end func: getUserInfo----')
             })
             
-        }
-    },
+        },
+         handleClose(done) {
+            this.$confirm('确认关闭？')
+            .then(_ => {
+            done();
+          })
+          .catch(_ => {});
+        },
+        getMessage() {
+            this.$http({
+            methods:'get',
+            url: 'system/findAllMessage',
+            headers: { 'token': window.sessionStorage.getItem("token"), }
+            }).then((response) => {
+                
+                // console.log(response.data.data.advisor)
+                this.messageList = response.data.data.messageList;
+            })
+            this.messageNum=this.messageList.length;
+            this.messageTitle="您有"+this.messageNum+"条未读消息";
+        },
+        lookMessage() {
+            this.drawer=true;
+            this.getMessage();
+        },
+        connect(user_id) {
+            var that =this;
+            var socket = new SockJS('http://localhost:89/easyLab/endpointWisely'); //1连接SockJS的endpoint是“endpointWisely”，与后台代码中注册的endpoint要一样。
+            stompClient = Stomp.over(socket);//2创建STOMP协议的webSocket客户端。
+            
+                                                                                                                                                                                       
+            stompClient.connect({}, function (frame) {//3连接webSocket的服务端。
+                console.log('开始进行连接Connected: ' + frame);
+                console.log(that.userInfo.advisor_id)
 
+                //订阅广播地址
+                stompClient.subscribe('/topic/user', function (response) {
+                    console.log(response.body.message)
+                    that.open1(JSON.parse(response.body).message);
+                });
+               
+              
+                //订阅点对点地址'/user/' + userId + '/msg'接收一对一的推送消息
+                stompClient.subscribe('/user/' + 7654321 + '/msg', function (response) {
+                    alert("邀请你！")
+                    //这个点对点通信表示收到了一条邀请消息，这里需要处理（可以在消息通知栏显示多一条未读消息）
+                    that.messageNum+=1;
+                    //新消息弹窗
+                    that.open1(JSON.parse(response.body).message)
+                });
+            });
+        },
+       disconnect() {
+            if (stompClient != null) {
+                stompClient.disconnect();
+            }
+            console.log("Disconnected");
+        },
+        sendName() {
+            //通过stompClient.send（）向地址为"/welcome"的服务器地址发起请求，与@MessageMapping里的地址对应。
+            stompClient.send("/ws/welcome", { token: 1 }, JSON.stringify({ 'name': name }));
+        },
+        open1(message) {
+        const h = this.$createElement;
+        this.$notify({
+          title: '您有新消息',
+          message: h('i', { style: 'color: teal'},message)
+        });
+      }
+    },
     mounted() {
         this.currentTime()
         this.getUserInfo()
+        this.getMessage()
+        this.connect(this.userInfo.advisor_id)
+
     }
 }
 </script>
@@ -277,4 +381,39 @@ export default {
     padding-top: 0px;
 }
 
+
+ .text {
+    font-size: 14px;
+  }
+
+  .item {
+    margin-bottom: 18px;
+  }
+
+  .clearfix:before,
+  .clearfix:after {
+    display: table;
+    content: "";
+  }
+  .clearfix:after {
+    clear: both
+  }
+
+  .box-card {
+    line-height: 1.5;
+    font-size:16px;
+    width: 400px;
+    float: left;
+  }
+
+  .el-card {
+        position: relative;
+        left: 10%;
+        right:10%;
+    }
+
+  .container {
+        height: 150px;
+        margin-top: 5px;
+    }
 </style>
