@@ -4,9 +4,9 @@
       <div style="padding-left: 100px; margin-bottom: 10px; height: 280px">
         <div style="float: left; width: 30%; padding-top: 10px;">
           <!-- 这里放课程封面 -->
-          <el-image :src="course_info.course_coverage" style="height: 240px; width: 426px; margin-left: -100px" fit></el-image>
+          <el-image rel="prefetch" :src="course_info.course_coverage" style="height: 240px; width: 426px; margin-left: -100px" fit></el-image>
         </div>
-        <div style="float: right; width: 66%; ">
+        <div style="float: right; width: 66%; margin-top: -35px">
           <h1>{{course_info.course_name}}</h1>
           <el-card shadow="always" style="width: 700px; ">
             <div style="font-size: 24px; margin-bottom: 10px"><span>课号：</span>{{course_info.course_id}}</div>
@@ -38,11 +38,6 @@ export default ({
     return{
       /// 该课程的所有信息
       course_info: {
-        // course_id: '',
-        // course_name: '',
-        // course_state: true,
-        // course_coverage: '',
-        // course_introduction: ''
       },
       
     }

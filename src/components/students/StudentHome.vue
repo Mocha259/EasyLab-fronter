@@ -96,7 +96,7 @@
                 </el-menu>
                 </div>
 
-                <el-card style="width: 200px; height: 380px; margin-top: 45px; margin-left: 20px" shadow="always">
+                <el-card style="width: 200px; height: 380px; margin-top: 45px; margin-left: -5px" shadow="always">
                     <clock style="margin-left: 5px"></clock>
                     <el-divider></el-divider>
                 </el-card>

@@ -43,10 +43,11 @@
                     
                 </div>
                 <!-- 课程信息描述 -->
-                <div class="description">
+                <div class="description;">
                     <!-- 图片展示 -->
                     <div class="leftCard" style="float: left; width: 40%; border-right-color: blue; top: 0px">
                         <el-image
+                        rel="prefetch"
                         style="width: 250px; height: 140px"
                         :src="item.coverage"
                         fit="fit">
@@ -54,7 +55,7 @@
                     </div>
                     <!-- 课程信息 -->
                     <div class="rightCard" style="float: right; width: 60%;">
-                        <div style="margin-bottom: 10px">课程简介：{{item.course_introduction}}</div>
+                        <div style="margin-bottom: 10px;  white-space: nowrap; text-overflow:ellipsis; width: 450px; overflow: hidden">课程简介：{{item.course_introduction}}</div>
                         <div style="margin-bottom: 10px">开课时间：{{item.create_time}}</div>
                         <div style="margin-bottom: 10px">选修人数：{{item.student_count}}</div>
                         <div v-if="item.is_open">开课状态：<el-tag type="success">开课中</el-tag></div>
@@ -155,7 +156,7 @@
             this.$http(config)
             .then(function (response) {
                 console.log(response.data)
-                if(response.data.success){
+                if(response.data.data.success){
                     dialogVisible = false
                     // this.courseList.push({course_name})
                 }else{
@@ -195,7 +196,7 @@
 
                 var courseToShow = 3
                 if((self.curPage * 3) > self.count){
-                    courseToShow = (self.curPage * 3 ) - count + 1
+                    courseToShow = (self.curPage * 3 ) - self.count + 1
                 }
                 self.curCoursePage = self.courseList.slice((self.curPage-1)*3, (self.curPage-1)*3+courseToShow)
                 // console.log(1)

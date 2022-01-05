@@ -86,7 +86,7 @@ export default({
     left: 235px;
     height: 740px;
     width: 70%;
-    background-color: rgb(248, 248, 246);
+    background-color: rgb(255, 255, 255);
     border-radius: 2%;
 }
 

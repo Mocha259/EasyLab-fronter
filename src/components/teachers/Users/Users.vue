@@ -4,7 +4,7 @@
       <!-- <div class="background"></div> -->
 
       <!-- <h3>个人信息</h3> -->
-      <el-upload
+      <!-- <el-upload
         class="avatar-uploader"
         action="student/uploadAvatar"
         :show-file-list="false"
@@ -14,57 +14,36 @@
         <img v-if="imageUrl" :src="imageUrl" class="avatar">
         <i v-else class="el-icon-plus avatar-uploader-icon"></i><br>
         <i>点击上传头像</i>
-      </el-upload>
-      
-      <el-descriptions class="margin-top" style="margin-left: 3%" title="个人信息" :column="1" size="large" border>
-        <template slot="extra">
-          <el-button type="primary" size="small">编辑</el-button>
-        </template>
-        
-        <!-- 用户名 -->
-        <el-descriptions-item>
-          <template slot="label">
-            <i class="el-icon-user"></i>
-            用户名
-          </template>
-          {{Info.Name}}
-        </el-descriptions-item>
-        <!--  手机号 -->
-        <el-descriptions-item>
-          <template slot="label">
-            <i class="el-icon-mobile-phone"></i>
-            手机号
-          </template>
-          {{Info.Phone}}
-        </el-descriptions-item>
-        <!-- 学工账号 -->
-        <el-descriptions-item>
-          <template slot="label">
-            <i class="el-icon-mobile-phone"></i>
-            学工账号
-          </template>
-          {{Info.Id}}
-        </el-descriptions-item>
-        <!-- 职称 -->
-        <el-descriptions-item>
-          <template slot="label">
-            <i class="el-icon-mobile-phone"></i>
-            职称
-          </template>
-          {{Info.Pos}}
-        </el-descriptions-item>
-      </el-descriptions>
-      
-      <el-card class="box-card" style="position: relative; left: 3%; width: 800px; height: 300px; margin-top: 20px">
-                <div slot="header" class="clearfix">
-                    <span>个人介绍</span>
-                    <!-- <el-button style="float: right; padding: 3px 0" type="text">进入课程</el-button> -->
-                </div>
-                <!-- 课程信息描述 -->
-                <div class="description">
+      </el-upload> -->
 
-                </div>
-      </el-card>
+      <el-container direction="vertical" style="; height: 100%; margin-top: 50px; margin-left: 50px">
+
+        <el-container direction="horizonal" >
+          <el-avatar src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png" :size="150"></el-avatar>
+          <el-container style="margin-left: -300px">
+            <el-descriptions title="用户信息">
+                <el-descriptions-item label="学工号">1950081</el-descriptions-item>
+                <el-descriptions-item label="姓名">kooriookami</el-descriptions-item>
+                <el-descriptions-item label="手机号">18100000000</el-descriptions-item>
+                <el-descriptions-item label="职位"><el-tag style="margin-top: -5px">教授</el-tag></el-descriptions-item>
+                <el-descriptions-item label="备注">
+                  无
+                </el-descriptions-item>
+                <el-descriptions-item label="邮箱" >33650@163.com</el-descriptions-item>
+            </el-descriptions>
+          </el-container>
+        </el-container>
+        <span><el-button style="width: 10%; margin-top: 10px; margin-left: 20px">更换头像</el-button><el-button style="margin-left: 100px" type="primary">更换密码</el-button></span>
+        <el-divider></el-divider>
+        <el-card style="height: 300px">
+          <h2>个人简介</h2>
+          
+        </el-card>
+      </el-container>
+      
+
+      
+    
       
 
     </div>
@@ -137,9 +116,9 @@
 <style>
 
   .infoContainer {
-    padding-top: -5px;
-    height: 100%;
-    background-color:#EAEDF1;
+
+
+    background-color:#ffffff;
     z-index: -10;
     /* background: url('../../assets/carousel01.jpg');
     background-repeat: no-repeat;

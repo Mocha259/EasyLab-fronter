@@ -43,7 +43,9 @@ export default {
   data() {
     return {
       setScoreDialog: false,
-      scoreList: [{name: '考勤', rate: 20},{name: '报告1', rate: 20},{name: '报告2', rate: 20},{name: '报告3', rate: 20},{name: '报告4', rate: 20},]      /// 该数据应从后端请求
+      scoreList: [],          //参与评分项
+      scoreCount: 0,          // 参与评分项的数量
+      
     }
   },
   methods: {
@@ -93,8 +95,6 @@ export default {
     /// 设置成绩占比
     setScore() {
       this.setScoreDialog = true
-      
-      ///获取课程中目前需要评分的各部分：考勤，报告1，报告2，报告3，报告4
     },
 
     /// 检查成绩占比是否是100%
@@ -109,6 +109,7 @@ export default {
         /// 向后端发请求
         this.$message.success('成绩占比设置成功')
         this.setScoreDialog = false
+        this.drawScorePartRate()
       }else{
         this.$message.error('请检查成绩占比，总占比应为100%')
       }
@@ -116,11 +117,50 @@ export default {
 
     /// 生成所有学生的成绩
     getStudentScore() {
+      let self = this
+      var data = new FormData()
+      console.log(this.scoreList.map(item => {
+        return item.rate
+      }))
+      data.append('ratios', this.scoreList.map(item => {
+        return item.rate
+      }))
+      data.append('course_id', parseInt(this.$route.query.course_id))
+      this.$http({
+        method: 'post',
+        url: '/score/computeScore',
+        data: data,
+        headers: { 'token': window.sessionStorage.getItem('token') }
+      }).then(response => {
+        console.log(response.data)
+      })
+    },
 
+    /// 获取所有课程评分项并默认均分比例
+    getAllTobeSocred() {
+      let self = this
+      this.$http({
+        method: 'get',
+        url: '/experiment/findByCourseId/' + self.$route.query.course_id,
+        headers: { 'token': window.sessionStorage.getItem('token') }
+      }).then((response) => {
+        console.log(response.data)
+        self.scoreCount = response.data.data.experimentList.length + 1 /// +1是要加上考勤
+        var avgRate = parseFloat(100 / self.scoreCount)
+        console.log(avgRate)
+        self.scoreList.splice(0)
+        self.scoreList.push({name: '考勤', rate: avgRate})
+        for(var i = 0; i < response.data.data.experimentList.length; i++){
+          self.scoreList.push({name: response.data.data.experimentList[i].title, rate: avgRate})
+        }
+        self.drawScorePartRate()                                      /// 重新绘制饼图
+      })
     }
+    
   },
   mounted() {
     this.drawScorePartRate()
+    this.getAllTobeSocred()
   }
 }
 </script>

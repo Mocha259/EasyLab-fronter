@@ -8,7 +8,7 @@
       <el-divider></el-divider>
       <div>
       <el-row v-for="(exp, index) in expList" :key="index" style="margin-bottom: 20px">
-        <el-col :span="5" v-for="o in exp" :key="o.title" :offset="2">
+        <el-col :span="5" v-for="o in exp" :key="o.experiment_id" :offset="2">
           <el-card style="height: 250px; width: 230px">
             <h3>{{o.title}}</h3>
             <el-divider></el-divider>
@@ -17,7 +17,7 @@
               <div style="margin-bottom: 10px">截至日期：{{o.end_time}}</div>
               <div style="margin-bottom: 10px; overflow-y: hidden; height: 25px; width: 100%">实验简介：{{o.content}}</div>
               <div class="bottom clearfix" style="position: absolute; bottom: 10px; margin-left: 10px">
-                <el-button type="primary" round @click="intoCertainLab">查看</el-button>
+                <el-button type="primary" round @click="intoCertainLab(o.experiment_id)">查看</el-button>
                 <el-button type="danger" round>关闭</el-button>
               </div>
             </div>
@@ -96,7 +96,8 @@ export default ({
     }
   },
   methods: {
-    intoCertainLab() {
+    intoCertainLab(id) {
+      console.log(id)
       this.$router.push({
         path: '/Experiment', 
         query: {course_info: this.course_info}
@@ -107,10 +108,9 @@ export default ({
       // console.log('course_id: ' + this.course_id)
       console.log(this.course_info)
     },
-    
-    addLab() {                /// 添加实验
-      // console.log(this.addLabForm)
-      // console.log(this.expList[-1].length)
+    /// 添加实验
+    addLab() {                
+      
       let self = this
       Date.prototype.format = function(fmt) { 
         var o = { 
@@ -173,6 +173,8 @@ export default ({
         url: '/experiment/findByCourseId/' + self.course_info.course_id,
         headers: { 'token': window.sessionStorage.getItem('token') }
       }).then((response) => {
+        console.log(response.data)
+
         var tmp = 0
         self.expList[tmp] = new Array()
         var last = parseInt(response.data.data.experimentList.length / 3)
@@ -188,6 +190,13 @@ export default ({
           last_list.push(response.data.data.experimentList[i])
         }
         self.expList.push(last_list)
+
+        for(var i = 0; i < self.expList.length; i++){
+          for(var j = 0; j < self.expList[i].length; j++){
+            self.expList[i][j].start_time = self.expList[i][j].start_time.slice(0, 10)
+            self.expList[i][j].end_time = self.expList[i][j].end_time.slice(0, 10)
+          }
+        }
       })
 
     }

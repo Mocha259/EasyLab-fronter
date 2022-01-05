@@ -11,10 +11,12 @@
             <div style="float: right; width: 60%">
                 <div style="float: left; ">
                     <!-- 消息通知 -->
-                    <el-badge :value="messageNum" class="item" style="margin-top: 20px; margin-left: 780px; ;">
+                    <el-badge :value="messageNum" class="item" style="margin-top: 20px; margin-left: 780px;">
                         <!-- <el-button size="small" type="info" icon="el-icon-message" circle>通知</el-button> -->
-                        <el-button circle type="info" style="radius: 10px" icon="el-icon-message" @click="lookMessage"></el-button>
+                        <el-button circle type="info" style="radius: 10px; background: transparent; border" icon="el-icon-message" @click="lookMessage"></el-button>
                     </el-badge>
+
+                    
                 </div>
                 <el-drawer :title="messageTitle" :visible.sync="drawer" :direction="direction" :before-close="handleClose">
                     <div v-for="(message,index) in messageList" :key="index" class="container">
@@ -97,7 +99,7 @@
                 </el-menu>
                 </div>
 
-                <el-card style="width: 200px; height: 380px; margin-top: 45px; margin-left: 20px" shadow="always">
+                <el-card style="width: 200px; height: 380px; margin-top: 45px; margin-left: -5px" shadow="always">
                     <clock style="margin-left: 5px"></clock>
                     <el-divider></el-divider>
                 </el-card>
@@ -133,13 +135,13 @@ export default {
             drawer: false,
             direction: 'rtl',
             messageList: [
-                {
-                    content:"sdfsdf",
-                    type:2
-                },{
-                    content:"hhhhh",
-                    type:1
-                }
+                // {
+                //     content:"sdfsdf",
+                //     type:2
+                // },{
+                //     content:"hhhhh",
+                //     type:1
+                // }
             ],
             nowDate: "", // 当前日期
             isCollapse: false,
@@ -188,20 +190,9 @@ export default {
                 // console.log(response.data.data.advisor)
                 this.userInfo = response.data.data.advisor
                 console.log('response:'+this.userInfo.advisor_id)
-                // advisor_id: "1950081"
-                // avatar: "http://192.168.243.1:8080/easyLab/static/advisor/avatar/7654321.jpg"
-                // email: "3378681490@qq.com"
-                // enable: true
-                // gender: 1
-                // introduction: null
-                // name: "田同轩"
-                // password: "123456"
-                // phone: null
-                // professional_title: null
-                // console.log('----end func: getUserInfo----')
+               
             }).catch((error) => {
                 console.log(error)
-                // console.log('----end func: getUserInfo----')
             })
             
         },

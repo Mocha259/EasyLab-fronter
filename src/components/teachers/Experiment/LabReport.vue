@@ -1,7 +1,7 @@
 <template>
   <div style="width: 1100px">
     <el-container direction="vertical" style="width: 100%; margin-top: 20px">
-    <el-button style="width: 20%; margin-bottom: 0px" type="primary">上传实验报告模板</el-button>
+    <el-button style="width: 15%; margin-bottom: 0px" type="primary">上传实验报告模板</el-button>
     <el-divider></el-divider>
     <h3>报告提交情况</h3>
     <el-table
@@ -76,8 +76,9 @@ export default {
     return {
       stuReportData: [
         { id: '1950081', name: '田同轩', date: '2021-11-22', state: false },
-        { id: '1950082', name: '田同车', date: '2021-11-21', state: true } ,
-        { id: '1950083', name: '田同干', date: '2021-11-23', state: false }
+        { id: '1950082', name: '小红', date: '2021-11-21', state: true } ,
+        { id: '1950083', name: '张三', date: '2021-11-23', state: false },
+        { id: '1950083', name: '张建国', date: '2021-11-23', state: true }
       ],
     }
   },

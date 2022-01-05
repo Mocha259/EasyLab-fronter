@@ -5,7 +5,7 @@
         <el-breadcrumb separator-class="el-icon-arrow-right">
         <el-breadcrumb-item :to="{ path: '/StuHome' }"             >首页</el-breadcrumb-item>
         <el-breadcrumb-item :to="{ path: '/StuAllCourses' }"   >我的课程</el-breadcrumb-item>
-        <el-breadcrumb-item :to="{ path: '/StuCertainCourse', query: {course_id: this.course.course_id}}"   >{{course.course_id}}</el-breadcrumb-item>
+        <el-breadcrumb-item :to="{ path: '/StuCertainCourse', query: {course_id: this.course.course_id}}"   >计算机组成原理</el-breadcrumb-item>
         <el-breadcrumb-item>{{experiment.exp_id}}</el-breadcrumb-item>
       </el-breadcrumb>
       </div>

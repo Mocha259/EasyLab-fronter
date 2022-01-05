@@ -167,7 +167,8 @@ export default {
             this.$message.success('首次登录请使用学号和姓名')
         },
         loginFirst(){
-            // 先拿到表单的引用
+            
+            //先拿到表单的引用
             this.$refs.firstFormRef.validate(async valid => {
                 let self = this
                 if(!valid)return
@@ -239,7 +240,7 @@ img{
 .login_container {
     background: #2b4b6b;
     height: 100%;
-    width: 1920px;
+    width: 100%;
     
 }
 

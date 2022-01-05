@@ -33,7 +33,7 @@
                     <h2>课程助教<el-button type="primary" style="margin-left: 60%" @click="inviteOtherTeachers">邀请新助教</el-button></h2>
                     <el-container style="margin-top: 5px">
 
-                        <el-card  v-for="o in allTeachers" :key="o.advisor_id" style="width: 130px; height: 60px; margin-left: 5px; border-radius: 30px">
+                        <el-card  v-for="o in allAssistants" :key="o.advisor_id" style="width: 130px; height: 60px; margin-left: 5px; border-radius: 30px">
                                 <div style="float: left: width: 50%"></div>
                                 <el-image
                                 style="width: 55px; height: 55px; margin-top: -18px; margin-left: -15px; border-radius: 50%;"
@@ -101,13 +101,14 @@
                 title="上传学生名单"
                 :visible.sync="stuDialogVisible"
                 width="30%"
+                :file-list="fileList"
                 center>
 
                 <el-upload
                 class="upload-stu"
                 drag
                 accept=".xlsx,.xls"
-                action="https://jsonplaceholder.typicode.com/posts/">
+                action="#">
                     <i class="el-icon-upload"></i>
                     <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
                     <div class="el-upload__tip" slot="tip">只能上传xlsx文件</div>
@@ -115,7 +116,7 @@
 
                     <span slot="footer" class="dialog-footer">
                         <el-button @click="stuDialogVisible = false">取 消</el-button>
-                        <el-button type="primary" @click="stuDialogVisible = false">确 定</el-button>
+                        <el-button type="primary" @click="uploadStudentList">确 定</el-button>
                     </span>
                 </el-dialog>
             </div>
@@ -151,15 +152,13 @@ export default {
         return {
             value: '',
             resTeacher: '田同轩',
-            allTeachers: [],
+            allTeachers: [],            // 所有教师
+            allAssistants: [],          // 所有助教
             dialog_invite: false,
             stuDialogVisible: false,
-            otherTeacherData: [],
-            studentData: [{
-                id: '1950081',
-                name: '田同轩0',
-                }
-            ]
+            otherTeacherData: [],       // 课程外的所有历史
+            studentData: [],            // 课程的所有学生
+            fileList: []                // 上传学生名单
         }
     },
     methods: {
@@ -173,8 +172,7 @@ export default {
         },
         /// 获取这门课的所有教师
         getAllTeachers() {
-            let self = this
-            console.log("function: getAllTeachers()")             
+            let self = this        
             var course_id = this.$route.query.course_id
             console.log("course_id: "+ course_id)
             var data = new FormData()
@@ -190,6 +188,26 @@ export default {
                 console.log(response.data.data.advisorList)
                 self.allTeachers.splice(0)
                 self.allTeachers = response.data.data.advisorList
+            })
+            .catch(function (error) {
+                console.log(error);
+            });    
+        },
+        /// 获取这门课的所有助教
+        getAllAssistants() {
+            let self = this        
+            var course_id = this.$route.query.course_id
+            console.log("course_id: "+ course_id)
+            var data = new FormData()
+            this.$http({
+                method: 'get',
+                url: '/course/findAllAssistantByCourseId/' + course_id,
+                headers: { 'token': window.sessionStorage.getItem("token"), },
+            }).then(function (response) {
+
+                console.log(response.data.data.assistantList)
+                self.allAssistants.splice(0)
+                self.allAssistants = response.data.data.assistantList
             })
             .catch(function (error) {
                 console.log(error);
@@ -252,27 +270,42 @@ export default {
                 headers: { 'token': window.sessionStorage.getItem('token') }
             }).then(response => {
                 console.log(response)
-                // if(response.data.success){
-                //     self.allTeachers.push({})
-                // }
+                if(response.data.data.success){
+                    self.allTeachers.push({})
+                }
             })
 
+        },
+        /// 上传学生名单
+        uploadStudentList() {
+            let self = this
+            var data=new FormData()
+            data.append('file', this.fileList[0].raw)
+
+            this.$http({
+                method: 'post',
+                data: data,
+                headers: { 'token': window.sessionStorage.getItem('token') }
+            }).then(response => {
+                console.log(response)
+            })
         }
     },
     mounted(){
 
         this.getAllTeachers()
         this.getAllStudents()
+        this.getAllAssistants()
     }
 }
 </script>
 
 <style lang="less" scoped>
 .container {
-    background-color: rgb(248, 248, 246) !important;
+    background-color: rgb(255, 255, 255) !important;
 }
 .teachers {
-    background-color: rgb(248, 248, 246);
+    background-color: rgb(255, 255, 255);
 }
 
 /deep/ .el-collapse{
