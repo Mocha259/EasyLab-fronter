@@ -3,8 +3,6 @@
 
     <div class="CoursesInfoContainer">
 
-       
-
 
         <el-empty v-if="count == 0" description="没有您参与的课程"></el-empty>
         
@@ -122,17 +120,20 @@
                 self.courseList = response.data.data.courseList             //所有课程保存至courseList
                 console.log(response.data.data.courseList)
                 self.count = self.courseList.length            //保存课程数量
+                console.log('sdsdf',self.courseList)
                 if(self.count % 3 == 0){
                     self.pageNum = Math.floor(self.count / 3)
                 }else{
                     self.pageNum = Math.floor(self.count / 3) + 1
                 }
-
+                console.log('sdsdf----1',self.pageNum)
                 var courseToShow = 3
                 if((self.curPage * 3) > self.count){
-                    courseToShow = (self.curPage * 3 ) - count + 1
+                    courseToShow = (self.curPage * 3 ) - self.count + 1
                 }
+                console.log('sdsdf----2',courseToShow)
                 self.curCoursePage = self.courseList.slice((self.curPage-1)*3, (self.curPage-1)*3+courseToShow)
+                 console.log('sdsdf----5',self.curCoursePage)
                 // console.log(1)
             }else{
                 console.log('获取课程失败')
