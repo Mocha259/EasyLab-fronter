@@ -8,13 +8,16 @@
         </div>
         <div style="float: right; width: 66%; ">
           <h1>{{course_info.course_name}}</h1>
-          <el-card shadow="always" style="width: 700px; ">
+          <el-card shadow="always" style="width: 100%; ">
             <div style="font-size: 24px; margin-bottom: 10px"><span>课号：</span>{{course_info.course_id}}</div>
             <div style="margin-bottom: 10px">{{course_info.course_intro}}</div>
             <div v-if="course_info.course_state" style="font-size: 24px;">
               <el-tag type="success" style="margin-right: 480px;">开课中</el-tag>
+              <span>{{studentInfoInCourse.sign_num}}</span>
             </div>
-            <div v-else style="font-size: 24px; margin-bottom: 10px"><el-tag type="danger">已结课</el-tag></div>
+            <div v-else style="font-size: 24px; margin-bottom: 10px"><el-tag type="danger">已结课</el-tag>
+               <span>{{studentInfoInCourse.sign_num}}</span>
+            </div>
           </el-card>
         </div>
       </div>
@@ -43,23 +46,36 @@ export default ({
         course_cover: 'https://cube.elemecdn.com/6/94/4d3ea53c084bad6931a56d5158a48jpeg.jpeg',
         course_intro: '编译原理是计算机专业的一门重要专业课，旨在介绍编译程序构造的一般原理和基本方法。内容包括语言和文法、词法分析、语法分析、语法制导翻译、中间代码生成、存储管理、代码优化和目标代码生成。 编译原理是计算机专业设置的一门重要的专业课程。编译原理课程是计算机相关专业学生的必修课程和高等学校培养计算机专业人才的基础及核心课程，同时也是计算机专业课程中最难及最挑战学习能力的课程之一。编译原理课程内容主要是原理性质，高度抽象。'
       },
+      studentInfoInCourse: {
+        sign_num:'',
+        score:''
+      }
       
     }
   },
   methods: {
-    /// 结束课程
-    endCourse() {
-      console.log(this.$route.query.course_id)
-      this.course_info.course_id = this.$route.query.course_id
-      console.log('----function: endCourse()----')
-      console.log('course_id: ' + this.course_info.course_id)
-      var data = new FormData()
-      // data.append()
-      console.log('----end func: endCourse()----')
-    },
     /// 获取课程的所有信息，用于展示在课程信息页面
     getCourseInfo() {
-
+      this.course_info= this.$route.query.course_info
+      var that=this
+      var config = {
+            method: 'get',
+            url: '/course/getStudentInfoInCourse/'+this.course_info.course_id,
+            headers: {
+                'token': window.sessionStorage.getItem("token")
+            }
+      }
+        this.$http(config).then(function(response){
+             if(response.data.success){
+               that.studentInfoInCourse=response.data.data.studentInfoInCourse
+               console.log('here',response.data.data.studentInfoInCourse)
+             }else{
+               console.log('获取学生与课程的关联信息失败')
+             }
+        })
+        .catch(function(error){
+          console.log(error);
+        })
     }
   },
   mounted() {
