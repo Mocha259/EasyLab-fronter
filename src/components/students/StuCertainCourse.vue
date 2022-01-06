@@ -1,19 +1,18 @@
 <template>
     <div>
         <el-breadcrumb separator-class="el-icon-arrow-right">
-            <el-breadcrumb-item :to="{ path: '/Home' }"             >首页</el-breadcrumb-item>
-            <el-breadcrumb-item :to="{ path: '/Courses-Manage' }"   >课程管理</el-breadcrumb-item>
-            <el-breadcrumb-item>{{course_name}}</el-breadcrumb-item>
+            <el-breadcrumb-item :to="{ path: '/Home' }">首页</el-breadcrumb-item>
+            <el-breadcrumb-item :to="{ path: '/StuCourses' }">我的课程</el-breadcrumb-item>
+            <el-breadcrumb-item>{{course_info.course_name}}</el-breadcrumb-item>
         </el-breadcrumb>
 
         <el-container>
             <div class="course-header">
                 <el-menu class="el-menu-demo" mode="horizontal"  :router="true">
-                    <el-menu-item index="StuCourseInfo" :route="{ path: 'StuCourseInfo', query: { course_id: course_id } }">课程信息</el-menu-item>
-                    <el-menu-item index="StuCourseFile" :route="{ path: 'StuCourseFile', query: { course_id: course_id } }">课程文件</el-menu-item>
-                    <el-menu-item index="StuCourseLabs" :route="{ path: 'StuCourseLabs', query: { course_id: course_id } }">课程实验</el-menu-item>
-                    <!-- <el-menu-item index="C" :route="{ path: 'Course-Students', query: { course_id: course_id } }">课程人员</el-menu-item> -->
-                    <el-menu-item index="StuCourseAttd" :route="{ path: 'StuCourseAttd', query: { course_id: course_id } }">课程考勤</el-menu-item>
+                    <el-menu-item index="StuCourseInfo" :route="{ path: 'StuCourseInfo', query: { course_info: this.$route.query.course_info } }">课程信息</el-menu-item>
+                    <el-menu-item index="StuCourseFile" :route="{ path: 'StuCourseFile', query: { course_info: this.$route.query.course_info } }">课程文件</el-menu-item>
+                    <el-menu-item index="StuCourseLabs" :route="{ path: 'StuCourseLabs', query: { course_info: this.$route.query.course_info } }">课程实验</el-menu-item>
+                    <el-menu-item index="StuCourseAttd" :route="{ path: 'StuCourseAttd', query: { course_info: this.$route.query.course_info } }">课程考勤</el-menu-item>
                 </el-menu>
             </div>
 
@@ -29,10 +28,15 @@
 <script>
 
 export default({
-    data() {
+    data(){
         return{
-            course_name: '',
-            course_id: '',
+           course_info: {
+            course_id: "",
+            course_name: "",
+            course_state: true,
+            course_cover:"",
+            course_intro:"",
+      },
         }
     },
     methods: {
@@ -41,8 +45,8 @@ export default({
         }
     },
     mounted() {
-        this.course_id = this.$route.query.course_id
-        console.log(this.course_id)
+         this.course_info = JSON.parse(this.$route.query.course_info)
+        console.log('stuCertainCourse',this.$route.query.course_info)
     },
 })
 </script>

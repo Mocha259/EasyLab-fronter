@@ -2,7 +2,6 @@
     <div>
       <div style="height: 50px; width: 900px">
         <div style="float: left; width: 20%"><h1>实验管理</h1></div>
-        <div style="float: right; width: 80%;"><el-button style="position: absolute; right: 30px" @click="addLabDialog = true">添加实验</el-button></div>
         
       </div>
       <el-divider></el-divider>
@@ -37,8 +36,6 @@ export default ({
     return {
       course_id: '',
       expList: [[{title: '11', start_time: '1', end_time: '2', content: '1'}]],            // 这门课的实验列表
-      addLabDialog: false,
-
     }
   },
   methods: {
@@ -49,22 +46,16 @@ export default ({
       })
     },
     getCourseInfo() {
-      this.course_id = this.$route.query.course_id
-      // console.log('course_id: ' + this.course_id)
+      this.course_id =JSON.parse(this.$route.query.course_info).course_id
+      console.log('course_id',this.course_id)
     },
-    
-
     getAllLabs() {
-      console.log(this.expList)
       let self = this
-      // this.expList.splice(0)
       this.$http({
         method: 'get',
-        url: '/experiment/findByCourseId/' + this.$route.query.course_id,
+        url: '/experiment/findByCourseId/' + JSON.parse(this.$route.query.course_info).course_id,
         headers: { 'token': window.sessionStorage.getItem('token') }
       }).then((response) => {
-        // console.log(response.data.data.experimentList)
-        // self.expList = response.data.data.experimentList
         var tmp = 0
         self.expList[tmp] = new Array()
         var last = parseInt(response.data.data.experimentList.length / 3)
