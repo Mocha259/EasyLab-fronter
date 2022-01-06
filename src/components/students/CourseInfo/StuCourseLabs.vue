@@ -1,7 +1,7 @@
 <template>
     <div>
       <div style="height: 50px; width: 900px">
-        <div style="float: left; width: 20%"><h1>实验管理</h1></div>
+        <div style="float: left; width: 20%"><h1>课程实验</h1></div>
         
       </div>
       <el-divider></el-divider>
@@ -34,7 +34,13 @@
 export default ({
   data() {
     return {
-      course_id: '',
+       course_info: {
+        course_id: "",
+        course_name: "",
+        course_state: true,
+        course_cover:"",//加个默认图片
+        course_intro:"",
+      },
       expList: [[{title: '11', start_time: '1', end_time: '2', content: '1'}]],            // 这门课的实验列表
     }
   },
@@ -42,11 +48,11 @@ export default ({
     intoCertainLab() {
       this.$router.push({
         path: '/StuLabs', 
-        query: {course_id: this.course_id}
+        query: {course_info: JSON.stringify(this.course_info)}
       })
     },
     getCourseInfo() {
-      this.course_id =JSON.parse(this.$route.query.course_info).course_id
+      this.course_info =JSON.parse(this.$route.query.course_info)
       console.log('course_id',this.course_id)
     },
     getAllLabs() {
@@ -71,7 +77,12 @@ export default ({
           last_list.push(response.data.data.experimentList[i])
         }
         self.expList.push(last_list)
-        // console.log(self.expList)
+        for(var i = 0; i < self.expList.length; i++){
+          for(var j = 0; j < self.expList[i].length; j++){
+            self.expList[i][j].start_time = self.expList[i][j].start_time.slice(0, 10)
+            self.expList[i][j].end_time = self.expList[i][j].end_time.slice(0, 10)
+          }
+        }
       })
 
     }
