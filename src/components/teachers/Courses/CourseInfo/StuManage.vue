@@ -15,7 +15,8 @@
                         <el-card  v-for="o in allTeachers" :key="o.advisor_id" style="width: 130px; height: 60px; margin-left: 5px; border-radius: 30px">
                                 <div style="float: left: width: 50%"></div>
                                 <el-image
-                                style="width: 55px; height: 55px; margin-top: -18px; margin-left: -15px; border-radius: 50%;"
+                                style="width: 55px; height: 55px; margin-top: -18px; margin-left: -15px; border-radius: 50%;" 
+                                :lazy="true"
                                 :src="o.avatar"
                                 fit="fit">
                                 </el-image>
@@ -37,6 +38,7 @@
                                 <div style="float: left: width: 50%"></div>
                                 <el-image
                                 style="width: 55px; height: 55px; margin-top: -18px; margin-left: -15px; border-radius: 50%;"
+                                :lazy="true"
                                 :src="o.avatar"
                                 fit="fit">
                                 </el-image>

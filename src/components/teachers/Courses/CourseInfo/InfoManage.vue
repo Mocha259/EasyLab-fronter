@@ -4,7 +4,7 @@
       <div style="padding-left: 100px; margin-bottom: 10px; height: 280px">
         <div style="float: left; width: 30%; padding-top: 10px;">
           <!-- 这里放课程封面 -->
-          <el-image rel="prefetch" :src="course_info.course_coverage" style="height: 240px; width: 426px; margin-left: -100px" fit></el-image>
+          <el-image rel="prefetch" :lazy="true" :src="course_info.course_coverage" style="height: 240px; width: 426px; margin-left: -100px" fit></el-image>
         </div>
         <div style="float: right; width: 66%; margin-top: -35px">
           <h1>{{course_info.course_name}}</h1>
