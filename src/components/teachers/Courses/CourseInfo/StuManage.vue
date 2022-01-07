@@ -203,7 +203,6 @@ export default {
             let self = this        
             var course_id = this.$route.query.course_id
             console.log("course_id: "+ course_id)
-            var data = new FormData()
             this.$http({
                 method: 'get',
                 url: '/course/findAllAssistantByCourseId/' + course_id,
