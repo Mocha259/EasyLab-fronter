@@ -25,7 +25,7 @@
                                 <div style="float:left;" v-if="message.type===1"><el-tag type="success">邀请消息</el-tag></div>
                                 <div  style="float:left;" v-else><el-tag type="info">系统通知</el-tag></div>
                                  <el-popover placement="top"  title="标题" width="200" trigger="hover" content="设为已读将不再看到本条消息">
-                                    <el-button type="success" icon="el-icon-delete" slot="reference" style="float: right; padding: 7px 0" size="medium">设为已读</el-button>
+                                    <el-button type="success" icon="el-icon-delete" slot="reference" style="float: right; padding: 7px 0" size="medium" @click="changeToReaded(message)">设为已读</el-button>
                                 </el-popover>
                             </div>
                             <div class="text item">
@@ -130,19 +130,11 @@ export default {
     components: { Clock },
     data() {
         return {
-            messageNum:0,
+            messageNum:'',
             messageTitle:'',
             drawer: false,
             direction: 'rtl',
-            messageList: [
-                // {
-                //     content:"sdfsdf",
-                //     type:2
-                // },{
-                //     content:"hhhhh",
-                //     type:1
-                // }
-            ],
+            messageList: [],
             nowDate: "", // 当前日期
             isCollapse: false,
             space: '      ',
@@ -204,17 +196,31 @@ export default {
           .catch(_ => {});
         },
         getMessage() {
+            var self=this
             this.$http({
             methods:'get',
             url: 'system/findAllMessage',
             headers: { 'token': window.sessionStorage.getItem("token"), }
             }).then((response) => {
-                
-                // console.log(response.data.data.advisor)
-                this.messageList = response.data.data.messageList;
+                var messageList=response.data.data.messageList;
+                self.messageList = messageList;
+                self.messageNum=messageList.length;
+                self.messageTitle="您有"+messageList.length+"条未读消息";
             })
-            this.messageNum=this.messageList.length;
-            this.messageTitle="您有"+this.messageNum+"条未读消息";
+            
+        },
+        changeToReaded(message){
+            var self=this
+            var data=new FormData();
+            data.append('message_id',message.message_id)
+            this.$http({
+            method:'post',
+            url: 'system/changeToReaded',
+            data: data,
+            headers: { 'token': window.sessionStorage.getItem("token"), }
+            }).then((response) => {
+               self.getMessage()
+            })
         },
         lookMessage() {
             this.drawer=true;

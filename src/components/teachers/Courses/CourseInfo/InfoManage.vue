@@ -4,7 +4,7 @@
       <div style="padding-left: 100px; margin-bottom: 10px; height: 280px">
         <div style="float: left; width: 30%; padding-top: 10px;">
           <!-- 这里放课程封面 -->
-          <el-image rel="prefetch" :src="course_info.course_coverage" style="height: 240px; width: 426px; margin-left: -100px" fit></el-image>
+          <el-image rel="prefetch" :lazy="true" :src="course_info.course_coverage" style="height: 240px; width: 426px; margin-left: -100px" fit></el-image>
         </div>
         <div style="float: right; width: 66%; margin-top: -35px">
           <h1>{{course_info.course_name}}</h1>
@@ -45,21 +45,16 @@ export default ({
   methods: {
     /// 结束课程
     endCourse() {
-      console.log(this.$route.query.course_id)
-      this.course_info.course_id = this.$route.query.course_id
       console.log('----function: endCourse()----')
-      console.log('course_id: ' + this.course_info.course_id)
+  
       var data = new FormData()
       // data.append()
       console.log('----end func: endCourse()----')
     },
     /// 获取课程的所有信息，用于展示在课程信息页面
     getCourseInfo() {
-      // console.log(this.$route.query)
-      
-      this.course_info = this.$route.query.course_info
-      // console.log(1)
-      console.log(this.course_info)
+      this.course_info = JSON.parse(this.$route.query.course_info)
+      console.log('getCourseInfo',this.$route.query.course_info)
     }
   },
   mounted() {

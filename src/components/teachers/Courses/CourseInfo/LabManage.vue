@@ -100,13 +100,12 @@ export default ({
       console.log(id)
       this.$router.push({
         path: '/Experiment', 
-        query: {course_info: this.course_info}
+        query: {course_info: this.course_info,experiment_id:id}
       })
     },
     getCourseInfo() {
-      this.course_info = this.$route.query.course_info
-      // console.log('course_id: ' + this.course_id)
-      console.log(this.course_info)
+      this.course_info = JSON.parse(this.$route.query.course_info)
+      console.log('lab',this.$route.query.course_info)
     },
     /// 添加实验
     addLab() {                

@@ -298,7 +298,7 @@ export default {
         getAllFolders() {
             var data=new FormData()
             let that = this
-            data.append('course_id', parseInt(this.$route.query.course_id))
+            data.append('course_id', parseInt(JSON.parse(this.$route.query.course_info).course_id))
             this.$http({
                 method:'post',
                 url:'/course/findAllFoldersAndFiles',

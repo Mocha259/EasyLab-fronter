@@ -15,7 +15,8 @@
                         <el-card  v-for="o in allTeachers" :key="o.advisor_id" style="width: 130px; height: 60px; margin-left: 5px; border-radius: 30px">
                                 <div style="float: left: width: 50%"></div>
                                 <el-image
-                                style="width: 55px; height: 55px; margin-top: -18px; margin-left: -15px; border-radius: 50%;"
+                                style="width: 55px; height: 55px; margin-top: -18px; margin-left: -15px; border-radius: 50%;" 
+                                :lazy="true"
                                 :src="o.avatar"
                                 fit="fit">
                                 </el-image>
@@ -37,6 +38,7 @@
                                 <div style="float: left: width: 50%"></div>
                                 <el-image
                                 style="width: 55px; height: 55px; margin-top: -18px; margin-left: -15px; border-radius: 50%;"
+                                :lazy="true"
                                 :src="o.avatar"
                                 fit="fit">
                                 </el-image>
@@ -61,6 +63,8 @@
             <h3 class="tips">您可以邀请以下老师</h3>
             <span slot="footer" class="dialog-footer">
                 <el-table
+                    v-loading="loading"
+                    element-loading-text="拼命邀请中"
                     :data="otherTeacherData"
                     height="250"
                     border
@@ -150,6 +154,7 @@
 export default {
     data() {
         return {
+            loading:false,
             value: '',
             resTeacher: '田同轩',
             allTeachers: [],            // 所有教师
@@ -173,7 +178,7 @@ export default {
         /// 获取这门课的所有教师
         getAllTeachers() {
             let self = this        
-            var course_id = this.$route.query.course_id
+            var course_id = JSON.parse(this.$route.query.course_info).course_id
             console.log("course_id: "+ course_id)
             var data = new FormData()
             this.$http({
@@ -196,9 +201,8 @@ export default {
         /// 获取这门课的所有助教
         getAllAssistants() {
             let self = this        
-            var course_id = this.$route.query.course_id
+            var course_id = JSON.parse(this.$route.query.course_info).course_id
             console.log("course_id: "+ course_id)
-            var data = new FormData()
             this.$http({
                 method: 'get',
                 url: '/course/findAllAssistantByCourseId/' + course_id,
@@ -216,7 +220,7 @@ export default {
         /// 获取这门课的所有学生
         getAllStudents() {
             let self = this
-            var course_id = parseInt(this.$route.query.course_id)
+            var course_id =parseInt(JSON.parse(this.$route.query.course_info).course_id)
             console.log("course_id: "+ course_id)
             var data = new FormData()
             data.append('course_id', course_id)
@@ -241,7 +245,7 @@ export default {
             let self = this
             this.$http({
                 method: 'get',
-                url: '/course/findAllAdvisorNotInCourse/' + self.$route.query.course_id,
+                url: '/course/findAllAdvisorNotInCourse/' + JSON.parse(self.$route.query.course_info).course_id,
                 headers: { 'token': window.sessionStorage.getItem("token") }
             }).then(response => {
                 console.log(response.data.data.advisorList)
@@ -256,12 +260,13 @@ export default {
         },
         /// 邀请具体某位教师
         inviteCertainTeacher(row, type) {
+            this.loading=true;
             let self = this
             // 2是 3是教师
             console.log(type)
             var data = new FormData()
             data.append('to_teacher_id', row.advisor_id)
-            data.append('course_id', parseInt(this.$route.query.course_id))
+            data.append('course_id', parseInt(JSON.parse(this.$route.query.course_info).course_id))
             data.append('advise_type', type)
             this.$http({
                 method: 'post',
@@ -270,8 +275,12 @@ export default {
                 headers: { 'token': window.sessionStorage.getItem('token') }
             }).then(response => {
                 console.log(response)
-                if(response.data.data.success){
-                    self.allTeachers.push({})
+                if(response.data.success){
+                   self.$message.success("邀请成功！")
+                   self.dialog_invite = false;
+                   self.getAllTeachers();
+                   self.getAllAssistants();
+                   self.loading=false;
                 }
             })
 
