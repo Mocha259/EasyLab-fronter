@@ -272,8 +272,11 @@ export default {
                 headers: { 'token': window.sessionStorage.getItem('token') }
             }).then(response => {
                 console.log(response)
-                if(response.data.data.success){
-                    self.allTeachers.push({})
+                if(response.data.success){
+                   self.$message.success("邀请成功！")
+                   self.dialog_invite = false;
+                   this.getAllTeachers();
+                   this.getAllAssistants();
                 }
             })
 

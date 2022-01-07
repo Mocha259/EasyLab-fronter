@@ -130,19 +130,11 @@ export default {
     components: { Clock },
     data() {
         return {
-            messageNum:0,
+            messageNum:'',
             messageTitle:'',
             drawer: false,
             direction: 'rtl',
-            messageList: [
-                // {
-                //     content:"sdfsdf",
-                //     type:2
-                // },{
-                //     content:"hhhhh",
-                //     type:1
-                // }
-            ],
+            messageList: [],
             nowDate: "", // 当前日期
             isCollapse: false,
             space: '      ',
@@ -204,17 +196,18 @@ export default {
           .catch(_ => {});
         },
         getMessage() {
+            var self=this
             this.$http({
             methods:'get',
             url: 'system/findAllMessage',
             headers: { 'token': window.sessionStorage.getItem("token"), }
             }).then((response) => {
-                
-                // console.log(response.data.data.advisor)
-                this.messageList = response.data.data.messageList;
+                var messageList=response.data.data.messageList;
+                self.messageList = messageList;
+                self.messageNum=messageList.length;
+                self.messageTitle="您有"+messageList.length+"条未读消息";
             })
-            this.messageNum=this.messageList.length;
-            this.messageTitle="您有"+this.messageNum+"条未读消息";
+            
         },
         lookMessage() {
             this.drawer=true;
