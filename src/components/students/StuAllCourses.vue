@@ -3,8 +3,6 @@
 
     <div class="CoursesInfoContainer">
 
-       
-
 
         <el-empty v-if="count == 0" description="没有您参与的课程"></el-empty>
         
@@ -74,10 +72,17 @@
             var cur_idx = (this.curPage - 1) * 3 + idx
             console.log(this.courseList[cur_idx])
             this.IntoCertainCourse = true
+            var course_info={
+                        course_id: this.courseList[cur_idx].course_id,
+                        course_name: this.courseList[cur_idx].course_name,
+                        course_cover: this.courseList[cur_idx].coverage,
+                        course_intro: this.courseList[cur_idx].course_introduction,
+                        course_state: this.courseList[cur_idx].is_open
+                    }
             this.$router.push({
                 path: '/StuCertainCourse',
                 query: {
-                    course_id: this.courseList[cur_idx].course_id
+                   course_info:JSON.stringify(course_info)
                 }
             })
         },
@@ -127,10 +132,9 @@
                 }else{
                     self.pageNum = Math.floor(self.count / 3) + 1
                 }
-
                 var courseToShow = 3
                 if((self.curPage * 3) > self.count){
-                    courseToShow = (self.curPage * 3 ) - count + 1
+                    courseToShow = (self.curPage * 3 ) - self.count + 1
                 }
                 self.curCoursePage = self.courseList.slice((self.curPage-1)*3, (self.curPage-1)*3+courseToShow)
                 // console.log(1)

@@ -19,8 +19,8 @@ Vue.use(ViewUI)
 //配置请求的根路径
 // axios.defaults.baseURL = 'http://192.168.43.215:8080/easyLab'
 // axios.defaults.baseURL = 'http://rap2api.taobao.org/app/mock/291656'
-axios.defaults.baseURL  = 'http://49.235.232.7:8888/easyLab'
-// axios.defaults.baseURL  = 'http://localhost:89/easyLab'
+// axios.defaults.baseURL  = 'http://49.235.232.7:8888/easyLab'
+axios.defaults.baseURL  = 'http://localhost:89/easyLab'
 Vue.prototype.$http     = axios
 Vue.prototype.$qs       = qs
 Vue.prototype.$echarts  = echarts
