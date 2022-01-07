@@ -12,8 +12,8 @@
       
       <div class="lab-header" style="float: right; width: 60%; margin-top: -20px">
                 <el-menu class="el-menu-demo" mode="horizontal"  :router="true" style="width: 200px">
-                    <el-menu-item index="StuLabInfo" :route="{ path: 'StuLabInfo', query: { course_id: course_info.course_id, exp_id: experiment.exp_id } }">实验简介</el-menu-item>
-                    <el-menu-item index="StuLabReports" :route="{ path: 'StuLabReports', query: { course_id: course_info.course_id, exp_id: experiment.exp_id} }">实验报告</el-menu-item>
+                    <el-menu-item index="StuLabInfo" :route="{ path: 'StuLabInfo', query: { course_id: course_info.course_id, experiment_id: experiment.experiment_id } }">实验简介</el-menu-item>
+                    <el-menu-item index="StuLabReports" :route="{ path: 'StuLabReports', query: { course_id: course_info.course_id, experiment_id: experiment.experiment_id} }">实验报告</el-menu-item>
                 </el-menu>
       </div>
     </div><br>
@@ -34,24 +34,15 @@
 export default {
   data() {
     return {
-      course_info: {
-        course_id: "",
-        course_name: "",
-        course_state: true,
-        course_cover:"",//加个默认图片
-        course_intro:"",
-      },         
-      experiment: {
-        exp_id:   '',
-        exp_name: '',
-        start_time: '',
-        end_time: ''
-      }
+      course_info: {},         
+      experiment: {}
     }
   },
   methods: {
     getCourseInfo() {
       this.course_info = JSON.parse(this.$route.query.course_info)
+      console.log("experiment",this.$route.query.experiment)
+      this.experiment=JSON.parse(this.$route.query.experiment)
     }
   },
   mounted() {
