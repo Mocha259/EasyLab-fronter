@@ -144,16 +144,17 @@ export default {
       var cur_idx = (this.curPage - 1) * 3 + idx;
       console.log(this.courseList[cur_idx]);
       this.IntoCertainCourse = true;
-      this.$router.push({
-        path: "/Courses-Info",
-        query: {
-          course_info: {
+      var course_info= {
             course_id: this.courseList[cur_idx].course_id,
             course_name: this.courseList[cur_idx].course_name,
             course_coverage: this.courseList[cur_idx].coverage,
             course_introduction: this.courseList[cur_idx].course_introduction,
             course_state: this.courseList[cur_idx].is_open,
-          },
+          }
+      this.$router.push({
+        path: "/Courses-Info",
+        query: {
+          course_info:JSON.stringify(course_info)
         },
       });
     },

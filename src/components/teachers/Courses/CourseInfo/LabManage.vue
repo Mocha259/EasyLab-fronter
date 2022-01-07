@@ -105,6 +105,7 @@ export default ({
     },
     getCourseInfo() {
       this.course_info = this.$route.query.course_info
+      console.log('lab',this.$route.query.course_info)
     },
     /// 添加实验
     addLab() {                

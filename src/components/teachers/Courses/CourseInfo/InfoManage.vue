@@ -57,9 +57,9 @@ export default ({
     getCourseInfo() {
       // console.log(this.$route.query)
       
-      this.course_info = this.$route.query.course_info
-      // console.log(1)
-      console.log(this.course_info)
+      this.course_info = JSON.parse(this.$route.query.course_info)
+
+      console.log('sdfsdf',this.$route.query.course_info)
     }
   },
   mounted() {

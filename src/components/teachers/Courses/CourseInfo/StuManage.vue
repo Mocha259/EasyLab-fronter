@@ -63,6 +63,8 @@
             <h3 class="tips">您可以邀请以下老师</h3>
             <span slot="footer" class="dialog-footer">
                 <el-table
+                    v-loading="loading"
+                    element-loading-text="拼命邀请中"
                     :data="otherTeacherData"
                     height="250"
                     border
@@ -152,6 +154,7 @@
 export default {
     data() {
         return {
+            loading:false,
             value: '',
             resTeacher: '田同轩',
             allTeachers: [],            // 所有教师
@@ -258,6 +261,7 @@ export default {
         },
         /// 邀请具体某位教师
         inviteCertainTeacher(row, type) {
+            this.loading=true;
             let self = this
             // 2是 3是教师
             console.log(type)
@@ -275,8 +279,9 @@ export default {
                 if(response.data.success){
                    self.$message.success("邀请成功！")
                    self.dialog_invite = false;
-                   this.getAllTeachers();
-                   this.getAllAssistants();
+                   self.getAllTeachers();
+                   self.getAllAssistants();
+                   self.loading=false;
                 }
             })
 

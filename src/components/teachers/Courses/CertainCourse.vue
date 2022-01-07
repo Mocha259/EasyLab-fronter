@@ -9,10 +9,7 @@
         <el-container>
             <div class="course-header">
                 <el-menu class="el-menu-demo" mode="horizontal"  :router="true">
-                    <el-menu-item index="Course-Info" 
-                        :route="{ path: 'Course-Info', query: { course_info: course_info } }">
-                        课程信息
-                    </el-menu-item>
+                    <el-menu-item index="Course-Info" :route="{ path: 'Course-Info', query: { course_info: JSON.stringify(course_info) } }">课程信息</el-menu-item>
                     <el-menu-item index="Course-Documents" :route="{ path: 'Course-Documents', query: { course_id: course_info.course_id } }">课程文件</el-menu-item>
                     <el-menu-item index="Course-Labs" :route="{ path: 'Course-Labs', query: { course_info: course_info } }">课程实验</el-menu-item>
                     <el-menu-item index="Course-Students" :route="{ path: 'Course-Students', query: { course_id: course_info.course_id } }">课程人员</el-menu-item>
@@ -35,14 +32,7 @@
 export default({
     data() {
         return{
-            course_info:{
-                course_name: '',
-                course_id: '',
-                course_coverage:'',
-                course_state: '',
-                course_introduction: '',
-            },
-            
+            course_info:{},
         }
     },
     methods: {
@@ -51,9 +41,7 @@ export default({
         }
     },
     mounted() {
-        // this.course_info.course_introduction = this.course_info.$route.query.course_introduction
-        this.course_info = this.$route.query.course_info
-        // console.log(this.course_id)
+        this.course_info = JSON.parse(this.$route.query.course_info)
     },
 })
 </script>
