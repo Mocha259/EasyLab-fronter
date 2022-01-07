@@ -7,7 +7,7 @@
       <el-divider></el-divider>
       <div>
       <el-row v-for="(exp, index) in expList" :key="index" style="margin-bottom: 20px">
-        <el-col :span="5" v-for="o in exp" :key="o.title" :offset="2">
+        <el-col :span="5" v-for="o in exp" :key="o.experiment_id" :offset="2">
           <el-card style="height: 250px; width: 230px">
             <h3>{{o.title}}</h3>
             <el-divider></el-divider>
@@ -16,7 +16,7 @@
               <div style="margin-bottom: 10px">截至日期：{{o.end_time}}</div>
               <div style="margin-bottom: 10px; overflow-y: hidden; height: 25px; width: 100%">实验简介：{{o.content}}</div>
               <div class="bottom clearfix" style="position: absolute; bottom: 10px; margin-left: 10px">
-                <el-button type="primary" round @click="intoCertainLab">查看</el-button>
+                <el-button type="primary" round @click="intoCertainLab(o)">查看</el-button>
                 <!-- <el-button type="danger" round>关闭</el-button> -->
               </div>
             </div>
@@ -41,14 +41,14 @@ export default ({
         course_cover:"",//加个默认图片
         course_intro:"",
       },
-      expList: [[{title: '11', start_time: '1', end_time: '2', content: '1'}]],            // 这门课的实验列表
+      expList: [],            // 这门课的实验列表
     }
   },
   methods: {
-    intoCertainLab() {
+    intoCertainLab(exp) {
       this.$router.push({
         path: '/StuLabs', 
-        query: {course_info: JSON.stringify(this.course_info)}
+        query: {course_info: JSON.stringify(this.course_info),experiment:JSON.stringify(exp)}
       })
     },
     getCourseInfo() {
