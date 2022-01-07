@@ -45,21 +45,16 @@ export default ({
   methods: {
     /// 结束课程
     endCourse() {
-      console.log(this.$route.query.course_id)
-      this.course_info.course_id = this.$route.query.course_id
       console.log('----function: endCourse()----')
-      console.log('course_id: ' + this.course_info.course_id)
+  
       var data = new FormData()
       // data.append()
       console.log('----end func: endCourse()----')
     },
     /// 获取课程的所有信息，用于展示在课程信息页面
     getCourseInfo() {
-      // console.log(this.$route.query)
-      
       this.course_info = JSON.parse(this.$route.query.course_info)
-
-      console.log('sdfsdf',this.$route.query.course_info)
+      console.log('getCourseInfo',this.$route.query.course_info)
     }
   },
   mounted() {

@@ -125,7 +125,7 @@ export default {
       data.append('ratios', this.scoreList.map(item => {
         return item.rate
       }))
-      data.append('course_id', parseInt(this.$route.query.course_id))
+      data.append('course_id', parseInt(JSON.parse(this.$route.query.course_info).course_id))
       this.$http({
         method: 'post',
         url: '/score/computeScore',
@@ -141,7 +141,7 @@ export default {
       let self = this
       this.$http({
         method: 'get',
-        url: '/experiment/findByCourseId/' + self.$route.query.course_id,
+        url: '/experiment/findByCourseId/' + JSON.parse(self.$route.query.course_info).course_id,
         headers: { 'token': window.sessionStorage.getItem('token') }
       }).then((response) => {
         console.log(response.data)

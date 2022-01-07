@@ -178,7 +178,7 @@ export default {
         /// 获取这门课的所有教师
         getAllTeachers() {
             let self = this        
-            var course_id = this.$route.query.course_id
+            var course_id = JSON.parse(this.$route.query.course_info).course_id
             console.log("course_id: "+ course_id)
             var data = new FormData()
             this.$http({
@@ -201,7 +201,7 @@ export default {
         /// 获取这门课的所有助教
         getAllAssistants() {
             let self = this        
-            var course_id = this.$route.query.course_id
+            var course_id = JSON.parse(this.$route.query.course_info).course_id
             console.log("course_id: "+ course_id)
             this.$http({
                 method: 'get',
@@ -220,7 +220,7 @@ export default {
         /// 获取这门课的所有学生
         getAllStudents() {
             let self = this
-            var course_id = parseInt(this.$route.query.course_id)
+            var course_id =parseInt(JSON.parse(this.$route.query.course_info).course_id)
             console.log("course_id: "+ course_id)
             var data = new FormData()
             data.append('course_id', course_id)
@@ -245,7 +245,7 @@ export default {
             let self = this
             this.$http({
                 method: 'get',
-                url: '/course/findAllAdvisorNotInCourse/' + self.$route.query.course_id,
+                url: '/course/findAllAdvisorNotInCourse/' + JSON.parse(self.$route.query.course_info).course_id,
                 headers: { 'token': window.sessionStorage.getItem("token") }
             }).then(response => {
                 console.log(response.data.data.advisorList)
@@ -266,7 +266,7 @@ export default {
             console.log(type)
             var data = new FormData()
             data.append('to_teacher_id', row.advisor_id)
-            data.append('course_id', parseInt(this.$route.query.course_id))
+            data.append('course_id', parseInt(JSON.parse(this.$route.query.course_info).course_id))
             data.append('advise_type', type)
             this.$http({
                 method: 'post',

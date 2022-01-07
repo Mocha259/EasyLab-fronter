@@ -74,6 +74,7 @@ export default {
     },
     methods:{
       postSignIn(){
+        var that=this;
         var para=new FormData()
         para.append('course_id',this.course_id)
         this.$http({
@@ -82,12 +83,12 @@ export default {
             headers: { 'token': window.sessionStorage.getItem("token")},
             data:para
             }).then((response) => {
-                alert(response.data.data.message)
+               that.$message.success(response.data.message)
         })
       }
     },
     mounted(){
-      this.course_id = this.$route.query.course_id
+      this.course_id = JSON.parse(this.$route.query.course_info).course_id;
     }
 }
 </script>
