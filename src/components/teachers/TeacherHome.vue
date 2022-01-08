@@ -41,7 +41,6 @@
                             {{userInfo.name}}({{userInfo.advisor_id}})<i class="el-icon-arrow-down el-icon--right"></i>
                         </span>
                         <el-dropdown-menu slot="dropdown" class="el-dropdown-menu">
-                            <el-dropdown-item class="el-icon-s-custom" to="/Users-Info">  个人信息</el-dropdown-item>
                             <el-dropdown-item command="logout" class="el-icon-unlock" >  退出</el-dropdown-item>
                         </el-dropdown-menu>
                     </el-dropdown>
@@ -79,11 +78,6 @@
                     <el-menu-item index="Courses-Manage" style="color: #778899; font-size: 18px; width: 100%;">
                         <i class="el-icon-document-copy"></i>
                         <span slot="title">课程管理</span>
-                    </el-menu-item>
-
-                    <el-menu-item index="Lab-Manage" style="color: #778899; font-size: 18px; width: 100%;">
-                        <i class="el-icon-document-copy"></i>
-                        <span slot="title">实验管理</span>
                     </el-menu-item>
 
                     <el-menu-item index="Score-Manage" style="color: #778899; font-size: 18px; width: 100%;">

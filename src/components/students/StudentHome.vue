@@ -38,7 +38,6 @@
                             {{userInfo.name}}({{userInfo.student_id}})<i class="el-icon-arrow-down el-icon--right"></i>
                         </span>
                         <el-dropdown-menu slot="dropdown" class="el-dropdown-menu">
-                            <el-dropdown-item class="el-icon-s-custom" to="/Users-Info">  个人信息</el-dropdown-item>
                             <el-dropdown-item command="logout" class="el-icon-unlock" >  退出</el-dropdown-item>
                         </el-dropdown-menu>
                     </el-dropdown>

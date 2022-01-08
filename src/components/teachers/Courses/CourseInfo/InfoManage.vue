@@ -13,9 +13,12 @@
             <div style="margin-bottom: 10px">{{course_info.course_introduction}}</div>
             <div v-if="course_info.course_state" style="font-size: 24px;">
               <el-tag type="success" style="margin-right: 480px;">开课中</el-tag>
-              <el-button type="danger" round @click="endCourse">关闭课程</el-button>
+              <el-button type="danger" round @click="changeCourseStatus(false)">关闭课程</el-button>
             </div>
-            <div v-else style="font-size: 24px; margin-bottom: 10px"><el-tag type="danger">已结课</el-tag></div>
+            <div v-else style="font-size: 24px; margin-bottom: 10px">
+              <el-tag type="danger" style="margin-right: 480px;">已结课</el-tag>
+              <el-button type="success" round @click="changeCourseStatus(true)">开放课程</el-button>
+            </div>
           </el-card>
         </div>
       </div>
@@ -43,13 +46,47 @@ export default ({
     }
   },
   methods: {
-    /// 结束课程
-    endCourse() {
-      console.log('----function: endCourse()----')
-  
-      var data = new FormData()
-      // data.append()
-      console.log('----end func: endCourse()----')
+    /// 修改课程状态
+    changeCourseStatus(status) {
+      var that=this;
+      var data=new FormData();
+      data.append('course_id',this.course_info.course_id);
+      data.append('state',status);
+      this.$http({
+        method:'post',
+        url:'/course/changeCourseState',
+        data:data,
+        headers:{
+          'token':window.sessionStorage.getItem('token')
+        }
+      }).then((response)=>{
+          if(response.data.success){
+            that.$message.success("修改成功");
+            that.getCourse(that.course_info.course_id);
+          }else{
+            this.$message.error("遭遇了不可抗力,请稍后重试！")
+          }
+      }).catch(error=>{
+       this.$message.error("遭遇了不可抗力,请稍后重试！")
+      })
+    },
+    getCourse(course_id){
+       var that=this;
+      this.$http({
+        method:'get',
+        url:'/course/getCourse/'+that.course_info.course_id,
+        headers:{
+          'token':window.sessionStorage.getItem('token')
+        }
+      }).then((response)=>{
+          if(response.data.success){
+            that.course_info.course_state=response.data.data.course.is_open;
+          }else{
+            console.log("刷新失败")
+          }
+      }).catch(error=>{
+       console.log("刷新失败")
+      })
     },
     /// 获取课程的所有信息，用于展示在课程信息页面
     getCourseInfo() {
