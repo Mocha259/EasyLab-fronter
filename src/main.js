@@ -9,6 +9,7 @@ import { NoticeBar } from 'vue-easy-notice-bar'
 import ViewUI from 'view-design';
 import 'view-design/dist/styles/iview.css';
 import echarts from 'echarts'
+import socket from './global/socket.js'
 // import store from './router/index.js'
 
 import axios from 'axios'
@@ -24,6 +25,7 @@ axios.defaults.baseURL  = 'http://localhost:89/easyLab'
 Vue.prototype.$http     = axios
 Vue.prototype.$qs       = qs
 Vue.prototype.$echarts  = echarts
+Vue.prototype.$socket=socket
 Vue.config.productionTip = false
 // Vue.use(VScroll)
 new Vue({

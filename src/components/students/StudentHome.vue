@@ -244,7 +244,6 @@ export default {
               
                 //订阅点对点地址'/user/' + userId + '/msg'接收一对一的推送消息
                 stompClient.subscribe('/user/' + that.userInfo.student_id + '/signIn', function (response) {
-                    alert("邀请你！")
                     //这个点对点通信表示收到了一条邀请消息，这里需要处理（可以在消息通知栏显示多一条未读消息）
                     that.messageNum+=1;
                     //新消息弹窗

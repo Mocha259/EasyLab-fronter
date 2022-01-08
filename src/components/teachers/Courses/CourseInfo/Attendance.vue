@@ -54,6 +54,8 @@
 </template>
 
 <script>
+import SockJS from 'sockjs-client';
+import  Stomp from 'stompjs';
 export default {
     data() {
         return {
@@ -73,6 +75,17 @@ export default {
         }
     },
     methods:{
+      receiveSignIn(){
+        var that=this
+         this.$socket.ws.subscribe('/user/' + window.sessionStorage.getItem('userId')+ '/studentSignInMsg', function (response){
+                    //学生签到信息弹窗
+                    var message=JSON.parse(response.body).message
+                    that.$notify({
+                      title:'您有新消息',
+                      message:that.$createElement('i',{style:'color:teal'},"学生"+message+"已签到")
+                    });
+                });
+      },
       postSignIn(){
         var that=this;
         var para=new FormData()
@@ -84,6 +97,7 @@ export default {
             data:para
             }).then((response) => {
                that.$message.success(response.data.message)
+               that.receiveSignIn();
         })
       }
     },

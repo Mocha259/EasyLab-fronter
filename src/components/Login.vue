@@ -112,7 +112,7 @@ export default {
     },
     methods: {
         login() {
-
+            var that =this;
             //先拿到表单的引用
             this.$refs.loginFormRef.validate(async valid => {
                 let self = this
@@ -140,6 +140,7 @@ export default {
                     if(response.data.success){
                         self.$message.success('登录成功！')
                         window.sessionStorage.setItem("token",response.data.data.token)
+                        window.sessionStorage.setItem('userId',that.loginForm.username)
                         console.log("userType: " + response.data.data.userType)
                         if(response.data.data.userType == "advisor")
                             self.$router.push('/Home')
@@ -200,7 +201,7 @@ export default {
                         });
                     }
                     else{
-                        self.$message.error('用户不存在，请练习系统管理员。')
+                        self.$message.error('用户不存在，请联系系统管理员。')
                     }
                 })
                 .catch(function (error) {
