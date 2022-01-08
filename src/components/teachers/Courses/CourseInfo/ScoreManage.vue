@@ -6,7 +6,7 @@
     <div style="margin-top: 30px; margin-left: 40%">
       <span>
         <el-button type="primary" @click="setScore">设置成绩占比</el-button>
-        <el-button type="success" @click="getStudentScore">计算学生成绩</el-button>
+        <el-button type="success" @click="postStudentScore">计算学生成绩</el-button>
       </span>
     </div>
 
@@ -116,23 +116,35 @@ export default {
     },
 
     /// 生成所有学生的成绩
-    getStudentScore() {
+    postStudentScore() {
       let self = this
-      var data = new FormData()
-      console.log(this.scoreList.map(item => {
-        return item.rate
-      }))
-      data.append('ratios', this.scoreList.map(item => {
-        return item.rate
-      }))
-      data.append('course_id', parseInt(JSON.parse(this.$route.query.course_info).course_id))
+      console.log(this.scoreList[0]['rate']);
+      var signRatio=this.scoreList[0]['rate']/100;
+      var signList=[];
+      for(var i=1;i<this.scoreList.length;i++){
+        signList.push(this.scoreList[i]['rate']/100)
+      }
+      var course_id=parseInt(JSON.parse(this.$route.query.course_info).course_id);
+      console.log(signRatio,signList,course_id)
       this.$http({
         method: 'post',
         url: '/score/computeScore',
-        data: data,
-        headers: { 'token': window.sessionStorage.getItem('token') }
+        data: JSON.stringify({
+          signRatio:signRatio,
+          ratioList:signList,
+          course_id:course_id
+        }),
+        headers: { 
+        'token': window.sessionStorage.getItem('token'),
+        'Content-Type': 'application/json' }
       }).then(response => {
-        console.log(response.data)
+        if(response.data.success){
+          self.$message.success("成绩计算成功！");
+        }else{
+          self.$message.error("设置有误，请重新设置！");
+        }
+      }).catch(error=>{
+          self.$message.error("设置有误，请重新设置！");
       })
     },
 
