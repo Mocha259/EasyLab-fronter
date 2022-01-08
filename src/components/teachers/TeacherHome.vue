@@ -275,19 +275,7 @@ export default {
                     //新消息弹窗
                     that.open1(JSON.parse(response.body).message)
                 });
-
-                // stompClient.subscribe('/user/' + that.userInfo.advisor_id + '/studentSignInMsg', function (response) {
-                //     //这个点对点通信表示收到了一条邀请消息，这里需要处理（可以在消息通知栏显示多一条未读消息）
-                //     //新消息弹窗
-                //     that.open1(JSON.parse(response.body).message)
-                // });
             })
-        },
-       disconnect() {
-            if (stompClient != null) {
-                stompClient.disconnect();
-            }
-            console.log("Disconnected");
         },
         sendName() {
             //通过stompClient.send（）向地址为"/welcome"的服务器地址发起请求，与@MessageMapping里的地址对应。

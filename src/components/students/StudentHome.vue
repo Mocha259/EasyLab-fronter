@@ -13,7 +13,7 @@
                     <!-- 消息通知 -->
                     <el-badge :value="messageNum" class="item" style="margin-top: 20px; margin-left: 780px; ;">
                         <!-- <el-button size="small" type="info" icon="el-icon-message" circle>通知</el-button> -->
-                        <el-button circle type="info" style="radius: 10px" icon="el-icon-message" @click="lookMessage"></el-button>
+                        <el-button circle type="info" style="radius: 10px" icon="el-icon-message" @click="getMessage();lookMessage()"></el-button>
                     </el-badge>
                 </div>
                 <el-drawer :title="messageTitle" :visible.sync="drawer" :direction="direction" :before-close="handleClose">
@@ -127,15 +127,7 @@ export default {
             messageTitle:'',
             drawer: false,
             direction: 'rtl',
-            messageList: [
-                {
-                    content:"sdfsdf",
-                    type:2
-                },{
-                    content:"hhhhh",
-                    type:1
-                }
-            ],
+            messageList: [],
             messageNum:0,
             nowDate: "", // 当前日期
             isCollapse: false,
@@ -210,20 +202,24 @@ export default {
           })
           .catch(_ => {});
         },
-        getMessage() {
-            this.$http({
+        async getMessage() {
+            console.log('werwer2')
+            var that=this;
+            await this.$http({
             methods:'get',
             url: 'system/findAllMessage',
             headers: { 'token': window.sessionStorage.getItem("token"), }
             }).then((response) => {
-                this.messageList = response.data.data.messageList;
+                that.messageList = response.data.data.messageList;
+                console.log('response1',that.messageList.length);
             })
-            this.messageNum=this.messageList.length;
-            this.messageTitle="您有"+this.messageNum+"条未读消息";
+            console.log('reponse',that.messageList.length);
+            that.messageNum=that.messageList.length;
+            console.log('lllll',that.messageNum);
+            that.messageTitle="您有"+that.messageNum+"条未读消息";
         },
         lookMessage() {
             this.drawer=true;
-            this.getMessage();
         },
         changeToReaded(message){
             var self=this
@@ -253,7 +249,7 @@ export default {
                 });
                
                // 订阅点对点地址'/user/' + userId + '/msg'接收一对一的推送消息
-                stompClient.subscribe('/user/' + that.userInfo.student_id + '/msg', function (response) {
+                stompClient.subscribe('/user/' + that.userInfo.student_id + '/signIn', function (response) {
                     that.messageNum+=1;
                     //新消息弹窗
                     that.open1(JSON.parse(response.body).message)
@@ -280,11 +276,14 @@ export default {
         }
     }, 
     mounted() {
+        console.log('sdfasdfsf');
+        this.$socket.ws.disconnect();
         this.currentTime()
-        this.getMessage()
+       
     },
     created(){
         this.getUserInfo()
+        this.getMessage()
     },
     watch:{
         userInfo(){
