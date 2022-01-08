@@ -78,10 +78,6 @@
                         <span slot="title">我的课程</span>
                     </el-menu-item>
 
-                    <el-menu-item index="Stu-Lab-Manage" style="color: #778899; font-size: 18px; width: 100%;">
-                        <i class="el-icon-document-copy"></i>
-                        <span slot="title">我的实验</span>
-                    </el-menu-item>
 
                     <el-menu-item index="Stu-Score-Manage" style="color: #778899; font-size: 18px; width: 100%;">
                         <i class="el-icon-postcard"></i>
