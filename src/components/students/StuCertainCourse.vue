@@ -12,7 +12,6 @@
                     <el-menu-item index="StuCourseInfo" :route="{ path: 'StuCourseInfo', query: { course_info: this.$route.query.course_info } }">课程信息</el-menu-item>
                     <el-menu-item index="StuCourseFile" :route="{ path: 'StuCourseFile', query: { course_info: this.$route.query.course_info } }">课程文件</el-menu-item>
                     <el-menu-item index="StuCourseLabs" :route="{ path: 'StuCourseLabs', query: { course_info: this.$route.query.course_info } }">课程实验</el-menu-item>
-                    <el-menu-item index="StuCourseAttd" :route="{ path: 'StuCourseAttd', query: { course_info: this.$route.query.course_info } }">课程考勤</el-menu-item>
                 </el-menu>
             </div>
 

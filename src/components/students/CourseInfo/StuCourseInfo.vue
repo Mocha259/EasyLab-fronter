@@ -110,7 +110,31 @@ export default {
         });
     },
     sign_up(){
-
+      var that = this;
+      var data=new FormData();
+      data.append('course_id',this.course_info.course_id);
+      var config = {
+        method: "post",
+        url: "/course/signIn",
+        data: data,
+        headers: {
+          token: window.sessionStorage.getItem("token"),
+        },
+      };
+      this.$http(config)
+        .then(function (response) {
+          if (response.data.success) {
+            that.$message.success("签到成功！");
+            that.getCourseInfo();
+            console.log(response.data);
+          } else {
+            that.$message.error("签到失败，请与教师线下沟通！");
+          }
+        })
+        .catch(function (error) {
+          that.$message.error("签到失败，请与教师线下沟通！");
+          console.log(error);
+        }); 
     }
   },
   mounted() {
