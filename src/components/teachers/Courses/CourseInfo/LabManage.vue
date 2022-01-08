@@ -9,16 +9,23 @@
       <div>
       <el-row v-for="(exp, index) in expList" :key="index" style="margin-bottom: 20px">
         <el-col :span="5" v-for="o in exp" :key="o.experiment_id" :offset="2">
-          <el-card style="height: 250px; width: 230px">
+          <el-card style="height: 280px; width: 230px">
             <h3>{{o.title}}</h3>
             <el-divider></el-divider>
             <div style="">
               <div style="margin-bottom: 10px">发布日期：{{o.start_time}}</div>
               <div style="margin-bottom: 10px">截至日期：{{o.end_time}}</div>
-              <div style="margin-bottom: 10px; overflow-y: hidden; height: 25px; width: 100%">实验简介：{{o.content}}</div>
+              <div style="margin-bottom: 10px; overflow-y: hidden; height: 23px; width: 100%">实验简介：{{o.content}}</div>
+              <div  style="margin-bottom: 10px" v-if="o.enable">
+                实验状态：<el-tag type="success" style="height:28px;margin-left: 3px;">开放</el-tag>
+              </div>
+              <div v-else  style="margin-bottom: 10px" >
+                实验状态：<el-tag type="danger">关闭</el-tag>
+              </div>
               <div class="bottom clearfix" style="position: absolute; bottom: 10px; margin-left: 10px">
                 <el-button type="primary" round @click="intoCertainLab(o.experiment_id)">查看</el-button>
-                <el-button type="danger" round>关闭</el-button>
+                <div  v-if="o.enable" style="display:inline"><el-button type="danger" round @click="updateExperimentStatus(o.experiment_id,false)">关闭</el-button></div>
+                <div v-else  style="display:inline"><el-button type="success" round @click="updateExperimentStatus(o.experiment_id,true)">开放</el-button></div>
               </div>
             </div>
           </el-card>
@@ -161,7 +168,29 @@ export default ({
         console.log(error)
       })
     },
-
+    updateExperimentStatus(experiment_id,status){
+      var that=this;
+      var data=new FormData();
+      data.append('experiment_id',experiment_id);
+      data.append('status',status);
+      this.$http({
+        method:'post',
+        url:'/experiment/updateExperimentStatus',
+        data:data,
+        headers:{
+          'token':window.sessionStorage.getItem('token')
+        }
+      }).then((response)=>{
+          if(response.data.success){
+            this.$message.success("修改成功")
+            that.getAllLabs()
+          }else{
+            this.$message.error("遭遇了不可抗力,请稍后重试！")
+          }
+      }).catch(error=>{
+       this.$message.error("遭遇了不可抗力,请稍后重试！")
+      })
+    },
     getAllLabs() {
       // console.log(this.expList)
       this.expList.splice(0)

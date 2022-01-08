@@ -23,7 +23,7 @@
                                 <div style="float:left;" v-if="message.type===1"><el-tag type="success">邀请消息</el-tag></div>
                                 <div  style="float:left;" v-else><el-tag type="info">系统通知</el-tag></div>
                                  <el-popover placement="top"  title="标题" width="200" trigger="hover" content="设为已读将不再看到本条消息">
-                                    <el-button type="success" icon="el-icon-delete" slot="reference" style="float: right; padding: 7px 0" size="medium">设为已读</el-button>
+                                    <el-button type="success" icon="el-icon-delete" slot="reference" style="float: right; padding: 7px 0" size="medium" @click="changeToReaded(message)">设为已读</el-button>
                                 </el-popover>
                             </div>
                             <div class="text item">
@@ -120,7 +120,6 @@
 import SockJS from 'sockjs-client';
 import Stomp from 'stompjs';
 import Clock from 'vue-clock2';
-var stompClient=null;
 export default {
     components: { Clock },
     data() {
@@ -226,13 +225,25 @@ export default {
             this.drawer=true;
             this.getMessage();
         },
-        connect() {
-            var that =this;
-            var socket = new SockJS('http://localhost:89/easyLab/endpointWisely'); //1连接SockJS的endpoint是“endpointWisely”，与后台代码中注册的endpoint要一样。
-            stompClient = Stomp.over(socket);//2创建STOMP协议的webSocket客户端。
-            
-                                                                                                                                                                                       
-            stompClient.connect({}, function (frame) {//3连接webSocket的服务端。
+        changeToReaded(message){
+            var self=this
+            var data=new FormData();
+            data.append('message_id',message.message_id)
+            this.$http({
+            method:'post',
+            url: 'system/changeToReaded',
+            data: data,
+            headers: { 'token': window.sessionStorage.getItem("token"), }
+            }).then((response) => {
+               self.getMessage()
+            })
+        },
+        connect(){
+            var that=this;
+            var sockjs=new  SockJS('http://localhost:89/easyLab/endpointWisely');
+            var stompClient= Stomp.over(sockjs);
+            that.$socket.setWs(stompClient);
+            that.$socket.ws.connect({}, function (frame) {//连接webSocket的服务端。
                 console.log('开始进行连接Connected: ' + frame);
 
                 //订阅广播地址
@@ -241,15 +252,14 @@ export default {
                     that.open1(JSON.parse(response.body).message);
                 });
                
-              
-                //订阅点对点地址'/user/' + userId + '/msg'接收一对一的推送消息
-                stompClient.subscribe('/user/' + that.userInfo.student_id + '/signIn', function (response) {
-                    //这个点对点通信表示收到了一条邀请消息，这里需要处理（可以在消息通知栏显示多一条未读消息）
+               // 订阅点对点地址'/user/' + userId + '/msg'接收一对一的推送消息
+                stompClient.subscribe('/user/' + that.userInfo.student_id + '/msg', function (response) {
                     that.messageNum+=1;
                     //新消息弹窗
                     that.open1(JSON.parse(response.body).message)
                 });
-            });
+
+            })
         },
        disconnect() {
             if (stompClient != null) {
