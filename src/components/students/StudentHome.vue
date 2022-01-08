@@ -38,7 +38,6 @@
                             {{userInfo.name}}({{userInfo.student_id}})<i class="el-icon-arrow-down el-icon--right"></i>
                         </span>
                         <el-dropdown-menu slot="dropdown" class="el-dropdown-menu">
-                            <el-dropdown-item class="el-icon-s-custom" to="/Users-Info">  个人信息</el-dropdown-item>
                             <el-dropdown-item command="logout" class="el-icon-unlock" >  退出</el-dropdown-item>
                         </el-dropdown-menu>
                     </el-dropdown>
@@ -79,7 +78,7 @@
                     </el-menu-item>
 
 
-                    <el-menu-item index="Stu-Score-Manage" style="color: #778899; font-size: 18px; width: 100%;">
+                    <el-menu-item index="StuScore" style="color: #778899; font-size: 18px; width: 100%;">
                         <i class="el-icon-postcard"></i>
                         <span slot="title">我的成绩</span>
                     </el-menu-item>

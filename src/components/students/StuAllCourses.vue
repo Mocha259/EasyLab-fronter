@@ -11,7 +11,7 @@
             <el-card class="box-card">
                 <div slot="header" class="clearfix">
                     <span>{{item.course_name}}</span>
-                    <el-button style="float: right; padding: 3px 0" type="text" index="Course-Info" @click="getIntoCourse(idx)">进入课程>></el-button>
+                    <el-button style="float: right; padding: 3px 0" type="text" index="Course-Info" @click="getIntoCourse(item,idx)">进入课程>></el-button>
                 </div>
                 <!-- 课程信息描述 -->
                 <div class="description">
@@ -68,7 +68,11 @@
       }
     },
     methods: {
-        getIntoCourse(idx) {
+        getIntoCourse(item,idx) {
+            if(!item.is_open){
+                this.$message.error("课程已关闭！");
+                return;
+            }
             var cur_idx = (this.curPage - 1) * 3 + idx
             console.log(this.courseList[cur_idx])
             this.IntoCertainCourse = true
