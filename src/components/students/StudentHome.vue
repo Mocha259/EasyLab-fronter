@@ -78,7 +78,7 @@
                     </el-menu-item>
 
 
-                    <el-menu-item index="Stu-Score-Manage" style="color: #778899; font-size: 18px; width: 100%;">
+                    <el-menu-item index="StuScore" style="color: #778899; font-size: 18px; width: 100%;">
                         <i class="el-icon-postcard"></i>
                         <span slot="title">我的成绩</span>
                     </el-menu-item>
