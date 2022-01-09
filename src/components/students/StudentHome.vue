@@ -84,10 +84,7 @@
                     </el-menu-item>
 
 
-                    <el-menu-item index="StuFight" style="color: #778899; font-size: 18px; width: 100%; border-bottom-right-radius: 5px;border-bottom-left-radius: 5px">
-                        <i class="el-icon-postcard"></i>
-                        <span slot="title">对抗练习</span>
-                    </el-menu-item>
+                
                 </el-menu>
                 </div>
 
@@ -101,6 +98,8 @@
             <el-main>
                 <router-view></router-view>
             </el-main>
+            <el-aside style="background-color: transparent; width: 260px">
+            </el-aside>
 
           
         </el-container>

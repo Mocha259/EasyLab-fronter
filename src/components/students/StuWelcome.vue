@@ -4,22 +4,21 @@
       ><h1 style="background-color: #eaedf1">信息公告栏</h1></el-divider
     >
     <notice-bar
-      v-for="(item, index) in msgTitleList"
+      v-for="(item, index) in noticeList"
       :key="index"
-      :text="item"
+      :text="item.content"
       :bg-color="'#fff'"
       :color="'#03a9f4'"
       :scrollable="false"
-      left-icon="http://o9kkuebr4.bkt.clouddn.com/notice-color.png"
-      @click="showMsg"
+      @click="showMsg(item)"
     />
     <el-dialog
-      title="提示"
+      title="公告"
       :visible.sync="centerDialogVisible"
       width="30%"
       center
     >
-      <span>这里写公告</span>
+      <span>{{content}}</span>
       <span slot="footer" class="dialog-footer">
         <el-button @click="centerDialogVisible = false">取 消</el-button>
         <el-button type="primary" @click="centerDialogVisible = false"
@@ -40,10 +39,8 @@ export default {
 
   data() {
     return {
-      msgTitleList: [
-        "本科生选课通知",
-        "2021年上海高校本科毕业论文(设计)抽检报送材料要求",
-        "2021年秋季学期研究生中期（综合）考核工作安排的通知",
+      content:'',
+      noticeList: [
       ],
       dialogNewMsg: false,
       centerDialogVisible: false,
@@ -57,10 +54,31 @@ export default {
     };
   },
   methods: {
-    showMsg() {
+    getAllNotice(){
+      var self=this
+      this.$http({
+      method:'get',
+      url: 'system/getAllNotice',
+      headers: { 'token': window.sessionStorage.getItem("token") }
+      }).then((response) => {
+        if(response.data.success){
+          self.noticeList=response.data.data.noticeList;
+          console.log(response.data);
+        }else{
+          this.$message.error("未获取到公告！")
+        }
+      }).catch(error=>{
+        this.$message.error("未获取到公告！")
+      })
+    },
+    showMsg(item) {
+      this.content=item.content;
       this.centerDialogVisible = true;
     },
   },
+  mounted(){
+    this.getAllNotice();
+  }
 };
 </script>
 
