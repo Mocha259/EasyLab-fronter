@@ -13,7 +13,7 @@
         <div id="div1" style="width: 80%; margin-left: 10%"></div>
       </el-container>
       <span style="margin-left: 40%; margin-top: 5px"
-        ><el-button>提交报告</el-button><el-button>手动上传</el-button></span
+        ><el-button @click="submitReport">提交报告</el-button><el-button>手动上传</el-button></span
       >
     </el-container>
   </div>
@@ -92,11 +92,52 @@ export default {
       editor.create();
 
       this.reportEditor = editor;
+    },
+    submitReport(){
+      var that =this;
+      var content=this.reportEditor.txt.html();
+      var experiment_id=this.experiment.experiment_id;
+      var data=new FormData();
+      data.append('experiment_id',experiment_id);
+      data.append('content',content);
+      this.$http({
+            method:'post',
+            url: 'experiment/updateTemplate',
+            data:data,
+            headers: { 'token': window.sessionStorage.getItem("token") }
+            }).then((response) => {
+                if(response.data.success){
+                    that.$message.success("提交成功！");
+                }else{
+                  that.$message.error("提交失败！");
+                }
+            }).catch(error=>{
+              that.$message.error("提交失败！");
+            })
+    },
+    getReport(){
+      var that=this;
+      var data=new FormData();
+      data.append('experiment_id',this.$route.query.experiment_id)
+       this.$http({
+            method:'post',
+            url: 'experiment/getTemplate',
+            data:data,
+            headers: { 'token': window.sessionStorage.getItem("token") }
+            }).then((response) => {
+                if(response.data.success){
+                    var template=response.data.data.template;
+                    if(template!=null){
+                       that.reportEditor.txt.html(tempalte);
+                    }
+                }
+            });
     }
   },
   mounted() {
     this.createEditor();
     this.getExperiment();
+    this.getReport();
   },
 };
 </script>
