@@ -11,7 +11,6 @@
       :bg-color="'#fff'"
       :color="'#03a9f4'"
       :scrollable="false"
-      left-icon="http://o9kkuebr4.bkt.clouddn.com/notice-color.png"
       @click="showMsg"
     />
     <el-dialog

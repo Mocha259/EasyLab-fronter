@@ -367,7 +367,7 @@ export default {
                     self.autoGetFileList(self.selectedFolder)
                     self.$message.success('文件上传成功！')
                 }else{
-                    self.$message.error('文件上传失败，请重试！')   
+                    self.$message.error(response.data.message)   
                 }
             })
             .catch(function (error) {
