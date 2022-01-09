@@ -1,138 +1,84 @@
 <template>
-    <div>
-        <el-divider content-position="center" ><h1 style="background-color:#EAEDF1;">信息公告栏</h1></el-divider>
-        <el-button @click="addNewMsg">添加公告</el-button>
-        <el-dialog
-        title="在此编辑您的公告"
-        :visible.sync="dialogNewMsg"
-        width="800px"
-        height="800px"
-        custom-class="editMessage"
-        center>
-            <div style="float: left">
-                <h2>通知标题</h2>
-                <Toolbar
-                    style="border-bottom: 1px solid #ccc"
-                    :editorId="editorId"
-                    :defaultConfig="toolbarConfig"
-                />
-                <!-- 编辑器 -->
-                <Editor
-                    style="height: 500px"
-                    :editorId="editorId"
-                    :defaultConfig="editorConfig"
-                    :defaultContent="getDefaultContent" 
-                    @onChange="onChange"
-                />
+  <div>
+    <el-divider content-position="center"
+      ><h1 style="background-color: #eaedf1">信息公告栏</h1></el-divider
+    >
 
-            </div>
-            <div style="float: right">
-                <textarea id="text1" style="width:100%; height:200px;"></textarea>
-            </div>
-            <el-button style="z-index: 999; margin-top: 10px">提交</el-button>
-        </el-dialog>
-
-        <notice-bar v-for="(item, index) in msgTitleList" :key="index"
-        :text="item"
-        :bg-color="'#fff'"
-        :color="'#03a9f4'"
-        :scrollable="false"
-        left-icon="http://o9kkuebr4.bkt.clouddn.com/notice-color.png"
-        @click="showMsg"
-        />
-        <el-dialog
-        title="提示"
-        :visible.sync="centerDialogVisible"
-        width="30%"
-        center>
-            <span>这里写公告</span>
-            <span slot="footer" class="dialog-footer">
-                <el-button @click="centerDialogVisible = false">取 消</el-button>
-                <el-button type="primary" @click="centerDialogVisible = false">确 定</el-button>
-            </span>
-            
-        </el-dialog>
-
-    </div>
+    <notice-bar
+      v-for="(item, index) in msgTitleList"
+      :key="index"
+      :text="item"
+      :bg-color="'#fff'"
+      :color="'#03a9f4'"
+      :scrollable="false"
+      left-icon="http://o9kkuebr4.bkt.clouddn.com/notice-color.png"
+      @click="showMsg"
+    />
+    <el-dialog
+      title="公告"
+      :visible.sync="centerDialogVisible"
+      width="30%"
+      center
+    >
+      <span>公告内容</span>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="centerDialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="centerDialogVisible = false"
+          >确 定</el-button
+        >
+      </span>
+    </el-dialog>
+  </div>
 </template>
 
 <script>
-import { Editor, Toolbar, getEditor, removeEditor } from '@wangeditor/editor-for-vue'
-import cloneDeep from 'lodash.clonedeep'
 
 export default {
-    name: 'MyEditor',
-    components: { Editor, Toolbar },
-
+  name: "MyEditor",
   data() {
     return {
-        msgTitleList: [
-            "本科生选课通知",
-            "2021年上海高校本科毕业论文(设计)抽检报送材料要求",
-            "2021年秋季学期研究生中期（综合）考核工作安排的通知"
-        ],
-        dialogNewMsg: false,
-        centerDialogVisible: false,
-        editorId: 'wangEditor-1', // 定义一个编辑器 id ，要求：全局唯一且不变。重要！！！
-        defaultContent: [], // 编辑器的默认内容，只在初始化时使用
-        latestContent: [], // 用于存储编辑器最新的内容，onChange 时修改
-        toolbarConfig: {},
-        editorConfig: {
-            placeholder: '请输入内容...',
-        }
-
-    }
+      msgTitleList: [
+        "本科生选课通知",
+        "2021年上海高校本科毕业论文(设计)抽检报送材料要求",
+        "2021年秋季学期研究生中期（综合）考核工作安排的通知",
+      ],
+      dialogNewMsg: false,
+      centerDialogVisible: false,
+      editorId: "wangEditor-1", // 定义一个编辑器 id ，要求：全局唯一且不变。重要！！！
+      defaultContent: [], // 编辑器的默认内容，只在初始化时使用
+      latestContent: [], // 用于存储编辑器最新的内容，onChange 时修改
+      toolbarConfig: {},
+      editorConfig: {
+        placeholder: "请输入内容...",
+      },
+    };
   },
   methods: {
-        addNewMsg(){
-            this.dialogNewMsg = true
-        },
-        showMsg() {
-            this.centerDialogVisible = true
-        },
-        createEditor(){
-            const editor = new E('#myEditor')
-            // 设置编辑区域高度为 500px
-            editor.config.height = 500
-            editor.create()
-            this.myEditor = editor
-        },
-        onChange(editor) {
-            console.log('onChange', editor.children) // onChange 时获取编辑器最新内容
-            this.latestContent = editor.children
-        },
+    addNewMsg() {
+      this.dialogNewMsg = true;
     },
-    computed: {
-        getDefaultContent() {
-            return cloneDeep(this.defaultContent) // 深拷贝，重要！！！
-        }
+    showMsg() {
+      this.centerDialogVisible = true;
     },
-    beforeDestroy() {
-        const editor = getEditor(this.editorId)
-        if (editor == null) return
-        editor.destroy() // 组件销毁时，及时销毁编辑器 ，重要！！！
-        removeEditor(this.editorId)
-    },
-}
+  },
+};
 </script>
 
 <style lang="less" scoped>
-
-.el-divider__text{
-    background-color: #EAEDF1 !important;
+.el-divider__text {
+  background-color: #eaedf1 !important;
 }
 .notice-bar {
-    background-color: transparent;
-    margin-top:5px;
-    background-color: #EAEDF1 !important;
+  background-color: transparent;
+  margin-top: 5px;
+  background-color: #eaedf1 !important;
 }
 .notice-bar:hover {
-    cursor: pointer;
-    background-color: rgb(155, 183, 235) !important;
+  cursor: pointer;
+  background-color: rgb(155, 183, 235) !important;
 }
 .editMessage {
-    height: 60% !important;
+  height: 60% !important;
 }
-
 </style>
 

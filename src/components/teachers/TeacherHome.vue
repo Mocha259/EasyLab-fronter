@@ -110,9 +110,6 @@
             </el-main>
 
             <el-aside style="background-color: transparent; width: 260px">
-                <div style="background: linear-gradient(rgb(0, 0, 0), rgb(20, 20, 20), rgb(88, 88, 88)); height: 60%; width:100%; margin-top: 100px; border-radius: 5px; color: white">
-                    <h1>Todo List</h1>
-                </div>
             </el-aside>
         </el-container>
     </el-container>
@@ -225,32 +222,6 @@ export default {
             this.drawer=true;
             this.getMessage();
         },
-        // connect() {
-        //     var that=this
-        //     var socket = new SockJS('http://localhost:89/easyLab/endpointWisely'); //1连接SockJS的endpoint是“endpointWisely”，与后台代码中注册的endpoint要一样。
-        //     stompClient = Stomp.over(socket);//2创建STOMP协议的webSocket客户端。
-            
-                                                                                                                                                                                       
-        //     stompClient.connect({}, function (frame) {//3连接webSocket的服务端。
-        //         console.log('开始进行连接Connected: ' + frame);
-
-        //         //订阅广播地址
-        //         stompClient.subscribe('/topic/user', function (response) {
-        //             console.log(response.body.message)
-        //             that.open1(JSON.parse(response.body).message);
-        //         });
-               
-              
-        //         //订阅点对点地址'/user/' + userId + '/msg'接收一对一的推送消息
-        //         stompClient.subscribe('/user/' + that.userInfo.advisor_id + '/msg', function (response) {
-        //             alert("邀请你！")
-        //             //这个点对点通信表示收到了一条邀请消息，这里需要处理（可以在消息通知栏显示多一条未读消息）
-        //             that.messageNum+=1;
-        //             //新消息弹窗
-        //             that.open1(JSON.parse(response.body).message)
-        //         });
-        //     });
-        // },
         connect(){
             var that=this;
             var sockjs=new  SockJS('http://49.235.232.7:8888/easyLab/endpointWisely');

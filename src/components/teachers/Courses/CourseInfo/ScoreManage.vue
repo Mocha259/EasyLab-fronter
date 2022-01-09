@@ -203,7 +203,7 @@ export default {
         if(response.data.success){
           self.$message.success("成绩计算成功！");
         }else{
-          self.$message.error("设置有误，请重新设置！");
+          self.$message.error(response.data.data.message);
         }
       }).catch(error=>{
           self.$message.error("设置有误，请重新设置！");

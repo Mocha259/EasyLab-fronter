@@ -53,10 +53,7 @@
         </el-card>
       </div>
     </div>
-    <div style="margin-top: 50px"><el-divider></el-divider></div>
-    <div>
-      <h1>课程评论</h1>
-    </div>
+    
 
     <!-- <h2>课程评论</h2> -->
   </div>
