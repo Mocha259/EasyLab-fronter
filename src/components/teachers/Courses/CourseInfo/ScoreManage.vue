@@ -1,13 +1,74 @@
 <template>
   <div>
-    成绩管理模块
-    <div id="scoreChart" style="width: 800px; height: 600px"></div>
+    <div style="height: 430px">
+      <div id="scoreChart" style="width: 600px; height: 400px; float:left"></div>
+      <div style="float: right; width: 200px; margin-right: 200px">
+        <div>
+          <el-button type="primary" @click="setScore">设置成绩占比</el-button>
+        </div>
+        <div style="margin-top: 50px">
+          <el-button type="success" @click="postStudentScore">计算学生成绩</el-button>
+        </div>
+        
+      </div>
+    </div>
+    
     <el-divider></el-divider>
     <div style="margin-top: 30px; margin-left: 40%">
       <span>
-        <el-button type="primary" @click="setScore">设置成绩占比</el-button>
-        <el-button type="success" @click="postStudentScore">计算学生成绩</el-button>
+        
       </span>
+    </div>
+    <div>
+
+        <el-table
+          :data="stuScoreList"
+          style="width: 70%; margin-left: 15%"
+          :default-sort = "{prop: 'student_id', order: 'descending'}"
+          >
+          <el-table-column
+            prop="student_id"
+            label="学号"
+            sortable
+            width="180">
+          </el-table-column>
+          <el-table-column
+            prop="name"
+            label="姓名"
+            
+            width="180">
+          </el-table-column>
+          <el-table-column
+            prop="score"
+            sortable
+            label="成绩"
+            >
+          </el-table-column>
+
+          <el-table-column
+            prop=""
+            label="等第"
+            >
+             <template slot-scope="scope">
+              <div v-if="scope.row.score >= 90">
+                 <el-tag  type="success">优秀</el-tag>
+              </div>
+              <div v-if="scope.row.score >= 80 && scope.row.score < 90">
+                 <el-tag >良好</el-tag>
+              </div>
+              <div v-if="scope.row.score >= 70 && scope.row.score < 80">
+                 <el-tag type="info">中等</el-tag>
+              </div>
+              <div v-if="scope.row.score >= 60 && scope.row.score < 70">
+                 <el-tag type="warning">及格</el-tag>
+              </div>
+              <div v-if="scope.row.score < 60">
+                 <el-tag type="danger">不及格</el-tag>
+              </div>
+            </template>
+          </el-table-column>
+        </el-table>
+
     </div>
 
     <el-dialog
@@ -45,7 +106,7 @@ export default {
       setScoreDialog: false,
       scoreList: [],          //参与评分项
       scoreCount: 0,          // 参与评分项的数量
-      
+      stuScoreList: [],          // 
     }
   },
   methods: {
@@ -82,7 +143,7 @@ export default {
               name: '面积模式',
               type: 'pie',
               radius: [30, 110],
-              center: ['75%', '50%'],
+              center: ['40%', '50%'],
               roseType: 'area',
               data: this.scoreList.map(item => {
                 return {name: item.name, value: item.rate * 10}
@@ -138,6 +199,7 @@ export default {
         'token': window.sessionStorage.getItem('token'),
         'Content-Type': 'application/json' }
       }).then(response => {
+        console.log(response.data)
         if(response.data.success){
           self.$message.success("成绩计算成功！");
         }else{
@@ -167,12 +229,29 @@ export default {
         }
         self.drawScorePartRate()                                      /// 重新绘制饼图
       })
-    }
+    },
     
+    /// 获得所有学生成绩
+    getAllStudentScore() {
+      let self = this
+      var data = new FormData()
+      data.append('course_id', JSON.parse(self.$route.query.course_info).course_id)
+      this.$http({
+        method: 'post',
+        data: data,
+        url: '/score/getAllStuScore',
+        headers: { 'token': window.sessionStorage.getItem('token') }
+      }).then(res => {
+        console.log(res.data.data.stuScoreList)
+        self.stuScoreList = res.data.data.stuScoreList
+      }).catch(err => {console.log(err)})
+    }
   },
   mounted() {
     this.drawScorePartRate()
     this.getAllTobeSocred()
+    this.getAllStudentScore()
+    // console.log(JSON.parse(this.$route.query.course_info).course_id)
   }
 }
 </script>

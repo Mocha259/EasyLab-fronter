@@ -33,7 +33,7 @@ import StuLabs       from '../components/students/Experiment/StuLabs.vue'
 import StuLabReports from '../components/students/Experiment/StuLabReports.vue'
 import StuLabInfo    from '../components/students/Experiment/StuLabInfo.vue'
 import StuScore from '../components/students/Score/StuScore.vue'
-
+import StuUsersInfo from '../components/students/User/User.vue'
 Vue.use(VueRouter)
 Vue.use(Vuex)
 
@@ -92,7 +92,8 @@ const router = new VueRouter({
       children: [
         { path: '/StuWelcome', component: StuWelcome },
         { path: '/StuCourses', component: StuAllCourses },
-        {path:'/StuScore',component:StuScore},//TODO:学生成绩
+        { path:'/StuScore', component:StuScore},//TODO:学生成绩
+        { path:'/Stu-Users-Info', component: StuUsersInfo },
         { path: '/StuCertainCourse',                    /// 学生，进入具体某门课的页面
           component: StuCertainCourse,
           children: [
