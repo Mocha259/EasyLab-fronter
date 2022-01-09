@@ -201,15 +201,19 @@ export default {
       this.$http(config)
         .then(function (response) {
           console.log(response.data);
-          if (response.data.data.success) {
-            dialogVisible = false;
+          if (response.data.success) {
+            self.dialogVisible = false;
+            self.$message.success('开课成功')
             // this.courseList.push({course_name})
+            self.getAllAdviseCourse()
           } else {
             // alert('课程创建失败，请重试！')
+            self.$message.error('开课失败')
           }
         })
         .catch(function (error) {
           console.log(error.response);
+          self.$message.error('开课失败')
         });
     },
     getAllAdviseCourse() {

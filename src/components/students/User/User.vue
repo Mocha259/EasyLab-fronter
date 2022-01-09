@@ -32,7 +32,8 @@
           </el-container>
         </el-container>
         <span>
-          <el-button style="width: 10%; margin-top: 10px; margin-left: 10px" @click="avatarDialog = true">更换头像</el-button><el-button style="margin-left: 150px" type="primary">重置密码</el-button>
+          <el-button style="width: 10%; margin-top: 10px; margin-left: 10px" @click="avatarDialog = true">更换头像</el-button>
+          <el-button style="margin-left: 150px" type="primary" @click="dialogPassword = true">重置密码</el-button>
         </span>
         <el-divider></el-divider>
         <el-card style="height: 500px">
@@ -58,16 +59,24 @@
           <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
           <div class="el-upload__tip" slot="tip">只能上传jpg/png文件，且不超过500kb</div>
         </el-upload>
-
         <span slot="footer" class="dialog-footer">
           <el-button @click="avatarDialog = false">取 消</el-button>
           <el-button type="primary" @click="uploadAvatar">确 定</el-button>
         </span>
       </el-dialog>
 
-    
-      
-
+      <el-dialog
+        title="更改头像"
+        :visible.sync="dialogPassword"
+        width="30%"
+        >
+        新密码  ：<el-input v-model="newPassword1" type="password">  </el-input>
+        确认密码：<el-input v-model="newPassword2" type="password">  </el-input>
+        <span slot="footer" class="dialog-footer">
+          <el-button @click="avatarDialog = false">取 消</el-button>
+          <el-button type="primary" @click="changePassword">确 定</el-button>
+        </span>
+      </el-dialog>
     </div>
 
 </template>
@@ -83,13 +92,15 @@
           id: '',
           grade: '', //展示为tag
           email: '',  // 邮箱地址
-
         },
         headers: {
           token: window.sessionStorage.getItem("token")
         },
         fileList: [],
         avatarDialog: false,
+        dialogPassword: false,
+        newPassword1: '',
+        newPassword2: '',
       };
     },
     methods: {
@@ -163,7 +174,32 @@
       },
        handleChange(file, fileList) {
       this.fileList = fileList;
-    },
+      },
+      changePassword() {
+        if(this.newPassword1 == this.newPassword2){
+          let self = this
+          var data = new FormData()
+          data.append('password', this.newPassword1)
+          this.$http({
+            method: 'post',
+            url: '/student/updatePassword',
+            data: data,
+            headers: { 'token': window.sessionStorage.getItem('token') }
+          }).then(res => {
+            console.log(res.data)
+            if(res.data.success){
+              self.$message.success('密码更新成功')
+              self.dialogPassword = false
+            }else{
+              self.$message.error('密码更新失败')
+            }
+          }).catch(err => {
+            self.$message.error('密码更新失败')
+          })
+        }else{
+          this.$message.error('两次密码不一致')
+        }
+      }
     },
     
     mounted() {

@@ -1,21 +1,5 @@
 <template>
     <div class="infoContainer">
-
-      <!-- <div class="background"></div> -->
-
-      <!-- <h3>个人信息</h3> -->
-      <!-- <el-upload
-        class="avatar-uploader"
-        action="student/uploadAvatar"
-        :show-file-list="false"
-        :headers="headers"
-        :on-success="handleAvatarSuccess"
-        :before-upload="beforeAvatarUpload">
-        <img v-if="imageUrl" :src="imageUrl" class="avatar">
-        <i v-else class="el-icon-plus avatar-uploader-icon"></i><br>
-        <i>点击上传头像</i>
-      </el-upload> -->
-
       <el-container direction="vertical" style="; height: 100%; margin-top: 50px; margin-left: 50px">
 
         <el-container direction="horizonal" >
@@ -30,7 +14,8 @@
             </el-descriptions>
           </el-container>
         </el-container>
-        <span><el-button style="width: 10%; margin-top: 10px; margin-left: 20px" @click="avatarDialog = true">更换头像</el-button><el-button style="margin-left: 100px" type="primary">更换密码</el-button></span>
+        <span><el-button style="width: 10%; margin-top: 10px; margin-left: 20px" @click="avatarDialog = true">更换头像</el-button>
+        <el-button style="margin-left: 100px" type="primary" @click="changePassword">更换密码</el-button></span>
         <el-divider></el-divider>
         <el-card style="height: 500px">
           <h2>个人简介</h2>
@@ -159,9 +144,12 @@
           self.avatarDialog = false;
         })
       },
-       handleChange(file, fileList) {
+      handleChange(file, fileList) {
         this.fileList = fileList;
       },
+      changePassword() {
+        
+      }
     },
     mounted() {
       // // console.log( window.sessionStorage.getItem("token"))

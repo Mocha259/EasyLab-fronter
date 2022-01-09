@@ -67,7 +67,7 @@ Vue.use(Vuex)
 // })
 
 const router = new VueRouter({
-  mode:'history',
+  // mode:'history',
   routes:[
     { path:'/', redirect: '/Login' },
     { path: '/Login', component: Login },
@@ -98,7 +98,8 @@ const router = new VueRouter({
           children: [
             { path: '/Lab-Info', name: 'Lab-Info', component:LabInfo },
             { path: '/Lab-Report', name: 'Lab-Report', component:LabReport },
-          ]
+          ],
+          redirect: '/Lab-Info'
         },
         { path: '/Courses-Teach', component: AllTeachingCourses },
 

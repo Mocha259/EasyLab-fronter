@@ -18,7 +18,7 @@
             accept=".doc,.txt,.docx,.pdf"
             multiple
           >
-            <el-button slot="trigger" size="medium" type="primary"
+            <el-button slot="trigger" size="medium" type="primary" 
               >上传实验报告模板</el-button
             >
             <el-button
@@ -28,7 +28,7 @@
               @click="submitUpload"
               >确认上传</el-button
             >
-            <div slot="tip" class="el-upload__tip">
+            <div slot="tip" class="el-upload__tip" style="margin-left: 80px">
               只能上传doc,docx,txt,pdf文件，且不超过500kb
             </div>
           </el-upload>

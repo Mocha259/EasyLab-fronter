@@ -152,7 +152,7 @@ export default {
       var data = new FormData();
       var config = {
         method: "get",
-        url: "/course/findCourse/1",
+        url: "/course/findCourse/2",
         data: data,
         headers: {
           token: window.sessionStorage.getItem("token"),

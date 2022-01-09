@@ -10,7 +10,7 @@
         <div v-if="!loginFirstTime"  class="login_box">
             <!-- 头像区 -->
             <div class="avatar_box">
-                <img src="../assets/logo.png" alt="">
+                <img src="../assets/icon2.png" alt="">
             </div>
             <!-- 登录表单区 -->
             <el-form label-width="0px" class="login_form" 
@@ -38,7 +38,7 @@
         <div v-else class="login_box">
             <!-- 头像区 -->
             <div class="avatar_box">
-                <img src="../assets/logo.png" alt="">
+                <img src="../assets/icon2.png" alt="">
             </div>
             <!-- 登录表单区 -->
             <el-form label-width="0px" class="login_form" 
@@ -154,6 +154,7 @@ export default {
                 })
                 .catch(function (error) {
                     console.log(error.response);
+                    self.$message.error('用户名或密码错误')
                 });               
             })
         },
@@ -249,8 +250,10 @@ img{
 .login_box {
     width: 450px;
     height: 300px;
-    background-color: #fff;
+    // background-color:black;
+    backdrop-filter: blur(50px);
     border-radius: 3px;
+    
     position: absolute;
     left: 60%;
     top: 30%;
