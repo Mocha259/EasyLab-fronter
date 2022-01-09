@@ -77,12 +77,17 @@
 
                     <el-menu-item index="Courses-Manage" style="color: #778899; font-size: 18px; width: 100%;">
                         <i class="el-icon-document-copy"></i>
-                        <span slot="title">课程管理</span>
+                        <span slot="title">负责课程</span>
                     </el-menu-item>
 
-                    <el-menu-item index="Score-Manage" style="color: #778899; font-size: 18px; width: 100%;">
+                    <el-menu-item index="Courses-Teach" style="color: #778899; font-size: 18px; width: 100%;">
                         <i class="el-icon-postcard"></i>
-                        <span slot="title">成绩管理</span>
+                        <span slot="title">教授课程</span>
+                    </el-menu-item>
+
+                    <el-menu-item index="Courses-Assist" style="color: #778899; font-size: 18px; width: 100%;">
+                        <i class="el-icon-postcard"></i>
+                        <span slot="title">助理课程</span>
                     </el-menu-item>
 
 
@@ -248,7 +253,7 @@ export default {
         // },
         connect(){
             var that=this;
-            var sockjs=new  SockJS('http://localhost:89/easyLab/endpointWisely');
+            var sockjs=new  SockJS('http://49.235.232.7:8888/easyLab/endpointWisely');
             var stompClient= Stomp.over(sockjs);
             that.$socket.setWs(stompClient);
             that.$socket.ws.connect({}, function (frame) {//3连接webSocket的服务端。
@@ -263,7 +268,6 @@ export default {
               
                // 订阅点对点地址'/user/' + userId + '/msg'接收一对一的推送消息
                 stompClient.subscribe('/user/' + that.userInfo.advisor_id + '/msg', function (response) {
-                    alert("邀请你！")
                     //这个点对点通信表示收到了一条邀请消息，这里需要处理（可以在消息通知栏显示多一条未读消息）
                     that.messageNum+=1;
                     //新消息弹窗

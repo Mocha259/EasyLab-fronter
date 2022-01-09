@@ -227,7 +227,7 @@ export default {
         },
         connect(){
             var that=this;
-            var sockjs=new  SockJS('http://localhost:89/easyLab/endpointWisely');
+            var sockjs=new  SockJS('http://49.235.232.7:8888/easyLab/endpointWisely');
             var stompClient= Stomp.over(sockjs);
             that.$socket.setWs(stompClient);
             that.$socket.ws.connect({}, function (frame) {//连接webSocket的服务端。
