@@ -92,7 +92,7 @@ export default {
       editor.create();
 
       this.reportEditor = editor;
-    },
+    }
   },
   mounted() {
     this.createEditor();

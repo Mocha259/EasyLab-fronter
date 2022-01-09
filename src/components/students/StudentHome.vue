@@ -84,7 +84,7 @@
                     </el-menu-item>
 
 
-                    <el-menu-item index="Stu-fight" style="color: #778899; font-size: 18px; width: 100%; border-bottom-right-radius: 5px;border-bottom-left-radius: 5px">
+                    <el-menu-item index="StuFight" style="color: #778899; font-size: 18px; width: 100%; border-bottom-right-radius: 5px;border-bottom-left-radius: 5px">
                         <i class="el-icon-postcard"></i>
                         <span slot="title">对抗练习</span>
                     </el-menu-item>
@@ -102,11 +102,7 @@
                 <router-view></router-view>
             </el-main>
 
-            <el-aside style="background-color: transparent; width: 260px">
-                <div style="background: linear-gradient(rgb(0, 0, 0), rgb(20, 20, 20), rgb(88, 88, 88)); height: 60%; width:100%; margin-top: 100px; border-radius: 5px; color: white">
-                    <h1>Todo List</h1>
-                </div>
-            </el-aside>
+          
         </el-container>
     </el-container>
 </template>
