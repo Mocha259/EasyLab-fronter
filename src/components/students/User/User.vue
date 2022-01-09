@@ -32,7 +32,7 @@
           </el-container>
         </el-container>
         <span>
-          <el-button style="width: 10%; margin-top: 10px; margin-left: 20px" @click="avatarDialog = true">更换头像</el-button><el-button style="margin-left: 100px" type="primary">更换密码</el-button>
+          <el-button style="width: 10%; margin-top: 10px; margin-left: 10px" @click="avatarDialog = true">更换头像</el-button><el-button style="margin-left: 150px" type="primary">重置密码</el-button>
         </span>
         <el-divider></el-divider>
         <el-card style="height: 500px">
