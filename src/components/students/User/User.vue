@@ -31,7 +31,9 @@
             </el-descriptions>
           </el-container>
         </el-container>
-        <span><el-button style="width: 10%; margin-top: 10px; margin-left: 20px">更换头像</el-button><el-button style="margin-left: 100px" type="primary">更换密码</el-button></span>
+        <span>
+          <el-button style="width: 10%; margin-top: 10px; margin-left: 20px" @click="avatarDialog = true">更换头像</el-button><el-button style="margin-left: 100px" type="primary">更换密码</el-button>
+        </span>
         <el-divider></el-divider>
         <el-card style="height: 500px">
           <h2>个人简介</h2>
@@ -39,8 +41,30 @@
         </el-card>
       </el-container>
       
+      <el-dialog
+        title="更改头像"
+        :visible.sync="avatarDialog"
+        width="30%"
+        >
 
-      
+        <el-upload
+          class="upload-demo"
+          drag
+          action="#"
+          :on-change="handleChange"
+         :auto-upload="false"
+         :file-list="fileList">
+          <i class="el-icon-upload"></i>
+          <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
+          <div class="el-upload__tip" slot="tip">只能上传jpg/png文件，且不超过500kb</div>
+        </el-upload>
+
+        <span slot="footer" class="dialog-footer">
+          <el-button @click="avatarDialog = false">取 消</el-button>
+          <el-button type="primary" @click="uploadAvatar">确 定</el-button>
+        </span>
+      </el-dialog>
+
     
       
 
@@ -58,11 +82,14 @@
           name: '',
           id: '',
           grade: '', //展示为tag
-          email: ''  // 邮箱地址
+          email: '',  // 邮箱地址
+
         },
         headers: {
           token: window.sessionStorage.getItem("token")
-        }
+        },
+        fileList: [],
+        avatarDialog: false,
       };
     },
     methods: {
@@ -110,6 +137,32 @@
           self.stuInfo.email = studentInfo.email
         }
       }).catch(error=>{})
+      },
+
+      uploadAvatar() {
+        let self = this
+        var data = new FormData()
+        data.append('file', this.fileList[0].raw);
+        this.$http({
+          method: 'post',
+          url: 'student/uploadAvatar',
+          data: data,
+          headers: { 'token': window.sessionStorage.getItem('token') }
+        }).then(res => {
+          // console.log(res.data)
+          if(res.data.success){
+            self.stuInfo.avatar_url = res.data.data.route
+            self.$message.success('头像上传成功')
+          }else{
+            self.$message.error('头像上传失败')
+          }
+          self.avatarDialog = false;
+        }).catch(error => {
+          self.avatarDialog = false;
+        })
+      },
+       handleChange(file, fileList) {
+      this.fileList = fileList;
     },
     },
     

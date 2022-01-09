@@ -21,6 +21,24 @@ import Score from '../components/teachers/Courses/CourseInfo/ScoreManage.vue'
 import Exp from '../components/teachers/Experiment/Exp.vue'
 import LabInfo from '../components/teachers/Experiment/LabInfo.vue'
 import LabReport from '../components/teachers/Experiment/LabReport.vue'
+//=====================================================================
+import AllTeachingCourses from '../components/teachers/TeachingCourse/AllCourses.vue'
+import CertainCourseTeaching from '../components/teachers/TeachingCourse/CertainCourse.vue'
+import InfoManageTeaching from '../components/teachers/TeachingCourse/CourseInfo/InfoManage.vue'   /// 进入课程后，查看课程信息页
+import FileManageTeaching from '../components/teachers/TeachingCourse/CourseInfo/FileManage.vue'   /// 进入课程后，查看课程文件页
+import StuManageTeaching from '../components/teachers/TeachingCourse/CourseInfo/StuManage.vue'     /// 进入课程后，查看课程人员页
+import LabManageTeaching from '../components/teachers/TeachingCourse/CourseInfo/LabManage.vue'     /// 进入课程后，查看课程实验页
+import AttendanceTeaching from '../components/teachers/TeachingCourse/CourseInfo/Attendance.vue'     /// 进入课程后，查看课程实验页
+import ScoreTeaching from '../components/teachers/TeachingCourse/CourseInfo/ScoreManage.vue'
+//====================================================================
+import AllCoursesAssist from '../components/teachers/AssistCourse/AllCourses.vue'
+import CertainCourseAssist from '../components/teachers/AssistCourse/CertainCourse.vue'
+import InfoManageAssist from '../components/teachers/AssistCourse/CourseInfo/InfoManage.vue'   /// 进入课程后，查看课程信息页
+import FileManageAssist from '../components/teachers/AssistCourse/CourseInfo/FileManage.vue'   /// 进入课程后，查看课程文件页
+import StuManageAssist from '../components/teachers/AssistCourse/CourseInfo/StuManage.vue'     /// 进入课程后，查看课程人员页
+import LabManageAssist from '../components/teachers/AssistCourse/CourseInfo/LabManage.vue'     /// 进入课程后，查看课程实验页
+import AttendanceAssist from '../components/teachers/AssistCourse/CourseInfo/Attendance.vue'     /// 进入课程后，查看课程实验页
+import ScoreAssist from '../components/teachers/AssistCourse/CourseInfo/ScoreManage.vue'
 /// 以下是学生界面相关的路由
 import StuHome from '../components/students/StudentHome.vue'
 import StuWelcome from '../components/students/StuWelcome.vue'
@@ -81,7 +99,41 @@ const router = new VueRouter({
             { path: '/Lab-Info', name: 'Lab-Info', component:LabInfo },
             { path: '/Lab-Report', name: 'Lab-Report', component:LabReport },
           ]
-        }
+        },
+        { path: '/Courses-Teach', component: AllTeachingCourses },
+
+        { 
+          path: '/TeachingCourses-Info', 
+          component: CertainCourseTeaching,
+        children: [
+          { path: '/TeachingCourse-Documents',  component: FileManageTeaching },
+          { path: '/TeachingCourse-Students',   component: StuManageTeaching  },
+          { path: '/TeachingCourse-Labs',       component: LabManageTeaching  },
+          { path: '/TeachingCourse-Info',       component: InfoManageTeaching },
+          { path: '/TeachingAttendance',        component: AttendanceTeaching },
+          { path: '/TeachingCourse-Score',      component: ScoreTeaching }
+        ],
+        redirect: '/TeachingCourse-Info'
+        },
+//         import AllCoursesAssist from '../components/teachers/AssistCourse/AllCourses.vue'
+// import CertainCourseAssist from '../components/teachers/AssistCourse/CertainCourse.vue'
+// import InfoManageAssist from '../components/teachers/AssistCourse/CourseInfo/InfoManage.vue'   /// 进入课程后，查看课程信息页
+// import FileManageAssist from '../components/teachers/AssistCourse/CourseInfo/FileManage.vue'   /// 进入课程后，查看课程文件页
+// import StuManageAssist from '../components/teachers/AssistCourse/CourseInfo/StuManage.vue'     /// 进入课程后，查看课程人员页
+// import LabManageAssist from '../components/teachers/AssistCourse/CourseInfo/LabManage.vue'     /// 进入课程后，查看课程实验页
+// import AttendanceAssist from '../components/teachers/AssistCourse/CourseInfo/Attendance.vue'     /// 进入课程后，查看课程实验页
+// import ScoreAssist from '../components/teachers/AssistCourse/CourseInfo/ScoreManage.vue'
+        { path: '/Courses-Assist', component: AllCoursesAssist},
+        { 
+          path: '/AssistCourses-Info', 
+          component: CertainCourseAssist,
+        children: [
+          { path: '/AssistCourse-Documents',  component: FileManageAssist },
+          { path: '/AssistCourse-Labs',       component: LabManageAssist  },
+          { path: '/AssistCourse-Info',       component: InfoManageAssist },
+        ],
+        redirect: '/AssistCourse-Info'
+        },
       ] 
     },
     { path: '/Activate', name: 'Activate', component: Activate },
