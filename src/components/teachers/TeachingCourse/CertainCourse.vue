@@ -2,7 +2,7 @@
     <div>
         <el-breadcrumb separator-class="el-icon-arrow-right">
             <el-breadcrumb-item :to="{ path: '/Home' }"             >首页</el-breadcrumb-item>
-            <el-breadcrumb-item :to="{ path: '/Courses-Manage' }"   >课程管理</el-breadcrumb-item>
+            <el-breadcrumb-item :to="{ path: '/Courses-Manage' }"   >教授课程</el-breadcrumb-item>
             <el-breadcrumb-item>{{course_info.course_name}}</el-breadcrumb-item>
         </el-breadcrumb>
 
